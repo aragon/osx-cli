@@ -6,14 +6,24 @@
 
 This project is intended to be used with the latest Active LTS release of [Node.js][nodejs].
 
-### Clone repository
-
 To clone the repository, use the following commands:
 
 ```sh
 git clone https://github.com/aragon/aragon-manager
 cd aragon-manager
 pnpm install
+```
+
+In one terminal run build in watch mode 
+
+```sh
+pnpm build:watch
+```
+
+In another run the cli with 
+
+```sh
+node ./build/src/main.js new 
 ```
 
 ## Available Scripts
