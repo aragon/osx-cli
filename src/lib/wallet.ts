@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-
+import qrcode from 'qrcode-terminal';
 import { Wallet, ethers } from 'ethers';
 import { getPrivateKey } from './keys.js';
 
@@ -31,8 +31,8 @@ export const displayWallet = async (): Promise<void> => {
   const wallet = await getWallet();
   console.log('Wallet address:', chalk.green(wallet.address));
   console.log();
-  // qrcode.generate(wallet.address);
-
+  qrcode.generate(wallet.address);
+  console.log();
   for (const network of networks) {
     try {
       const provider = new ethers.JsonRpcProvider(network.url);
