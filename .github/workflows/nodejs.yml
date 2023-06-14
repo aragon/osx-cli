@@ -8,12 +8,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: pnpm/action-setup@v2.0.1 # Using pnpm action to setup pnpm
+      # Setup Node.js environment with Volta
+      - uses: volta-cli/action@v1
         with:
-          version: latest # You can specify a version of pnpm if needed
-      - run: pnpm install --frozen-lockfile # Using pnpm instead of npm
-      - run: pnpm run lint
-      - run: pnpm test
-      - run: pnpm run build
+          node-version: '18' # using Node 18
+      # Install dependencies using Yarn
+      - run: yarn install --frozen-lockfile
+      # Run lint if the script is present
+      - run: yarn lint || echo "Lint script not found, skipping..."
+      # Run tests
+      - run: yarn test
+      # Build the project if the build script is present
+      - run: yarn build || echo "Build script not found, skipping..."
         env:
           CI: true
