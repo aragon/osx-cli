@@ -2,13 +2,15 @@ import { getTenderlyKey, setTenderlyKey } from '../../../lib/keys.js';
 import { confirmPrompt, tenderlyKeyPrompt } from '../../../lib/prompts.js';
 import { viewHandler } from './viewHandler.js';
 
-export const tenderlyKeyHandler: (...args: unknown[]) => void | Promise<void> = async (
-  tenderlyKey: string,
-) => {
+export const tenderlyKeyHandler: (
+  ...args: unknown[]
+) => void | Promise<void> = async (tenderlyKey: string) => {
   const existingTenderlyKey = await getTenderlyKey();
 
   if (existingTenderlyKey) {
-    (await confirmPrompt('Overwrite existing Tenderly Key?'))
+    (await confirmPrompt(
+      'Seems like you already have a Tenderly key stored. Are you sure you want to override it with a new one?',
+    ))
       ? (tenderlyKey = await tenderlyKeyPrompt())
       : // 2.4 If not exit the process
         process.exit();

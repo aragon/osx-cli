@@ -10,7 +10,9 @@ export const privateKeyHandler: (
   // 2.1 Is there an existing private key?
   if (existingPrivateKey) {
     // 2.2 Prompt the user to overwrite the existing private key
-    (await confirmPrompt('Overwrite existing Private Key?'))
+    (await confirmPrompt(
+      'Seems like you already have a private key stored. Are you sure you want to override it with a new one?',
+    ))
       ? // 2.3 If yes, prompt the user for a new private key
         (privateKey = await privateKeyPrompt())
       : // 2.4 If not exit the process
