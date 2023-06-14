@@ -1,6 +1,20 @@
 ![Aragon](https://res.cloudinary.com/dacofvu8m/image/upload/v1677353961/Aragon%20CodeArena/osx_blue_logo_lqrvkr.png)
 
-# Aragon Manager
+<p align="center">
+  <a href="https://aragon.org/">Aragon website</a>
+  •
+  <a href="https://devs.aragon.org/">Developer Portal</a>
+  •
+  <a href="http://eepurl.com/icA7oj">Join our Developer Community</a>
+  •
+  <a href="https://aragonproject.typeform.com/dx-contribution">Contribute</a>
+</p>
+
+<br/>
+
+# AragonOSx Manager
+
+The Aragon OSx Manager CLI is a command line tool supporting your plugin development process. It helps developers build, deploy, and publish plugins faster and easier.
 
 ## Getting Started
 
@@ -11,17 +25,15 @@ To clone the repository, use the following commands:
 ```sh
 git clone https://github.com/aragon/aragon-manager
 cd aragon-manager
-pnpm install
+yarn install
 ```
 
-In one terminal run build in watch mode 
-
+In one terminal, run the build in watch mode through using the following command:
 ```sh
-pnpm build:watch
+yarn build:watch
 ```
 
-In another run the cli with 
-
+In another terminal, run the CLI using the following command:
 ```sh
 node ./build/src/main.js new 
 ```
