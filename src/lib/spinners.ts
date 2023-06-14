@@ -18,16 +18,19 @@ export const stopSpinner = (): void => {
     spinner.stop();
   }
 };
+
 export const spinnerError = (message?: string): void => {
   if (spinner.isSpinning) {
     spinner.fail(message);
   }
 };
+
 export const spinnerSuccess = (message?: string): void => {
   if (spinner.isSpinning) {
     spinner.succeed(message);
   }
 };
+
 export const spinnerInfo = (message: string): void => {
   spinner.info(message);
 };
