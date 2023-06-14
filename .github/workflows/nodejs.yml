@@ -12,8 +12,8 @@ jobs:
         with:
           version: latest # You can specify a version of pnpm if needed
       - run: pnpm install --frozen-lockfile # Using pnpm instead of npm
-      - run: pnpm run lint --if-present
+      - run: pnpm run lint
       - run: pnpm test
-      - run: pnpm run build --if-present
+      - run: pnpm run build
         env:
           CI: true
