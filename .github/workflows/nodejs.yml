@@ -8,8 +8,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      # Setup Node.js environment with Volta
-      - uses: volta-cli/action@v1
+      - uses: actions/setup-node@v2
         with:
           node-version: '18' # using Node 18
       # Install dependencies using Yarn
