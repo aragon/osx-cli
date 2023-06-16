@@ -14,6 +14,8 @@ jobs:
         with:
           node-version: 18.x
 
+      # Install dependencies (needed for key storage)
+      - run: sudo apt-get install libsecret-1-0
       - run: volta install yarn
       # Install dependencies using Yarn
       - run: yarn install
