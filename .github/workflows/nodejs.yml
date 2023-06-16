@@ -12,7 +12,7 @@ jobs:
         with:
           node-version: '18' # using Node 18
       # Install dependencies using Yarn
-      - run: npm install -g yarn@4.0.0-rc.43
+      - run: npm install -g yarn@3.6.0
       - run: yarn install --frozen-lockfile
       # Run lint if the script is present
       - run: yarn lint || echo "Lint script not found, skipping..."
