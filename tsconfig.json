@@ -17,7 +17,14 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    /* Base URL and Custom Paths */
+    "baseUrl": ".", // This sets the base directory relative to which your custom paths are set
+    "paths": {
+      "~/lib/*": ["src/lib/*"], // Maps "~/lib/*" to "src/lib/*"
+      "~/commands/*": ["src/commands/*"] // Maps "~/commands/*" to "src/commands/*"
+    }
   },
-  "include": ["src"]
+  "include": ["src", "./vitest.config.ts"]
 }

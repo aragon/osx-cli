@@ -4,7 +4,7 @@
   "description": "Create, Deploy and Manage Aragon OSx plugins with ease",
   "type": "module",
   "author": "Aragon Association",
-  "license": "Apache-2.0",
+  "license": "AGPL-3.0",
   "engines": {
     "node": ">= 18.12 <19"
   },
@@ -16,9 +16,10 @@
     "build:watch": "tsc -w -p tsconfig.json",
     "build:release": "npm run clean && tsc -p tsconfig.release.json",
     "lint": "eslint . --ext .ts --ext .mts",
-    "test": "vitest --coverage",
-    "prettier": "prettier --config .prettierrc --write .",
-    "test:watch": "vitest --watch"
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
+    "test:watch": "vitest --watch --coverage",
+    "prettier": "prettier --config .prettierrc --write ."
   },
   "dependencies": {
     "chalk": "^5.2.0",
@@ -51,6 +52,7 @@
     "ts-api-utils": "~0.0.44",
     "typescript": "~5.0.2",
     "vite": "^4.3.9",
+    "vite-tsconfig-paths": "^4.2.0",
     "vitest": "^0.32.0"
   },
   "volta": {
