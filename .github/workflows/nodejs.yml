@@ -8,16 +8,17 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
-
-      - name: Use Node
-        uses: actions/setup-node@v3
+        uses: actions/checkout@v3
+      - name: Use volta
+        uses: volta-cli/action@v4
         with:
-          cache: 'yarn'
-          node-version: '18' # using Node 18
+          node-version: 18.x
+
+      - run: yarn install
+      - run: yarn test
 
       # Install dependencies using Yarn
-      - run: yarn install --frozen-lockfile
+      - run: yarn install
       # Run lint if the script is present
       - run: yarn lint || echo "Lint script not found, skipping..."
       # Run tests
