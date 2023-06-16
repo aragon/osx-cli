@@ -7,12 +7,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Use Node
+        uses: actions/setup-node@v3
         with:
+          cache: 'yarn'
           node-version: '18' # using Node 18
+
       # Install dependencies using Yarn
-      - run: npm install -g yarn@3.6.0
       - run: yarn install --frozen-lockfile
       # Run lint if the script is present
       - run: yarn lint || echo "Lint script not found, skipping..."
