@@ -14,9 +14,7 @@ jobs:
         with:
           node-version: 18.x
 
-      - run: yarn install
-      - run: yarn test
-
+      - run: volta install yarn
       # Install dependencies using Yarn
       - run: yarn install
       # Run lint if the script is present
