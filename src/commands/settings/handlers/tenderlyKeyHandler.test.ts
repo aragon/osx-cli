@@ -33,7 +33,6 @@ describe('tenderlyKeyHandler', () => {
   it('should exit the process if an existing key is found and user declines', async () => {
     vi.spyOn(keys, 'getTenderlyKey').mockResolvedValue('existing-key');
     vi.spyOn(prompts, 'confirmPrompt').mockResolvedValue(false);
-    // @ts-ignore
     vi.spyOn(process, 'exit').mockImplementation(() => {});
 
     await tenderlyKeyHandler();

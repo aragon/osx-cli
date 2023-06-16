@@ -16,7 +16,7 @@
     "build:watch": "tsc -w -p tsconfig.json",
     "build:release": "npm run clean && tsc -p tsconfig.release.json",
     "lint": "eslint . --ext .ts --ext .mts",
-    "test": "vitest",
+    "test": "vitest --watch false",
     "test:coverage": "vitest --coverage",
     "test:watch": "vitest --watch --coverage",
     "prettier": "prettier --config .prettierrc --write ."

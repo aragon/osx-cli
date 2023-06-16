@@ -32,7 +32,6 @@ describe('privateKeyHandler', () => {
   it('should exit the process if an existing key is found and user declines', async () => {
     vi.spyOn(keys, 'getPrivateKey').mockResolvedValue('existing-key');
     vi.spyOn(prompts, 'confirmPrompt').mockResolvedValue(false);
-    // @ts-ignore
     const exitSpy = vi.spyOn(process, 'exit').mockImplementation(() => {});
     await privateKeyHandler();
     expect(exitSpy).toHaveBeenCalled();

@@ -5,14 +5,22 @@ import {
   getTenderlyKey,
 } from './keys';
 import keytar from 'keytar';
-import { beforeEach, beforeAll, describe, expect, it, vi } from 'vitest';
+import {
+  beforeEach,
+  beforeAll,
+  describe,
+  expect,
+  it,
+  vi,
+  SpyInstance,
+} from 'vitest';
 
 vi.mock('keytar');
 
 describe('Key management tests', () => {
-  let setPasswordSpy: any;
-  let getPasswordSpy: any;
-  let consoleErrorSpy: any;
+  let setPasswordSpy: SpyInstance;
+  let getPasswordSpy: SpyInstance;
+  let consoleErrorSpy: SpyInstance;
 
   beforeAll(() => {
     console.log = vi.fn(); // suppress console.log
