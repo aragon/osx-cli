@@ -10,7 +10,7 @@ node_modules/
 coverage
 
 # Transpiled files
-dist/
+dist
 
 # VS Code
 !.vscode/tasks.js
