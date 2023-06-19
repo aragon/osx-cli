@@ -18,7 +18,7 @@ The Aragon OSx Manager CLI is a command line tool supporting your plugin develop
 
 ## Getting Started
 
-This project is intended to be used with the latest Active LTS release of [Node.js][nodejs].
+This project is intended to be used with the latest Active LTS release of [Node.js](https://nodejs.org/en).
 
 To clone the repository, use the following commands:
 
@@ -29,11 +29,13 @@ yarn install
 ```
 
 In one terminal, run the build in watch mode through using the following command:
+
 ```sh
 yarn build:watch
 ```
 
 In another terminal, run the CLI using the following command:
+
 ```sh
 yarn dev
 ```
@@ -41,11 +43,11 @@ yarn dev
 ## Available Scripts
 
 - `dev` - build & run the cli
-- `clean` - remove coverage data, vitest cache and transpiled files,
-- `prebuild` - lint source files and tests before building,
-- `build` - transpile TypeScript to ES6,
-- `build:watch` - interactive watch mode to automatically transpile source files,
-- `lint` - lint source files and tests,
-- `prettier` - reformat files,
-- `test` - run tests,
+- `clean` - remove coverage data, vitest cache and transpiled files
+- `prebuild` - lint source files and tests before building
+- `build` - transpile TypeScript to ES6
+- `build:watch` - interactive watch mode to automatically transpile source files
+- `lint` - lint source files and tests
+- `prettier` - reformat files
+- `test` - run tests
 - `test:watch` - interactive watch mode to automatically re-run tests
