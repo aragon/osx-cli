@@ -7,6 +7,8 @@ import * as viewHandlerModule from './viewHandler.js';
 import process from 'process';
 
 describe('privateKeyHandler', () => {
+  const mockFunction = (() => {}) as any as () => never;
+
   beforeAll(() => {
     console.log = vi.fn(); // suppress console.log
     console.error = vi.fn(); // suppress console.error
@@ -32,7 +34,7 @@ describe('privateKeyHandler', () => {
   it('should exit the process if an existing key is found and user declines', async () => {
     vi.spyOn(keys, 'getPrivateKey').mockResolvedValue('existing-key');
     vi.spyOn(prompts, 'confirmPrompt').mockResolvedValue(false);
-    const exitSpy = vi.spyOn(process, 'exit').mockImplementation(() => {});
+    const exitSpy = vi.spyOn(process, 'exit').mockImplementation(mockFunction);
     await privateKeyHandler();
     expect(exitSpy).toHaveBeenCalled();
   });

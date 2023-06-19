@@ -9,12 +9,12 @@
     "node": ">= 18.12 <19"
   },
   "scripts": {
-    "start": "node build/src/main.js",
+    "dev": "node dist/main.js",
     "clean": "rimraf coverage build tmp",
-    "prebuild": "npm run lint",
-    "build": "tsc -p tsconfig.json",
-    "build:watch": "tsc -w -p tsconfig.json",
-    "build:release": "npm run clean && tsc -p tsconfig.release.json",
+    "prebuild": "yarn run lint",
+    "build": "yarn prebuild && vite build",
+    "build:watch": "vite build -w",
+    "build:release": "yarn clean && yarn lint && yarn prettier && yarn build",
     "lint": "eslint . --ext .ts --ext .mts",
     "test": "vitest --watch false",
     "test:coverage": "vitest --coverage",
@@ -50,8 +50,10 @@
     "prettier": "~2.8",
     "rimraf": "~5.0",
     "ts-api-utils": "~0.0.44",
+    "ts-node": "^10.9.1",
     "typescript": "~5.0.2",
     "vite": "^4.3.9",
+    "vite-plugin-node": "^3.0.2",
     "vite-tsconfig-paths": "^4.2.0",
     "vitest": "^0.32.0"
   },

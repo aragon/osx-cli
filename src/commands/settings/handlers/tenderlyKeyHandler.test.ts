@@ -7,6 +7,8 @@ import * as prompts from '~/lib/prompts.js';
 vi.mock('~/lib/keys');
 
 describe('tenderlyKeyHandler', () => {
+  const mockFunction = (() => {}) as any as () => never;
+
   beforeAll(() => {
     console.log = vi.fn(); // suppress console.log
   });
@@ -33,7 +35,7 @@ describe('tenderlyKeyHandler', () => {
   it('should exit the process if an existing key is found and user declines', async () => {
     vi.spyOn(keys, 'getTenderlyKey').mockResolvedValue('existing-key');
     vi.spyOn(prompts, 'confirmPrompt').mockResolvedValue(false);
-    vi.spyOn(process, 'exit').mockImplementation(() => {});
+    vi.spyOn(process, 'exit').mockImplementation(mockFunction);
 
     await tenderlyKeyHandler();
     expect(process.exit).toHaveBeenCalled();
