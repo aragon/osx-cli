@@ -1209,7 +1209,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/utils@npm:5.59.11, @typescript-eslint/utils@npm:^5.10.0":
+"@typescript-eslint/utils@npm:5.59.11, @typescript-eslint/utils@npm:^5.10.0, @typescript-eslint/utils@npm:^5.59.9":
   version: 5.59.11
   resolution: "@typescript-eslint/utils@npm:5.59.11"
   dependencies:
@@ -1507,6 +1507,7 @@ __metadata:
     eslint: ~8.38
     eslint-config-prettier: ~8.8
     eslint-plugin-jest: ~27.2
+    eslint-plugin-vitest: ^0.2.6
     ethers: ^6.5.1
     figlet: ^1.6.0
     inquirer: ^9.2.7
@@ -2472,6 +2473,17 @@ __metadata:
     jest:
       optional: true
   checksum: 579a4d26304cc6748b2e6dff6c965ea7a21b618d8b051eb02727d25cf5c7767f6db8ef5237531635ff77e242b983b973e7cb8c820a4d20d5bda73358c452a8ab
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-vitest@npm:^0.2.6":
+  version: 0.2.6
+  resolution: "eslint-plugin-vitest@npm:0.2.6"
+  dependencies:
+    "@typescript-eslint/utils": ^5.59.9
+  peerDependencies:
+    eslint: ">=8.0.0"
+  checksum: 09bb95262dc39b05546eb704b60440bce03bc68f4d563b3bcb4b25774624b3758db76bfa3702b8b0d45313246b6a6d57729ecc027f64ad840b234b94ca6aa233
   languageName: node
   linkType: hard
 
