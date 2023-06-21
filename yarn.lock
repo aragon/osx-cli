@@ -22,6 +22,46 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@aragon/cli@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@aragon/cli@workspace:."
+  dependencies:
+    "@jest/transform": ^29.5.0
+    "@types/inquirer": ^9.0.3
+    "@types/node": ^20.3.1
+    "@types/qrcode-terminal": ^0.12.0
+    "@typescript-eslint/eslint-plugin": ~5.59
+    "@typescript-eslint/parser": ~5.59
+    "@vitest/coverage-v8": ^0.32.0
+    chalk: ^5.2.0
+    chalk-animation: ^2.0.3
+    commander: ^10.0.1
+    eslint: ~8.38
+    eslint-config-prettier: ~8.8
+    eslint-plugin-jest: ~27.2
+    eslint-plugin-vitest: ^0.2.6
+    ethers: ^6.5.1
+    figlet: ^1.6.0
+    inquirer: ^9.2.7
+    install: ^0.13.0
+    keytar: ^7.9.0
+    npm: ^9.7.1
+    ora: ^6.3.1
+    prettier: ~2.8
+    qrcode-terminal: ^0.12.0
+    rimraf: ~5.0
+    ts-api-utils: ~0.0.44
+    ts-node: ^10.9.1
+    tslib: ~2.5
+    typescript: ~5.0.2
+    vite: ^4.3.9
+    vite-plugin-node: ^3.0.2
+    vite-tsconfig-paths: ^4.2.0
+    vitest: ^0.32.0
+    zod: ^3.21.4
+  languageName: unknown
+  linkType: soft
+
 "@babel/code-frame@npm:^7.0.0, @babel/code-frame@npm:^7.22.5":
   version: 7.22.5
   resolution: "@babel/code-frame@npm:7.22.5"
@@ -1489,46 +1529,6 @@ __metadata:
   checksum: 5615cadcfb45289eea63f8afd064ab656006361020e1735112e346593856f87435e02d8dcc7ff0d11928bc7d425f27bc7c2a84f6c0b35ab0ff659c814c138a24
   languageName: node
   linkType: hard
-
-"aragonosx-manager@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "aragonosx-manager@workspace:."
-  dependencies:
-    "@jest/transform": ^29.5.0
-    "@types/inquirer": ^9.0.3
-    "@types/node": ^20.3.1
-    "@types/qrcode-terminal": ^0.12.0
-    "@typescript-eslint/eslint-plugin": ~5.59
-    "@typescript-eslint/parser": ~5.59
-    "@vitest/coverage-v8": ^0.32.0
-    chalk: ^5.2.0
-    chalk-animation: ^2.0.3
-    commander: ^10.0.1
-    eslint: ~8.38
-    eslint-config-prettier: ~8.8
-    eslint-plugin-jest: ~27.2
-    eslint-plugin-vitest: ^0.2.6
-    ethers: ^6.5.1
-    figlet: ^1.6.0
-    inquirer: ^9.2.7
-    install: ^0.13.0
-    keytar: ^7.9.0
-    npm: ^9.7.1
-    ora: ^6.3.1
-    prettier: ~2.8
-    qrcode-terminal: ^0.12.0
-    rimraf: ~5.0
-    ts-api-utils: ~0.0.44
-    ts-node: ^10.9.1
-    tslib: ~2.5
-    typescript: ~5.0.2
-    vite: ^4.3.9
-    vite-plugin-node: ^3.0.2
-    vite-tsconfig-paths: ^4.2.0
-    vitest: ^0.32.0
-    zod: ^3.21.4
-  languageName: unknown
-  linkType: soft
 
 "archy@npm:~1.0.0":
   version: 1.0.0
