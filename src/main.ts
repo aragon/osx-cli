@@ -4,7 +4,7 @@ import { Command } from 'commander';
 import { settings } from './commands/settings/index.js';
 
 const program = new Command();
-program.description('AragonOSx Manager');
+program.description('Aragon OSx CLI');
 program.version('0.0.0');
 program.addCommand(settings);
 

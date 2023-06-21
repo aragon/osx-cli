@@ -12,9 +12,9 @@
 
 <br/>
 
-# AragonOSx Manager
+# Aragon OSx CLI
 
-The Aragon OSx Manager CLI is a command line tool supporting your plugin development process. It helps developers build, deploy, and publish plugins faster and easier.
+Aragon OSx CLI is a command line tool supporting your plugin development process. It helps developers build, deploy, and publish plugins faster and easier.
 
 ## Getting Started
 
@@ -23,8 +23,8 @@ This project is intended to be used with the latest Active LTS release of [Node.
 To clone the repository, use the following commands:
 
 ```sh
-git clone https://github.com/aragon/aragon-manager
-cd aragon-manager
+git clone https://github.com/aragon/cli
+cd cli
 yarn install
 ```
 
