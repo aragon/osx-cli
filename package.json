@@ -1,5 +1,5 @@
 {
-  "name": "aragonosx-manager",
+  "name": "osx-devkit",
   "version": "0.0.0",
   "description": "Create, Deploy and Manage Aragon OSx plugins with ease",
   "type": "module",
