@@ -12,9 +12,9 @@
 
 <br/>
 
-# OSx DevKit
+# Aragon OSx CLI
 
-OSx DevKit is a command line tool supporting your plugin development process. It helps developers build, deploy, and publish plugins faster and easier.
+Aragon OSx CLI is a command line tool supporting your plugin development process. It helps developers build, deploy, and publish plugins faster and easier.
 
 ## Getting Started
 

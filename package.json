@@ -1,5 +1,5 @@
 {
-  "name": "osx-devkit",
+  "name": "@aragon/cli",
   "version": "0.0.0",
   "description": "Create, Deploy and Manage Aragon OSx plugins with ease",
   "type": "module",
