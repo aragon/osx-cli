@@ -1,4 +1,3 @@
-// vite.config.js
 import { defineConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { VitePluginNode } from 'vite-plugin-node';

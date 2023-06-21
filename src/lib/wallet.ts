@@ -14,8 +14,8 @@ export const getWallet = async (): Promise<Wallet | null> => {
 export const displayWallet = async (): Promise<void> => {
   const wallet = await getWallet();
   const address = wallet?.address ?? 'No wallet found';
-  console.log('Wallet address:', chalk.green(address));
-  console.log();
+  console.log('Wallet address:', chalk.green(address), '\n');
+
   qrcode.generate(address);
   console.log();
   for (const network of networks) {
