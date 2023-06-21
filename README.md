@@ -23,8 +23,8 @@ This project is intended to be used with the latest Active LTS release of [Node.
 To clone the repository, use the following commands:
 
 ```sh
-git clone https://github.com/aragon/osx-devkit
-cd osx-devkit
+git clone https://github.com/aragon/cli
+cd cli
 yarn install
 ```
 
