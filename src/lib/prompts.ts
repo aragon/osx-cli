@@ -1,6 +1,13 @@
+import fs from 'fs';
+import path from 'path';
 import inquirer from 'inquirer';
-import { privateKeySchema, tenderlyKeySchema } from './keys.js';
 import { ZodError } from 'zod';
+import { Networks } from 'src/types/index.js';
+import {
+  contractNameSchema,
+  privateKeySchema,
+  tenderlyKeySchema,
+} from './schemas.js';
 
 export const confirmPrompt = async (message: string): Promise<boolean> => {
   const { data } = await inquirer.prompt({
@@ -52,4 +59,58 @@ export const tenderlyKeyPrompt = async (): Promise<string> => {
   });
 
   return data;
+};
+
+export const networkSelectionPrompt = async (): Promise<Networks> => {
+  const { selectedNetwork } = await inquirer.prompt({
+    type: 'list',
+    name: 'selectedNetwork',
+    message: 'Please select a network:',
+    choices: Object.keys(Networks).map((key) => ({
+      name: key,
+      value: Networks[key as keyof typeof Networks],
+    })),
+  });
+
+  return selectedNetwork;
+};
+
+export const contractNamePrompt = async (): Promise<string> => {
+  const { contractName } = await inquirer.prompt({
+    type: 'input',
+    name: 'contractName',
+    message: 'Please enter the Setup Contract name:',
+    validate: (input: string) => {
+      try {
+        contractNameSchema.parse(input);
+        return true;
+      } catch (error) {
+        if (error instanceof ZodError) {
+          return error.errors[0].message;
+        }
+        return 'Invalid input.';
+      }
+    },
+  });
+
+  return contractName;
+};
+
+export const buildFolderPrompt = async (): Promise<string> => {
+  const { buildFolderPath } = await inquirer.prompt({
+    type: 'input',
+    name: 'buildFolderPath',
+    message:
+      'Build Folder not detected. \nPlease enter the path to the build folder (relative to the current directory):',
+    validate: (input: string) => {
+      const fullPath = path.join(process.cwd(), input);
+      if (fs.existsSync(fullPath) && fs.lstatSync(fullPath).isDirectory()) {
+        return true;
+      } else {
+        return 'The folder does not exist or is not a directory. Please enter a valid path relative to the current directory.';
+      }
+    },
+  });
+
+  return path.join(process.cwd(), buildFolderPath);
 };
