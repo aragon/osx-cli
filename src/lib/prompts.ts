@@ -2,12 +2,13 @@ import fs from 'fs';
 import path from 'path';
 import inquirer from 'inquirer';
 import { ZodError } from 'zod';
-import { Networks } from 'src/types/index.js';
+import { Network } from 'src/types';
 import {
   contractNameSchema,
   privateKeySchema,
   tenderlyKeySchema,
 } from './schemas.js';
+import { networks } from './constants';
 
 export const confirmPrompt = async (message: string): Promise<boolean> => {
   const { data } = await inquirer.prompt({
@@ -61,14 +62,14 @@ export const tenderlyKeyPrompt = async (): Promise<string> => {
   return data;
 };
 
-export const networkSelectionPrompt = async (): Promise<Networks> => {
+export const networkSelectionPrompt = async (): Promise<Network> => {
   const { selectedNetwork } = await inquirer.prompt({
     type: 'list',
     name: 'selectedNetwork',
     message: 'Please select a network:',
-    choices: Object.keys(Networks).map((key) => ({
-      name: key,
-      value: Networks[key as keyof typeof Networks],
+    choices: networks.map((network) => ({
+      name: network.name,
+      value: network,
     })),
   });
 

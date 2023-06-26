@@ -1,5 +1,5 @@
-import { exitWithMessage, logs } from '~/lib/constants';
-import { ContractArtifact, Networks } from '../../types';
+import { exitWithMessage, logs, networks, success } from '~/lib/constants';
+import { ContractArtifact, Network } from '../../types';
 import { findContractBuild, findContractsBuildDirectory } from '~/lib/file';
 import {
   buildFolderPrompt,
@@ -8,14 +8,15 @@ import {
   networkSelectionPrompt,
 } from '~/lib/prompts';
 import { getPrivateKey } from '~/lib/keys';
-import { ethers } from 'ethers';
-import { getWallet } from '~/lib/wallet';
+import { deployContract } from '~/lib/web3';
 
 export const deployHandler: (...args: any[]) => void | Promise<void> = async (
   contract?: string,
-  options: { buildPath?: string; network?: Networks; simulate?: boolean } = {},
+  options: { buildPath?: string; network?: string; simulate?: boolean } = {},
 ) => {
-  let { buildPath, network, simulate } = options;
+  const { network } = options;
+  let { buildPath, simulate } = options;
+  let chosenNetwork: Network;
 
   // Find build path
   buildPath = buildPath ?? findContractsBuildDirectory(process.cwd());
@@ -27,25 +28,33 @@ export const deployHandler: (...args: any[]) => void | Promise<void> = async (
   if (!contractBuild) exitWithMessage(logs.CONTRACT_BUILD_NOT_FOUND(contract));
 
   // Select network
-  network = network ?? (await networkSelectionPrompt());
+  network
+    ? (chosenNetwork = findNetworkByName(network))
+    : (chosenNetwork = await networkSelectionPrompt());
+
   simulate = simulate ?? (await confirmPrompt(logs.SIMULATE_DEPLOYMENT));
 
-  // Deploy
+  // Prepare to deploy
   const privateKey = await getPrivateKey();
   if (!privateKey) exitWithMessage(logs.PRIVATE_KEY_NOT_FOUND);
 
-  console.log({ contract, buildPath, network, simulate, privateKey });
+  // confirm
+  console.table({ contract, buildPath, network: chosenNetwork.name, simulate });
+  if (!(await confirmPrompt('Proceed?'))) exitWithMessage('Aborted.');
 
-  const wallet = await getWallet();
-  const provider = new ethers.JsonRpcProvider(network);
-
-  const pluginSetup = new ethers.ContractFactory(
-    contractBuild.abi,
-    contractBuild.bytecode,
-    wallet?.connect(provider),
+  const { address, txHash } = await deployContract(
+    chosenNetwork.url,
+    contractBuild,
   );
 
-  const contractInstance = await pluginSetup.deploy();
-  console.log(contractInstance);
-  console.log(await contractInstance.getAddress());
+  console.log(`\n\n🎉 ${contract}.sol: deployed to ${address}`);
+  console.log(success(`🔗 ${chosenNetwork.explorer}/tx/${txHash}`));
+};
+
+const findNetworkByName = (name: string): Network => {
+  const network = networks.find((network) => network.name === name);
+
+  if (!network) exitWithMessage(logs.NETWORK_NOT_FOUND(name));
+
+  return network as Network;
 };

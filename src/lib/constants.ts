@@ -1,7 +1,10 @@
 import chalk from 'chalk';
+import { Network } from 'src/types';
 
 export const warning = (message: string): string => chalk.yellow(message);
 export const error = (message: string): string => chalk.red(message);
+export const success = (message: string): string =>
+  chalk.greenBright.bold(message);
 export const exitWithMessage = (message: string): void => {
   console.log(error(message));
   process.exit(0);
@@ -25,23 +28,28 @@ export const logs = {
   SIMULATE_DEPLOYMENT: warning('Do you want to simulate the deployment?'),
   CONTRACT_BUILD_NOT_FOUND: (contract: string) =>
     error(`${contract}.sol build not found, did you compile?`),
+  NETWORK_NOT_FOUND: (network: string) => error(`Network ${network} not found`),
 };
 
-export const networks = [
+export const networks: Array<Network> = [
   {
     name: 'mainnet',
     url: 'https://rpc.ankr.com/eth',
+    explorer: 'https://etherscan.io',
   },
   {
     name: 'goerli',
     url: 'https://rpc.ankr.com/eth_goerli',
+    explorer: 'https://goerli.etherscan.io',
   },
   {
     name: 'polygon',
     url: 'https://rpc.ankr.com/polygon',
+    explorer: 'https://polygonscan.com',
   },
   {
     name: 'mumbai',
     url: 'https://rpc.ankr.com/polygon_mumbai',
+    explorer: 'https://mumbai.polygonscan.com',
   },
-] as const;
+];

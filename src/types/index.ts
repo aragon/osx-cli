@@ -6,9 +6,8 @@ export interface ContractArtifact {
   deployedBytecode: BytesLike;
 }
 
-export enum Networks {
-  MAINNET = 'https://rpc.ankr.com/eth',
-  GOERLI = 'https://rpc.ankr.com/eth_goerli',
-  POLYGON = 'https://rpc.ankr.com/polygon',
-  MUMBAI = 'https://rpc.ankr.com/polygon_mumbai',
-}
+export type Network = {
+  name: string;
+  url: string;
+  explorer: string;
+};
