@@ -1,28 +1,11 @@
 import keytar from 'keytar';
 import chalk from 'chalk';
 import { z } from 'zod';
+import { privateKeySchema, tenderlyKeySchema } from './schemas';
 
 const service = 'aragon-cli';
 const accountPrivateKey = 'private-key';
 const accountTenderlyKey = 'tenderly-key';
-
-// Define the schema for the private key
-export const privateKeySchema = z
-  .string()
-  .length(64, 'Private key must be exactly 64 characters long.')
-  .regex(
-    /^[a-fA-F0-9]*$/,
-    'Private key must only contain hexadecimal characters.',
-  );
-
-// Define the schema for the Tenderly key
-export const tenderlyKeySchema = z
-  .string()
-  .length(32, 'Tenderly key must be exactly 32 characters long.')
-  .regex(
-    /^[a-zA-Z0-9]*$/,
-    'Tenderly key must only contain numbers and letters.',
-  );
 
 export const setPrivateKey = async (privateKey: string): Promise<void> => {
   try {

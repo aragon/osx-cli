@@ -49,7 +49,6 @@ export const findContractBuild = (
   }
 
   const searchDirectories = (dir: string): ContractArtifact | null => {
-    console.log({ dir });
     const files = fs.readdirSync(dir);
 
     for (const file of files) {
