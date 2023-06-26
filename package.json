@@ -8,11 +8,14 @@
   "engines": {
     "node": ">= 18.12 <19"
   },
+  "bin": {
+    "aragon": "dist/main.js"
+  },
   "scripts": {
     "dev": "node dist/main.js",
-    "clean": "rimraf coverage build tmp",
+    "clean": "rimraf coverage dist tmp",
     "prebuild": "yarn run lint",
-    "build": "yarn prebuild && vite build",
+    "build": "yarn prebuild && vite build && ./postbuild.sh",
     "build:watch": "vite build -w",
     "build:release": "yarn clean && yarn lint && yarn prettier && yarn build",
     "lint": "eslint . --ext .ts --ext .mts",
