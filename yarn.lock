@@ -40,7 +40,7 @@ __metadata:
     eslint-config-prettier: ~8.8
     eslint-plugin-jest: ~27.2
     eslint-plugin-vitest: ^0.2.6
-    ethers: ^6.6.0
+    ethers: ^6.5.1
     figlet: ^1.6.0
     inquirer: ^9.2.7
     install: ^0.13.0
@@ -2633,18 +2633,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ethers@npm:^6.6.0":
-  version: 6.6.0
-  resolution: "ethers@npm:6.6.0"
+"ethers@npm:^6.5.1":
+  version: 6.6.1
+  resolution: "ethers@npm:6.6.1"
   dependencies:
-    "@adraffy/ens-normalize": "npm:1.9.2"
-    "@noble/hashes": "npm:1.1.2"
-    "@noble/secp256k1": "npm:1.7.1"
-    "@types/node": "npm:18.15.13"
-    aes-js: "npm:4.0.0-beta.5"
-    tslib: "npm:2.4.0"
-    ws: "npm:8.5.0"
-  checksum: 242f4fb2050e7b3a3efc41fdf72965f2b128c4431f275cf1e34cf3accfb87102dfb72613f2d48aa075ba4462b6ef77bb990ba77c61ce6edac504532dbc06591c
+    "@adraffy/ens-normalize": 1.9.2
+    "@noble/hashes": 1.1.2
+    "@noble/secp256k1": 1.7.1
+    "@types/node": 18.15.13
+    aes-js: 4.0.0-beta.5
+    tslib: 2.4.0
+    ws: 8.5.0
+  checksum: 4e1ddd2cc62de739e1a320dcdc2780cd2caaf4d1c7b4ca77b48a33d2a682395f8e8bde35ad319cd5c87581b26c902209c63c1373ba02cf5a96d8801c4e37ee4b
   languageName: node
   linkType: hard
 
