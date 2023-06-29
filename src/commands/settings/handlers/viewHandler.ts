@@ -1,4 +1,4 @@
-import { getPrivateKey, getTenderlyKey } from '~/lib/keys.js';
+import { getPrivateKey, getTenderlySettings } from '~/lib/keys.js';
 import { displayWallet } from '~/lib/wallet.js';
 import { logs } from '~/lib/constants.js';
 
@@ -8,7 +8,7 @@ export const viewHandler: (
   try {
     // Retrieve the private key and Tenderly API key
     const privateKey = await getPrivateKey();
-    const tenderlyKey = await getTenderlyKey();
+    const tenderlyKey = await getTenderlySettings();
 
     // Check if the Tenderly key exists
     if (tenderlyKey) console.log('Tenderly', logs.ENABLED);

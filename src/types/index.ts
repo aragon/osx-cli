@@ -8,6 +8,13 @@ export interface ContractArtifact {
 
 export type Network = {
   name: string;
+  id: string;
   url: string;
   explorer: string;
 };
+
+export interface TenderlySettings {
+  tenderlyKey: string;
+  tenderlyProject: string;
+  tenderlyUsername: string;
+}

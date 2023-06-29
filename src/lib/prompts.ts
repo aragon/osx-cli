@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import inquirer from 'inquirer';
 import { ZodError } from 'zod';
-import { Network } from 'src/types';
+import { Network, TenderlySettings } from 'src/types';
 import {
   contractNameSchema,
   privateKeySchema,
@@ -41,25 +41,40 @@ export const privateKeyPrompt = async (): Promise<string> => {
   return data;
 };
 
-export const tenderlyKeyPrompt = async (): Promise<string> => {
-  const { data } = await inquirer.prompt({
-    type: 'password',
-    name: 'data',
-    message: 'Please enter a Tenderly key:',
-    validate: (input: string) => {
-      try {
-        tenderlyKeySchema.parse(input);
-        return true;
-      } catch (error) {
-        if (error instanceof ZodError) {
-          return error.errors[0].message;
-        }
-        return 'Invalid input.';
-      }
-    },
-  });
+export const tenderlyPrompt = async (): Promise<TenderlySettings> => {
+  const { tenderlyUsername, tenderlyProject, tenderlyKey } =
+    await inquirer.prompt([
+      {
+        type: 'input',
+        name: 'tenderlyUsername',
+        message: 'Please enter your username:',
+        validate: (input: string) => !!input || 'Username cannot be empty',
+      },
+      {
+        type: 'input',
+        name: 'tenderlyProject',
+        message: 'Please enter a project name:',
+        validate: (input: string) => !!input || 'Project name cannot be empty',
+      },
+      {
+        type: 'password',
+        name: 'tenderlyKey',
+        message: 'Please enter a Tenderly key:',
+        validate: (input: string) => {
+          try {
+            tenderlyKeySchema.parse(input);
+            return true;
+          } catch (error) {
+            if (error instanceof ZodError) {
+              return error.errors[0].message;
+            }
+            return 'Invalid input.';
+          }
+        },
+      },
+    ]);
 
-  return data;
+  return { tenderlyUsername, tenderlyProject, tenderlyKey };
 };
 
 export const networkSelectionPrompt = async (): Promise<Network> => {
