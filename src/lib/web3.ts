@@ -8,7 +8,7 @@ export const deployContract = async (
   contractBuild: ContractArtifact,
 ): Promise<{ address: string | undefined; txHash: string | undefined }> => {
   const wallet = await getWallet();
-  const provider = new ethers.JsonRpcProvider(rpc);
+  const provider = new ethers.providers.JsonRpcProvider(rpc);
   let address, txHash;
   const pluginSetup = new ethers.ContractFactory(
     contractBuild.abi,

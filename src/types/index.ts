@@ -1,7 +1,7 @@
-import { InterfaceAbi, BytesLike } from 'ethers';
+import { BytesLike } from 'ethers';
 
 export interface ContractArtifact {
-  abi: InterfaceAbi;
+  abi: any;
   bytecode: BytesLike;
   deployedBytecode: BytesLike;
 }
