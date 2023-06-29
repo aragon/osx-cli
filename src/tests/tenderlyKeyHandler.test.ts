@@ -1,6 +1,7 @@
 import { TenderlySettings } from 'src/types';
-import { tenderlyKeyHandler } from './tenderlyKeyHandler';
+
 import { beforeEach, beforeAll, describe, expect, it, vi } from 'vitest';
+import { tenderlyKeyHandler } from '~/commands/settings/handlers/tenderlyKeyHandler';
 
 import * as keys from '~/lib/keys';
 import * as prompts from '~/lib/prompts.js';

@@ -1,9 +1,3 @@
-import {
-  setPrivateKey,
-  setTenderlySettings,
-  getPrivateKey,
-  getTenderlySettings,
-} from './keys';
 import keytar from 'keytar';
 import { TenderlySettings } from 'src/types';
 import {
@@ -15,6 +9,12 @@ import {
   vi,
   SpyInstance,
 } from 'vitest';
+import {
+  setPrivateKey,
+  setTenderlySettings,
+  getPrivateKey,
+  getTenderlySettings,
+} from '~/lib/keys';
 
 vi.mock('keytar');
 

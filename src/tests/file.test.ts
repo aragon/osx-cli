@@ -2,7 +2,7 @@ import fs from 'fs';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import process from 'process';
 import path from 'path';
-import { findContractsBuildDirectory, findContractBuild } from './file';
+import { findContractsBuildDirectory, findContractBuild } from '../lib/file';
 
 describe('findContractsBuildDirectory function', () => {
   const projectDirectory = process.cwd();

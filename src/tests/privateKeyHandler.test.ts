@@ -1,9 +1,9 @@
-import { privateKeyHandler } from './privateKeyHandler';
+import { privateKeyHandler } from '../commands/settings/handlers/privateKeyHandler.js';
 import { beforeEach, beforeAll, describe, expect, it, vi } from 'vitest';
 
-import * as keys from '../../../lib/keys';
-import * as prompts from '../../../lib/prompts.js';
-import * as viewHandlerModule from './viewHandler.js';
+import * as keys from '../lib/keys.js';
+import * as prompts from '../lib/prompts.js';
+import * as viewHandlerModule from '../commands/settings/handlers/viewHandler.js';
 import process from 'process';
 
 describe('privateKeyHandler', () => {
