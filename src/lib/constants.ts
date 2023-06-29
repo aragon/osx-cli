@@ -34,21 +34,25 @@ export const logs = {
 export const networks: Array<Network> = [
   {
     name: 'mainnet',
+    id: '1',
     url: 'https://rpc.ankr.com/eth',
     explorer: 'https://etherscan.io',
   },
   {
     name: 'goerli',
+    id: '5',
     url: 'https://rpc.ankr.com/eth_goerli',
     explorer: 'https://goerli.etherscan.io',
   },
   {
     name: 'polygon',
+    id: '137',
     url: 'https://rpc.ankr.com/polygon',
     explorer: 'https://polygonscan.com',
   },
   {
     name: 'mumbai',
+    id: '80001',
     url: 'https://rpc.ankr.com/polygon_mumbai',
     explorer: 'https://mumbai.polygonscan.com',
   },

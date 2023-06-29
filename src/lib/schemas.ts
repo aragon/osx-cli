@@ -14,7 +14,7 @@ export const tenderlyKeySchema = z
   .string()
   .length(32, 'Tenderly key must be exactly 32 characters long.')
   .regex(
-    /^[a-zA-Z0-9]*$/,
+    /^[a-zA-Z0-9-]*$/,
     'Tenderly key must only contain numbers and letters.',
   );
 

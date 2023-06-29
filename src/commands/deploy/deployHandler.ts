@@ -8,7 +8,7 @@ import {
   networkSelectionPrompt,
 } from '~/lib/prompts';
 import { getPrivateKey } from '~/lib/keys';
-import { deployContract } from '~/lib/web3';
+import { deployContract, simulateDeployment } from '~/lib/web3';
 
 export const deployHandler: (...args: any[]) => void | Promise<void> = async (
   contract?: string,
@@ -17,6 +17,9 @@ export const deployHandler: (...args: any[]) => void | Promise<void> = async (
   const { network } = options;
   let { buildPath, simulate } = options;
   let chosenNetwork: Network;
+
+  // Check private key is available
+  if (!(await getPrivateKey())) exitWithMessage(logs.PRIVATE_KEY_NOT_FOUND);
 
   // Find build path
   buildPath = buildPath ?? findContractsBuildDirectory(process.cwd());
@@ -32,16 +35,15 @@ export const deployHandler: (...args: any[]) => void | Promise<void> = async (
     ? (chosenNetwork = findNetworkByName(network))
     : (chosenNetwork = await networkSelectionPrompt());
 
+  // Display info
+  console.table({ contract, buildPath, network: chosenNetwork.name });
+
+  // Simulate deployment
   simulate = simulate ?? (await confirmPrompt(logs.SIMULATE_DEPLOYMENT));
+  if (simulate) await simulateDeployment(contractBuild, chosenNetwork.id);
 
-  // Prepare to deploy
-  const privateKey = await getPrivateKey();
-  if (!privateKey) exitWithMessage(logs.PRIVATE_KEY_NOT_FOUND);
-
-  // confirm
-  console.table({ contract, buildPath, network: chosenNetwork.name, simulate });
+  // deploy
   if (!(await confirmPrompt('Proceed?'))) exitWithMessage('Aborted.');
-
   const { address, txHash } = await deployContract(
     chosenNetwork.url,
     contractBuild,
