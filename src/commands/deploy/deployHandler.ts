@@ -1,4 +1,4 @@
-import { exitWithMessage, logs, networks, success } from '~/lib/constants';
+import { exitWithMessage, logs, success } from '~/lib/constants';
 import { ContractArtifact, Network } from '../../types';
 import { findContractBuild, findContractsBuildDirectory } from '~/lib/file';
 import {
@@ -8,7 +8,11 @@ import {
   networkSelectionPrompt,
 } from '~/lib/prompts';
 import { getPrivateKey } from '~/lib/keys';
-import { deployContract, simulateDeployment } from '~/lib/web3';
+import {
+  deployContract,
+  findNetworkByName,
+  simulateDeployment,
+} from '~/lib/web3';
 
 export const deployHandler: (...args: any[]) => void | Promise<void> = async (
   contract?: string,
@@ -51,12 +55,4 @@ export const deployHandler: (...args: any[]) => void | Promise<void> = async (
 
   console.log(`\n\n🎉 ${contract}.sol: deployed to ${address}`);
   console.log(success(`🔗 ${chosenNetwork.explorer}/tx/${txHash}`));
-};
-
-const findNetworkByName = (name: string): Network => {
-  const network = networks.find((network) => network.name === name);
-
-  if (!network) exitWithMessage(logs.NETWORK_NOT_FOUND(name));
-
-  return network as Network;
 };

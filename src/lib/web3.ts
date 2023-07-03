@@ -1,5 +1,5 @@
 import { Wallet, ethers } from 'ethers';
-import { ContractArtifact, TenderlySettings } from 'src/types';
+import { ContractArtifact, Network, TenderlySettings } from 'src/types';
 import { getWallet } from './wallet';
 import {
   spinnerError,
@@ -9,7 +9,7 @@ import {
 } from './spinners';
 import axios from 'axios';
 import { getTenderlySettings } from './keys';
-import { exitWithMessage, warning } from './constants';
+import { exitWithMessage, logs, networks, warning } from './constants';
 
 export const deployContract = async (
   rpc: string,
@@ -97,3 +97,11 @@ export function bytesToHex(buff: Uint8Array, skip0x?: boolean): string {
   if (skip0x) return bytes.join('');
   return '0x' + bytes.join('');
 }
+
+export const findNetworkByName = (name: string): Network => {
+  const network = networks.find((network) => network.name === name);
+
+  if (!network) exitWithMessage(logs.NETWORK_NOT_FOUND(name));
+
+  return network as Network;
+};
