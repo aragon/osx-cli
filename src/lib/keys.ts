@@ -10,10 +10,17 @@ const accountTenderlyKey = 'tenderly-key';
 const accountTenderlyProject = 'tenderly-project';
 const accountTenderlyUsername = 'tenderly-username';
 
+/**
+ * Stores the private key in a secure location after validating it.
+ *
+ * @param {string} privateKey - The private key to be stored.
+ * @returns {Promise<void>} A Promise that resolves when the operation completes.
+ * @throws Will throw an error if the private key does not conform to the schema or if the storage operation fails.
+ */
 export const setPrivateKey = async (privateKey: string): Promise<void> => {
   try {
     privateKeySchema.parse(privateKey);
-    await keytar.setPassword(service, accountPrivateKey, privateKey);
+    await setKey(accountPrivateKey, privateKey);
     console.log(chalk.green('Private Key stored successfully.'));
   } catch (error) {
     error instanceof z.ZodError
@@ -22,6 +29,13 @@ export const setPrivateKey = async (privateKey: string): Promise<void> => {
   }
 };
 
+/**
+ * Sets the Tenderly settings and stores them in a secure location.
+ *
+ * @param {TenderlySettings} tenderlySettings - The Tenderly settings to be stored.
+ * @returns {Promise<void>} A Promise that resolves when the operation completes.
+ * @throws Will throw an error if the Tenderly settings do not conform to the schema or if the storage operation fails.
+ */
 export const setTenderlySettings = async (
   tenderlySettings: TenderlySettings,
 ): Promise<void> => {
@@ -29,13 +43,9 @@ export const setTenderlySettings = async (
   try {
     tenderlyKeySchema.parse(tenderlyKey);
 
-    await keytar.setPassword(service, accountTenderlyKey, tenderlyKey);
-    await keytar.setPassword(service, accountTenderlyProject, tenderlyProject);
-    await keytar.setPassword(
-      service,
-      accountTenderlyUsername,
-      tenderlyUsername,
-    );
+    await setKey(accountTenderlyKey, tenderlyKey);
+    await setKey(accountTenderlyProject, tenderlyProject);
+    await setKey(accountTenderlyUsername, tenderlyUsername);
     console.log(chalk.green('Tenderly settings stored successfully.'));
   } catch (error) {
     error instanceof z.ZodError
@@ -44,26 +54,45 @@ export const setTenderlySettings = async (
   }
 };
 
+/**
+ * Retrieves the private key from storage.
+ *
+ * @returns {Promise<string | null>} A promise that resolves to the private key string or null if not found.
+ */
 export const getPrivateKey = async (): Promise<string | null> => {
-  return keytar.getPassword(service, accountPrivateKey);
+  return getKey(accountPrivateKey);
 };
 
+/**
+ * Retrieves the tenderly settings from storage.
+ *
+ * @returns {Promise<TenderlySettings | null>} A promise that resolves to an object containing tenderly settings (key, project, and username) or null if any of them is missing.
+ * @throws Will throw an error if there was an issue retrieving the keys.
+ */
 export const getTenderlySettings =
   async (): Promise<TenderlySettings | null> => {
-    const tenderlyKey = await keytar.getPassword(service, accountTenderlyKey);
-    const tenderlyProject = await keytar.getPassword(
-      service,
-      accountTenderlyProject,
-    );
-    const tenderlyUsername = await keytar.getPassword(
-      service,
-      accountTenderlyUsername,
-    );
-    return tenderlyKey && tenderlyProject && tenderlyUsername
-      ? {
-          tenderlyKey,
-          tenderlyProject,
-          tenderlyUsername,
-        }
-      : null;
+    try {
+      const tenderlyKey = await getKey(accountTenderlyKey);
+      const tenderlyProject = await getKey(accountTenderlyProject);
+      const tenderlyUsername = await getKey(accountTenderlyUsername);
+
+      if (!tenderlyKey || !tenderlyProject || !tenderlyUsername) return null;
+
+      return {
+        tenderlyKey,
+        tenderlyProject,
+        tenderlyUsername,
+      };
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   };
+
+const getKey = async (key: string) => {
+  return keytar.getPassword(service, key);
+};
+
+const setKey = async (key: string, value: string) => {
+  return keytar.setPassword(service, key, value);
+};

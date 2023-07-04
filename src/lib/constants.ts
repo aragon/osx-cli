@@ -25,10 +25,23 @@ export const logs = {
   ),
   FAILED_TO_RETRIEVE_KEYS: error('Failed to retrieve keys:'),
   ENABLED: chalk.green('enabled'),
-  SIMULATE_DEPLOYMENT: warning('Do you want to simulate the deployment?'),
   CONTRACT_BUILD_NOT_FOUND: (contract: string) =>
     error(`${contract}.sol build not found, did you compile?`),
-  NETWORK_NOT_FOUND: (network: string) => error(`Network ${network} not found`),
+  NOT_NETWORK: (network: string | undefined) =>
+    error(`Network ${network} not found`),
+};
+
+export const prompts = {
+  PRIVATE_KEY: success('Please enter a private key:'),
+  TENDERLY_KEY: success('Please enter a Tenderly key:'),
+  TENDERLY_USERNAME: success('Please enter your Tenderly username:'),
+  TENDERLY_PROJECT: success('Please enter your Tenderly project name:'),
+  NETWORK_SELECTION: success('Please select a network:'),
+  SETUP_NAME: success('Please enter the name of the Setup Contract:'),
+  SIMULATE_DEPLOYMENT: warning('Do you want to simulate the deployment?'),
+  BUILD_FOLDER: success(
+    `Build Folder not detected. \nPlease enter the name of the build folder:`,
+  ),
 };
 
 export const networks: Array<Network> = [

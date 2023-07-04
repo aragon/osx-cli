@@ -28,8 +28,7 @@ export const findContractsBuildDirectory = (
 };
 
 /**
- * Recursively searches the project directory for the build artifact
- * of the given Solidity contract and returns its contents as a JSON object.
+ * Recursively searches the project directory for the build artifact of the given Solidity contract and returns its contents as a JSON object.
  *
  * @param {string} projectDirectory - The root directory of the project.
  * @param {string} contractName - The name of the Solidity contract (without .sol extension).

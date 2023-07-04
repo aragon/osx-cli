@@ -18,3 +18,15 @@ export interface TenderlySettings {
   tenderlyProject: string;
   tenderlyUsername: string;
 }
+
+export type ForkResult = {
+  forkId: string;
+  rpcUrl: string;
+  forkUrl: string;
+  forkProvider: any;
+};
+
+export type ContractDeploymentResult = {
+  address: string | undefined;
+  txHash: string | undefined;
+};

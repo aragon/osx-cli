@@ -108,20 +108,6 @@ describe('Key management tests', () => {
     expect(getPasswordSpy).toHaveBeenCalledWith('aragon-cli', 'private-key');
   });
 
-  // it('should retrieve the Tenderly settings', async () => {
-  //   const tenderlyKey: TenderlySettings = {
-  //     tenderlyKey: 'aBc123'.padEnd(32, '0'), // 32 alphanumeric characters
-  //     tenderlyProject: 'alice-project',
-  //     tenderlyUsername: 'alice',
-  //   };
-  //   getPasswordSpy.mockResolvedValue(tenderlyKey);
-
-  //   const result = await getTenderlySettings();
-
-  //   expect(result).toBe(tenderlyKey);
-  //   expect(getPasswordSpy).toHaveBeenCalledWith('aragon-cli', 'tenderly-key');
-  // });
-
   it('should retrieve the Tenderly settings', async () => {
     const tenderlySettings: TenderlySettings = {
       tenderlyKey: 'aBc123'.padEnd(32, '0'), // 32 alphanumeric characters

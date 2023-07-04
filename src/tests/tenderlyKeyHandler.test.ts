@@ -30,7 +30,6 @@ describe('tenderlyKeyHandler', () => {
     vi.spyOn(prompts, 'tenderlyPrompt').mockResolvedValue(newSettings);
 
     await tenderlyKeyHandler();
-
     expect(keys.setTenderlySettings).toHaveBeenCalledWith(newSettings);
   });
 
@@ -51,7 +50,6 @@ describe('tenderlyKeyHandler', () => {
     vi.spyOn(prompts, 'tenderlyPrompt').mockResolvedValue(newSettings);
 
     await tenderlyKeyHandler();
-
     expect(keys.setTenderlySettings).toHaveBeenCalledWith(newSettings);
   });
 
@@ -67,7 +65,6 @@ describe('tenderlyKeyHandler', () => {
     vi.spyOn(process, 'exit').mockImplementation(mockFunction);
 
     await tenderlyKeyHandler();
-
     expect(process.exit).toHaveBeenCalled();
   });
 
@@ -79,7 +76,6 @@ describe('tenderlyKeyHandler', () => {
     };
 
     vi.spyOn(keys, 'getTenderlySettings').mockResolvedValue(null);
-
     await tenderlyKeyHandler(providedSettings);
 
     expect(keys.setTenderlySettings).toHaveBeenCalledWith(providedSettings);

@@ -8,13 +8,13 @@ import {
   privateKeySchema,
   tenderlyKeySchema,
 } from './schemas.js';
-import { networks } from './constants';
+import { networks, prompts, success } from './constants';
 
 export const confirmPrompt = async (message: string): Promise<boolean> => {
   const { data } = await inquirer.prompt({
     type: 'confirm',
     name: 'data',
-    message,
+    message: success(message),
   });
 
   return data;
@@ -24,7 +24,7 @@ export const privateKeyPrompt = async (): Promise<string> => {
   const { data } = await inquirer.prompt({
     type: 'password',
     name: 'data',
-    message: 'Please enter a private key:',
+    message: prompts.PRIVATE_KEY,
     validate: (input: string) => {
       try {
         privateKeySchema.parse(input);
@@ -47,19 +47,19 @@ export const tenderlyPrompt = async (): Promise<TenderlySettings> => {
       {
         type: 'input',
         name: 'tenderlyUsername',
-        message: 'Please enter your username:',
+        message: prompts.TENDERLY_USERNAME,
         validate: (input: string) => !!input || 'Username cannot be empty',
       },
       {
         type: 'input',
         name: 'tenderlyProject',
-        message: 'Please enter a project name:',
+        message: prompts.TENDERLY_PROJECT,
         validate: (input: string) => !!input || 'Project name cannot be empty',
       },
       {
         type: 'password',
         name: 'tenderlyKey',
-        message: 'Please enter a Tenderly key:',
+        message: prompts.TENDERLY_KEY,
         validate: (input: string) => {
           try {
             tenderlyKeySchema.parse(input);
@@ -81,10 +81,10 @@ export const networkSelectionPrompt = async (): Promise<Network> => {
   const { selectedNetwork } = await inquirer.prompt({
     type: 'list',
     name: 'selectedNetwork',
-    message: 'Please select a network:',
-    choices: networks.map((network) => ({
-      name: network.name,
-      value: network,
+    message: prompts.NETWORK_SELECTION,
+    choices: Object.entries(networks).map(([name, network]) => ({
+      name: name,
+      value: { name: network },
     })),
   });
 
@@ -95,7 +95,7 @@ export const contractNamePrompt = async (): Promise<string> => {
   const { contractName } = await inquirer.prompt({
     type: 'input',
     name: 'contractName',
-    message: 'Please enter the Setup Contract name:',
+    message: prompts.SETUP_NAME,
     validate: (input: string) => {
       try {
         contractNameSchema.parse(input);
@@ -116,8 +116,7 @@ export const buildFolderPrompt = async (): Promise<string> => {
   const { buildFolderPath } = await inquirer.prompt({
     type: 'input',
     name: 'buildFolderPath',
-    message:
-      'Build Folder not detected. \nPlease enter the path to the build folder (relative to the current directory):',
+    message: prompts.BUILD_FOLDER,
     validate: (input: string) => {
       const fullPath = path.join(process.cwd(), input);
       if (fs.existsSync(fullPath) && fs.lstatSync(fullPath).isDirectory()) {

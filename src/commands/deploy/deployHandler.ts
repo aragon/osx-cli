@@ -1,4 +1,4 @@
-import { exitWithMessage, logs, success } from '~/lib/constants';
+import { exitWithMessage, logs, prompts, success } from '~/lib/constants';
 import { ContractArtifact, Network } from '../../types';
 import { findContractBuild, findContractsBuildDirectory } from '~/lib/file';
 import {
@@ -35,24 +35,28 @@ export const deployHandler: (...args: any[]) => void | Promise<void> = async (
   if (!contractBuild) exitWithMessage(logs.CONTRACT_BUILD_NOT_FOUND(contract));
 
   // Select network
-  network
-    ? (chosenNetwork = findNetworkByName(network))
-    : (chosenNetwork = await networkSelectionPrompt());
+  if (network) {
+    chosenNetwork = findNetworkByName(network);
+  } else {
+    chosenNetwork = await networkSelectionPrompt();
+  }
 
   // Display info
   console.table({ contract, buildPath, network: chosenNetwork.name });
 
   // Simulate deployment
-  simulate = simulate ?? (await confirmPrompt(logs.SIMULATE_DEPLOYMENT));
+  simulate = simulate ?? (await confirmPrompt(prompts.SIMULATE_DEPLOYMENT));
   if (simulate) await simulateDeployment(contractBuild, chosenNetwork.id);
 
-  // deploy
+  // Deploy
   if (!(await confirmPrompt('Proceed?'))) exitWithMessage('Aborted.');
   const { address, txHash } = await deployContract(
     chosenNetwork.url,
     contractBuild,
   );
 
-  console.log(`\n\n🎉 ${contract}.sol: deployed to ${address}`);
+  console.log(
+    `\n\n🎉 ${contract}.sol: deployed to ${address} on ${chosenNetwork.name}`,
+  );
   console.log(success(`🔗 ${chosenNetwork.explorer}/tx/${txHash}`));
 };

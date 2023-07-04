@@ -7,7 +7,8 @@ import { TenderlySettings } from 'src/types/index.js';
 export const tenderlyKeyHandler: (
   ...args: any[]
 ) => void | Promise<void> = async (tenderlyKeys: TenderlySettings) => {
-  const existingTenderlySettings = await getTenderlySettings();
+  const existingTenderlySettings: TenderlySettings | null =
+    await getTenderlySettings();
 
   if (existingTenderlySettings) {
     (await confirmPrompt(logs.OVERRIDE_TENDERLY))

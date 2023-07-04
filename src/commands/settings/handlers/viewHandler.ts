@@ -11,12 +11,18 @@ export const viewHandler: (
     const tenderlyKey = await getTenderlySettings();
 
     // Check if the Tenderly key exists
-    if (tenderlyKey) console.log('Tenderly', logs.ENABLED);
-    else console.log(logs.TENDERLY_NOT_FOUND);
+    if (tenderlyKey) {
+      console.log('Tenderly', logs.ENABLED);
+    } else {
+      console.log(logs.TENDERLY_NOT_FOUND);
+    }
 
     // Check if the private key exists
-    if (privateKey) await displayWallet();
-    else console.log(logs.PRIVATE_KEY_NOT_FOUND);
+    if (privateKey) {
+      await displayWallet();
+    } else {
+      console.log(logs.PRIVATE_KEY_NOT_FOUND);
+    }
   } catch (error) {
     console.error(logs.FAILED_TO_RETRIEVE_KEYS, error);
   }
