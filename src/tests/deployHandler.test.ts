@@ -9,6 +9,9 @@ import { Network } from 'src/types/index.js';
 import TestSetup from '../tests/mocks/TestSetup.json';
 import { deployHandler } from '~/commands/deploy/deployHandler.js';
 
+import {config} from "dotenv"
+config()
+
 describe('deployHandler', () => {
   const mockNetwork: Network = {
     name: 'mumbai',
