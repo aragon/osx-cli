@@ -66,7 +66,7 @@ describe('deployHandler', () => {
   });
 
   it('should handle deployment failure correctly', async () => {
-    const errorMessage = 'Contract deployment failed';
+    const errorMessage = constants.logs.DEPLOYMENT_FAILED;
 
     vi.spyOn(constants, 'exitWithMessage').mockImplementation(
       (message: string) => {

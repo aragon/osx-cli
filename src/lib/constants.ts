@@ -26,6 +26,7 @@ export const logs = {
   ),
   FAILED_TO_RETRIEVE_KEYS: error('Failed to retrieve keys:'),
   ENABLED: chalk.green('enabled'),
+  DEPLOYMENT_FAILED: error('Contract deployment failed'),
   CONTRACT_BUILD_NOT_FOUND: (contract: string) =>
     error(`${contract}.sol build not found, did you compile?`),
   NOT_NETWORK: (network: string | undefined) =>
