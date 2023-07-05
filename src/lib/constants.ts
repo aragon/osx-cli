@@ -11,6 +11,7 @@ export const exitWithMessage = (message: string): void => {
 };
 
 export const logs = {
+  ABORTED: error('Aborted.'),
   OVERRIDE_PK: warning(
     'Seems like you already have a private key stored. Are you sure you want to override it with a new one?',
   ),
@@ -29,6 +30,12 @@ export const logs = {
     error(`${contract}.sol build not found, did you compile?`),
   NOT_NETWORK: (network: string | undefined) =>
     error(`Network ${network} not found`),
+  DEPLOYED: (contract: string, address: string | undefined, network: string) =>
+    `\n\n🎉 ${chalk.greenBright.bold(
+      contract,
+    )}.sol: deployed to ${address} on ${chalk.green.bold(network)}`,
+  EXPLORER: (explorer: string, txHash: string | undefined) =>
+    success(`🔗 ${explorer}/tx/${txHash}`),
 };
 
 export const prompts = {

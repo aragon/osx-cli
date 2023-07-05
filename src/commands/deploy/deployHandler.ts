@@ -49,14 +49,12 @@ export const deployHandler: (...args: any[]) => void | Promise<void> = async (
   if (simulate) await simulateDeployment(contractBuild, chosenNetwork.id);
 
   // Deploy
-  if (!(await confirmPrompt('Proceed?'))) exitWithMessage('Aborted.');
+  if (!(await confirmPrompt('Proceed?'))) exitWithMessage(logs.ABORTED);
   const { address, txHash } = await deployContract(
     chosenNetwork.url,
     contractBuild,
   );
 
-  console.log(
-    `\n\n🎉 ${contract}.sol: deployed to ${address} on ${chosenNetwork.name}`,
-  );
-  console.log(success(`🔗 ${chosenNetwork.explorer}/tx/${txHash}`));
+  console.log(logs.DEPLOYED(contract, address, chosenNetwork.name));
+  console.log(logs.EXPLORER(chosenNetwork.explorer, txHash));
 };
