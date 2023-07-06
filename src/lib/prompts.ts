@@ -82,9 +82,9 @@ export const networkSelectionPrompt = async (): Promise<Network> => {
     type: 'list',
     name: 'selectedNetwork',
     message: strings.NETWORK_SELECTION,
-    choices: Object.entries(networks).map(([name, network]) => ({
-      name: name,
-      value: { name: network },
+    choices: networks.map((network) => ({
+      name: network.name,
+      value: network,
     })),
   });
 
