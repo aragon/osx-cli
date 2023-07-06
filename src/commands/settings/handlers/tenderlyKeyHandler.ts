@@ -1,8 +1,9 @@
 import { getTenderlySettings, setTenderlySettings } from '~/lib/keys.js';
-import { logs } from '~/lib/constants.js';
-import { confirmPrompt, tenderlyPrompt } from '~/lib/prompts.js';
+import { strings } from '~/lib/constants.js';
+
 import { viewHandler } from './viewHandler.js';
 import { TenderlySettings } from 'src/types/index.js';
+import { confirmPrompt, tenderlyPrompt } from '~/lib/prompts.js';
 
 export const tenderlyKeyHandler: (
   ...args: any[]
@@ -11,7 +12,7 @@ export const tenderlyKeyHandler: (
     await getTenderlySettings();
 
   if (existingTenderlySettings) {
-    (await confirmPrompt(logs.OVERRIDE_TENDERLY))
+    (await confirmPrompt(strings.OVERRIDE_TENDERLY))
       ? (tenderlyKeys = await tenderlyPrompt())
       : process.exit();
   } else {

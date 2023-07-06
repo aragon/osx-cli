@@ -1,13 +1,13 @@
 import { beforeEach, beforeAll, describe, expect, it, vi } from 'vitest';
-import * as keys from '../lib/keys.js';
-import * as file from '../lib/file.js';
+import * as keys from '../lib/keys';
+import * as file from '../lib/file';
 import * as prompts from '../lib/prompts.js';
-import * as web3 from '../lib/web3.js';
-import * as constants from '../lib/constants.js';
+import * as web3 from '../lib/web3';
+import * as constants from '../lib/constants';
 
-import { Network } from 'src/types/index.js';
+import { Network } from 'src/types/index';
 import TestSetup from '../tests/mocks/TestSetup.json';
-import { deployHandler } from '~/commands/deploy/deployHandler.js';
+import { deployHandler } from '~/commands/deploy/deployHandler';
 
 import { config } from 'dotenv';
 config();
@@ -66,7 +66,7 @@ describe('deployHandler', () => {
   });
 
   it('should handle deployment failure correctly', async () => {
-    const errorMessage = constants.logs.DEPLOYMENT_FAILED;
+    const errorMessage = constants.strings.DEPLOYMENT_FAILED;
 
     vi.spyOn(constants, 'exitWithMessage').mockImplementation(
       (message: string) => {
@@ -84,7 +84,6 @@ describe('deployHandler', () => {
     vi.spyOn(web3, 'deployContract').mockRejectedValue(new Error(errorMessage));
 
     await deployHandler('contract', { network: 'network', simulate: true });
-
     expect(constants.exitWithMessage).toHaveBeenCalledWith(errorMessage);
   });
 });

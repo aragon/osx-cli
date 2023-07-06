@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import { getWallet } from './wallet';
 import { getTenderlySettings } from './keys';
-import { exitWithMessage, logs, networks, warning } from './constants';
+import { exitWithMessage, networks, strings, warning } from './constants';
 import {
   spinnerError,
   spinnerSuccess,
@@ -129,6 +129,7 @@ export const simulateDeployment = async (
  */
 export function bytesToHex(buff: Uint8Array, skip0x?: boolean): string {
   const bytes: string[] = [];
+
   for (let i = 0; i < buff.length; i++) {
     if (buff[i] >= 16) {
       bytes.push(buff[i].toString(16));
@@ -153,7 +154,7 @@ export function bytesToHex(buff: Uint8Array, skip0x?: boolean): string {
 export const findNetworkByName = (name: string): Network => {
   const network = networks.find((network) => network.name === name);
 
-  if (!network) exitWithMessage(logs.NOT_NETWORK(name));
+  if (!network) exitWithMessage(strings.NOT_NETWORK(name));
 
   return network as Network;
 };

@@ -1,4 +1,4 @@
-import { exitWithMessage, logs, prompts, success } from '~/lib/constants';
+import { exitWithMessage, strings } from '~/lib/constants';
 import { ContractArtifact, Network } from '../../types';
 import { findContractBuild, findContractsBuildDirectory } from '~/lib/file';
 import {
@@ -24,7 +24,8 @@ export const deployHandler: (...args: any[]) => void | Promise<void> = async (
     let chosenNetwork: Network;
 
     // Check private key is available
-    if (!(await getPrivateKey())) exitWithMessage(logs.PRIVATE_KEY_NOT_FOUND);
+    if (!(await getPrivateKey()))
+      exitWithMessage(strings.PRIVATE_KEY_NOT_FOUND);
 
     // Find build path
     buildPath = buildPath ?? findContractsBuildDirectory(process.cwd());
@@ -34,7 +35,7 @@ export const deployHandler: (...args: any[]) => void | Promise<void> = async (
     contract = contract ?? (await contractNamePrompt());
     const contractBuild = findContractBuild(contract) as ContractArtifact;
     if (!contractBuild)
-      exitWithMessage(logs.CONTRACT_BUILD_NOT_FOUND(contract));
+      exitWithMessage(strings.CONTRACT_BUILD_NOT_FOUND(contract));
 
     // Select network
     if (network) {
@@ -47,21 +48,21 @@ export const deployHandler: (...args: any[]) => void | Promise<void> = async (
     console.table({ contract, buildPath, network: chosenNetwork.name });
 
     // Simulate deployment
-    simulate = simulate ?? (await confirmPrompt(prompts.SIMULATE_DEPLOYMENT));
+    simulate = simulate ?? (await confirmPrompt(strings.SIMULATE_DEPLOYMENT));
     if (simulate) await simulateDeployment(contractBuild, chosenNetwork.id);
 
     // Deploy
-    if (!(await confirmPrompt('Proceed?'))) exitWithMessage(logs.ABORTED);
+    if (!(await confirmPrompt('Proceed?'))) exitWithMessage(strings.ABORTED);
     const { address, txHash } = await deployContract(
       chosenNetwork.url,
       contractBuild,
     );
 
-    console.log(logs.DEPLOYED(contract, address, chosenNetwork.name));
-    console.log(logs.EXPLORER(chosenNetwork.explorer, txHash));
+    console.log(strings.DEPLOYED(contract, address, chosenNetwork.name));
+    console.log(strings.EXPLORER(chosenNetwork.explorer, txHash));
   } catch (error) {
     // Handling any unexpected errors here
     console.error(error);
-    exitWithMessage(logs.DEPLOYMENT_FAILED);
+    exitWithMessage(strings.DEPLOYMENT_FAILED);
   }
 };

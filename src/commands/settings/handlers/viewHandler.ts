@@ -1,6 +1,6 @@
 import { getPrivateKey, getTenderlySettings } from '~/lib/keys.js';
 import { displayWallet } from '~/lib/wallet.js';
-import { logs } from '~/lib/constants.js';
+import { strings } from '~/lib/constants.js';
 
 export const viewHandler: (
   ...args: unknown[]
@@ -12,18 +12,18 @@ export const viewHandler: (
 
     // Check if the Tenderly key exists
     if (tenderlyKey) {
-      console.log('Tenderly', logs.ENABLED);
+      console.log('Tenderly', strings.ENABLED);
     } else {
-      console.log(logs.TENDERLY_NOT_FOUND);
+      console.log(strings.TENDERLY_NOT_FOUND);
     }
 
     // Check if the private key exists
     if (privateKey) {
       await displayWallet();
     } else {
-      console.log(logs.PRIVATE_KEY_NOT_FOUND);
+      console.log(strings.PRIVATE_KEY_NOT_FOUND);
     }
   } catch (error) {
-    console.error(logs.FAILED_TO_RETRIEVE_KEYS, error);
+    console.error(strings.FAILED_TO_RETRIEVE_KEYS, error);
   }
 };

@@ -8,7 +8,7 @@ import {
   privateKeySchema,
   tenderlyKeySchema,
 } from './schemas.js';
-import { networks, prompts, success } from './constants';
+import { networks, strings, success } from './constants';
 
 export const confirmPrompt = async (message: string): Promise<boolean> => {
   const { data } = await inquirer.prompt({
@@ -24,7 +24,7 @@ export const privateKeyPrompt = async (): Promise<string> => {
   const { data } = await inquirer.prompt({
     type: 'password',
     name: 'data',
-    message: prompts.PRIVATE_KEY,
+    message: strings.PRIVATE_KEY,
     validate: (input: string) => {
       try {
         privateKeySchema.parse(input);
@@ -47,19 +47,19 @@ export const tenderlyPrompt = async (): Promise<TenderlySettings> => {
       {
         type: 'input',
         name: 'tenderlyUsername',
-        message: prompts.TENDERLY_USERNAME,
+        message: strings.TENDERLY_USERNAME,
         validate: (input: string) => !!input || 'Username cannot be empty',
       },
       {
         type: 'input',
         name: 'tenderlyProject',
-        message: prompts.TENDERLY_PROJECT,
+        message: strings.TENDERLY_PROJECT,
         validate: (input: string) => !!input || 'Project name cannot be empty',
       },
       {
         type: 'password',
         name: 'tenderlyKey',
-        message: prompts.TENDERLY_KEY,
+        message: strings.TENDERLY_KEY,
         validate: (input: string) => {
           try {
             tenderlyKeySchema.parse(input);
@@ -68,7 +68,7 @@ export const tenderlyPrompt = async (): Promise<TenderlySettings> => {
             if (error instanceof ZodError) {
               return error.errors[0].message;
             }
-            return 'Invalid input.';
+            return error;
           }
         },
       },
@@ -81,7 +81,7 @@ export const networkSelectionPrompt = async (): Promise<Network> => {
   const { selectedNetwork } = await inquirer.prompt({
     type: 'list',
     name: 'selectedNetwork',
-    message: prompts.NETWORK_SELECTION,
+    message: strings.NETWORK_SELECTION,
     choices: Object.entries(networks).map(([name, network]) => ({
       name: name,
       value: { name: network },
@@ -95,7 +95,7 @@ export const contractNamePrompt = async (): Promise<string> => {
   const { contractName } = await inquirer.prompt({
     type: 'input',
     name: 'contractName',
-    message: prompts.SETUP_NAME,
+    message: strings.SETUP_NAME,
     validate: (input: string) => {
       try {
         contractNameSchema.parse(input);
@@ -116,7 +116,7 @@ export const buildFolderPrompt = async (): Promise<string> => {
   const { buildFolderPath } = await inquirer.prompt({
     type: 'input',
     name: 'buildFolderPath',
-    message: prompts.BUILD_FOLDER,
+    message: strings.BUILD_FOLDER,
     validate: (input: string) => {
       const fullPath = path.join(process.cwd(), input);
       if (fs.existsSync(fullPath) && fs.lstatSync(fullPath).isDirectory()) {

@@ -4,7 +4,10 @@ import { beforeEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { tenderlyKeyHandler } from '~/commands/settings/handlers/tenderlyKeyHandler';
 
 import * as keys from '~/lib/keys';
+import * as strings from '~/lib/constants';
 import * as prompts from '~/lib/prompts.js';
+
+import { mockTenderlySettings } from './mocks';
 
 vi.mock('~/lib/keys');
 
@@ -20,32 +23,23 @@ describe('tenderlyKeyHandler', () => {
   });
 
   it('should prompt and store a new key if no existing key is found and none provided', async () => {
-    const newSettings: TenderlySettings = {
-      tenderlyKey: 'new-key',
-      tenderlyProject: 'new-project',
-      tenderlyUsername: 'new-username',
-    };
-
     vi.spyOn(keys, 'getTenderlySettings').mockResolvedValue(null);
-    vi.spyOn(prompts, 'tenderlyPrompt').mockResolvedValue(newSettings);
+    vi.spyOn(prompts, 'tenderlyPrompt').mockResolvedValue(mockTenderlySettings);
 
     await tenderlyKeyHandler();
-    expect(keys.setTenderlySettings).toHaveBeenCalledWith(newSettings);
+    expect(keys.setTenderlySettings).toHaveBeenCalledWith(mockTenderlySettings);
   });
 
   it('should prompt and store new settings if an existing key is found and user confirms', async () => {
-    const existingSettings: TenderlySettings = {
-      tenderlyKey: 'existing-key',
-      tenderlyProject: 'existing-project',
-      tenderlyUsername: 'existing-username',
-    };
     const newSettings: TenderlySettings = {
       tenderlyKey: 'new-key',
       tenderlyProject: 'new-project',
       tenderlyUsername: 'new-username',
     };
 
-    vi.spyOn(keys, 'getTenderlySettings').mockResolvedValue(existingSettings);
+    vi.spyOn(keys, 'getTenderlySettings').mockResolvedValue(
+      mockTenderlySettings,
+    );
     vi.spyOn(prompts, 'confirmPrompt').mockResolvedValue(true);
     vi.spyOn(prompts, 'tenderlyPrompt').mockResolvedValue(newSettings);
 
@@ -54,13 +48,9 @@ describe('tenderlyKeyHandler', () => {
   });
 
   it('should exit the process if an existing key is found and user declines', async () => {
-    const existingSettings: TenderlySettings = {
-      tenderlyKey: 'existing-key',
-      tenderlyProject: 'existing-project',
-      tenderlyUsername: 'existing-username',
-    };
-
-    vi.spyOn(keys, 'getTenderlySettings').mockResolvedValue(existingSettings);
+    vi.spyOn(keys, 'getTenderlySettings').mockResolvedValue(
+      mockTenderlySettings,
+    );
     vi.spyOn(prompts, 'confirmPrompt').mockResolvedValue(false);
     vi.spyOn(process, 'exit').mockImplementation(mockFunction);
 
@@ -69,16 +59,10 @@ describe('tenderlyKeyHandler', () => {
   });
 
   it('should store the provided settings if no existing key is found and one is provided', async () => {
-    const providedSettings: TenderlySettings = {
-      tenderlyKey: 'provided-key',
-      tenderlyProject: 'provided-project',
-      tenderlyUsername: 'provided-username',
-    };
-
     vi.spyOn(keys, 'getTenderlySettings').mockResolvedValue(null);
-    await tenderlyKeyHandler(providedSettings);
+    await tenderlyKeyHandler(mockTenderlySettings);
 
-    expect(keys.setTenderlySettings).toHaveBeenCalledWith(providedSettings);
+    expect(keys.setTenderlySettings).toHaveBeenCalledWith(mockTenderlySettings);
   });
 
   return Promise.resolve();
