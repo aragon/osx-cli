@@ -4,7 +4,6 @@ import { beforeEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { tenderlyKeyHandler } from '~/commands/settings/handlers/tenderlyKeyHandler';
 
 import * as keys from '~/lib/keys';
-import * as strings from '~/lib/constants';
 import * as prompts from '~/lib/prompts.js';
 
 import { mockTenderlySettings } from './mocks';
@@ -15,7 +14,7 @@ describe('tenderlyKeyHandler', () => {
   const mockFunction = (() => {}) as any as () => never;
 
   beforeAll(() => {
-    console.log = vi.fn(); // suppress console.log
+    console.log = vi.fn();
   });
 
   beforeEach(() => {

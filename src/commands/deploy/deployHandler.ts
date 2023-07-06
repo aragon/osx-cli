@@ -34,6 +34,7 @@ export const deployHandler: (...args: any[]) => void | Promise<void> = async (
     // Find contract
     contract = contract ?? (await contractNamePrompt());
     const contractBuild = findContractBuild(contract) as ContractArtifact;
+
     if (!contractBuild)
       exitWithMessage(strings.CONTRACT_BUILD_NOT_FOUND(contract));
 
@@ -45,7 +46,7 @@ export const deployHandler: (...args: any[]) => void | Promise<void> = async (
     }
 
     // Display info
-    console.table({ contract, buildPath, network: chosenNetwork.name });
+    console.table({ contract, buildPath, chain: chosenNetwork.name });
 
     // Simulate deployment
     simulate = simulate ?? (await confirmPrompt(strings.SIMULATE_DEPLOYMENT));
@@ -61,7 +62,6 @@ export const deployHandler: (...args: any[]) => void | Promise<void> = async (
     console.log(strings.DEPLOYED(contract, address, chosenNetwork.name));
     console.log(strings.EXPLORER(chosenNetwork.explorer, txHash));
   } catch (error) {
-    // Handling any unexpected errors here
     console.error(error);
     exitWithMessage(strings.DEPLOYMENT_FAILED);
   }
