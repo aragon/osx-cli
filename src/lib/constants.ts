@@ -39,7 +39,8 @@ export const strings = {
   PRIVATE_KEY_NOT_FOUND: error(
     'No private key found. Please use the "new" command to store a private key.',
   ),
-  SETUP_NAME: success('Please enter the name of the Setup Contract:'),
+  PROCEED_WITH_DEPLOYMENT: warning('Do you want to proceed with the deployment of your contract?'),
+  SETUP_NAME: success(`Please enter the name of your Plugin's Setup Contract (i.e. TestSetup)`),
   SIMULATE_DEPLOYMENT: warning('Do you want to simulate the deployment?'),
   TENDERLY_KEY: success('Please enter a Tenderly key:'),
   TENDERLY_NOT_FOUND: error(

@@ -53,7 +53,7 @@ export const deployHandler: (...args: any[]) => void | Promise<void> = async (
     if (simulate) await simulateDeployment(contractBuild, chosenNetwork.id);
 
     // Deploy
-    if (!(await confirmPrompt('Proceed?'))) exitWithMessage(strings.ABORTED);
+    if (!(await confirmPrompt(strings.PROCEED_WITH_DEPLOYMENT))) exitWithMessage(strings.ABORTED);
     const { address, txHash } = await deployContract(
       chosenNetwork.url,
       contractBuild,

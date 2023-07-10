@@ -109,7 +109,7 @@ export const simulateDeployment = async (
       wallet?.connect(forkProvider),
     );
 
-    await contract.deploy();
+    await contract.deploy({gasLimit: 8000000});
     spinnerSuccess('Simulation complete');
     console.log(`\n🧪 Simulation: ${warning(forkUrl)}`);
   } catch (error) {
