@@ -5,7 +5,7 @@ npm-debug.log*
 
 # Dependencies
 node_modules/
-
+.env
 # Coverage
 coverage
 

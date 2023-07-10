@@ -1,12 +1,20 @@
+import fs from 'fs';
+import path from 'path';
 import inquirer from 'inquirer';
-import { privateKeySchema, tenderlyKeySchema } from './keys.js';
 import { ZodError } from 'zod';
+import { Network, TenderlySettings } from 'src/types';
+import {
+  contractNameSchema,
+  privateKeySchema,
+  tenderlyKeySchema,
+} from './schemas.js';
+import { networks, strings, success } from './constants';
 
 export const confirmPrompt = async (message: string): Promise<boolean> => {
   const { data } = await inquirer.prompt({
     type: 'confirm',
     name: 'data',
-    message,
+    message: success(message),
   });
 
   return data;
@@ -16,7 +24,7 @@ export const privateKeyPrompt = async (): Promise<string> => {
   const { data } = await inquirer.prompt({
     type: 'password',
     name: 'data',
-    message: 'Please enter a private key:',
+    message: strings.PRIVATE_KEY,
     validate: (input: string) => {
       try {
         privateKeySchema.parse(input);
@@ -33,14 +41,64 @@ export const privateKeyPrompt = async (): Promise<string> => {
   return data;
 };
 
-export const tenderlyKeyPrompt = async (): Promise<string> => {
-  const { data } = await inquirer.prompt({
-    type: 'password',
-    name: 'data',
-    message: 'Please enter a Tenderly key:',
+export const tenderlyPrompt = async (): Promise<TenderlySettings> => {
+  const { tenderlyUsername, tenderlyProject, tenderlyKey } =
+    await inquirer.prompt([
+      {
+        type: 'input',
+        name: 'tenderlyUsername',
+        message: strings.TENDERLY_USERNAME,
+        validate: (input: string) => !!input || 'Username cannot be empty',
+      },
+      {
+        type: 'input',
+        name: 'tenderlyProject',
+        message: strings.TENDERLY_PROJECT,
+        validate: (input: string) => !!input || 'Project name cannot be empty',
+      },
+      {
+        type: 'password',
+        name: 'tenderlyKey',
+        message: strings.TENDERLY_KEY,
+        validate: (input: string) => {
+          try {
+            tenderlyKeySchema.parse(input);
+            return true;
+          } catch (error) {
+            if (error instanceof ZodError) {
+              return error.errors[0].message;
+            }
+            return error;
+          }
+        },
+      },
+    ]);
+
+  return { tenderlyUsername, tenderlyProject, tenderlyKey };
+};
+
+export const networkSelectionPrompt = async (): Promise<Network> => {
+  const { selectedNetwork } = await inquirer.prompt({
+    type: 'list',
+    name: 'selectedNetwork',
+    message: strings.NETWORK_SELECTION,
+    choices: networks.map((network) => ({
+      name: network.name,
+      value: network,
+    })),
+  });
+
+  return selectedNetwork;
+};
+
+export const contractNamePrompt = async (): Promise<string> => {
+  const { contractName } = await inquirer.prompt({
+    type: 'input',
+    name: 'contractName',
+    message: strings.SETUP_NAME,
     validate: (input: string) => {
       try {
-        tenderlyKeySchema.parse(input);
+        contractNameSchema.parse(input);
         return true;
       } catch (error) {
         if (error instanceof ZodError) {
@@ -51,5 +109,23 @@ export const tenderlyKeyPrompt = async (): Promise<string> => {
     },
   });
 
-  return data;
+  return contractName;
+};
+
+export const buildFolderPrompt = async (): Promise<string> => {
+  const { buildFolderPath } = await inquirer.prompt({
+    type: 'input',
+    name: 'buildFolderPath',
+    message: strings.BUILD_FOLDER,
+    validate: (input: string) => {
+      const fullPath = path.join(process.cwd(), input);
+      if (fs.existsSync(fullPath) && fs.lstatSync(fullPath).isDirectory()) {
+        return true;
+      } else {
+        return 'The folder does not exist or is not a directory. Please enter a valid path relative to the current directory.';
+      }
+    },
+  });
+
+  return path.join(process.cwd(), buildFolderPath);
 };

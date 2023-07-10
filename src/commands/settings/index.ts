@@ -15,8 +15,7 @@ settings
 
 settings
   .command('set-tenderly')
-  .description('store a new tenderly key')
-  .argument('[tenderly-key]', 'Tenderly key for simulating transactions')
+  .description('store a new tenderly configuration')
   .action(tenderlyKeyHandler);
 
 settings

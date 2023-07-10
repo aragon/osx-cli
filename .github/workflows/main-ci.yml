@@ -40,10 +40,15 @@ jobs:
 
       - name: Run lint if the script is present
         run: yarn lint || echo "Lint script not found, skipping..."
-      
+
       - name: Run tests
         run: yarn test
-      
+        env:
+          TENDERLY_KEY: ${{ secrets.TENDERLY_KEY }}
+          TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
+          TENDERLY_USERNAME: ${{ secrets.TENDERLY_USERNAME }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+
       - name: Build the project if the build script is present
         run: yarn build || echo "Build script not found, skipping..."
         env:

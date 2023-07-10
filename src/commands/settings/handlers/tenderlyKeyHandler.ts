@@ -1,22 +1,25 @@
-import { getTenderlyKey, setTenderlyKey } from '~/lib/keys.js';
-import { messages } from '~/lib/constants.js';
-import { confirmPrompt, tenderlyKeyPrompt } from '~/lib/prompts.js';
+import { getTenderlySettings, setTenderlySettings } from '~/lib/keys.js';
+import { strings } from '~/lib/constants.js';
+
 import { viewHandler } from './viewHandler.js';
+import { TenderlySettings } from 'src/types/index.js';
+import { confirmPrompt, tenderlyPrompt } from '~/lib/prompts.js';
 
 export const tenderlyKeyHandler: (
   ...args: any[]
-) => void | Promise<void> = async (tenderlyKey: string) => {
-  const existingTenderlyKey = await getTenderlyKey();
+) => void | Promise<void> = async (tenderlyKeys: TenderlySettings) => {
+  const existingTenderlySettings: TenderlySettings | null =
+    await getTenderlySettings();
 
-  if (existingTenderlyKey) {
-    (await confirmPrompt(messages.OVERRIDE_TENDERLY))
-      ? (tenderlyKey = await tenderlyKeyPrompt())
+  if (existingTenderlySettings) {
+    (await confirmPrompt(strings.OVERRIDE_TENDERLY))
+      ? (tenderlyKeys = await tenderlyPrompt())
       : process.exit();
   } else {
-    tenderlyKey = tenderlyKey ? tenderlyKey : await tenderlyKeyPrompt();
+    tenderlyKeys = tenderlyKeys ? tenderlyKeys : await tenderlyPrompt();
   }
 
-  await setTenderlyKey(tenderlyKey);
+  await setTenderlySettings(tenderlyKeys);
 
   await viewHandler();
 };

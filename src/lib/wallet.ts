@@ -1,5 +1,4 @@
 import chalk from 'chalk';
-import qrcode from 'qrcode-terminal';
 import { Wallet, ethers } from 'ethers';
 import { getPrivateKey } from './keys.js';
 import { networks } from './constants.js';
@@ -16,12 +15,12 @@ export const displayWallet = async (): Promise<void> => {
   const address = wallet?.address ?? 'No wallet found';
   console.log('Wallet address:', chalk.green(address), '\n');
 
-  qrcode.generate(address);
-  console.log();
   for (const network of networks) {
     try {
-      const provider = new ethers.JsonRpcProvider(network.url);
-      const balance = ethers.formatEther(await provider.getBalance(address));
+      const provider = new ethers.providers.JsonRpcProvider(network.url);
+      const balance = ethers.utils.formatEther(
+        await provider.getBalance(address),
+      );
       console.log('📡 --- ' + network.name + ' ---- 📡 ');
       console.log('balance:', balance);
       console.log('nonce: ', await provider.getTransactionCount(address));

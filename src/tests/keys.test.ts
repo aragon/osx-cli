@@ -1,10 +1,5 @@
-import {
-  setPrivateKey,
-  setTenderlyKey,
-  getPrivateKey,
-  getTenderlyKey,
-} from './keys';
 import keytar from 'keytar';
+import { TenderlySettings } from 'src/types';
 import {
   beforeEach,
   beforeAll,
@@ -14,6 +9,12 @@ import {
   vi,
   SpyInstance,
 } from 'vitest';
+import {
+  setPrivateKey,
+  setTenderlySettings,
+  getPrivateKey,
+  getTenderlySettings,
+} from '~/lib/keys';
 
 vi.mock('keytar');
 
@@ -54,23 +55,45 @@ describe('Key management tests', () => {
     expect(setPasswordSpy).not.toHaveBeenCalled();
   });
 
-  it('should store the Tenderly key successfully', async () => {
-    const tenderlyKey = 'aBc123'.padEnd(32, '0'); // 32 alphanumeric characters
+  it('should store the Tenderly settings successfully', async () => {
+    const tenderlySettings: TenderlySettings = {
+      tenderlyKey: 'aBc123'.padEnd(32, '0'), // 32 alphanumeric characters
+      tenderlyProject: 'alice-project',
+      tenderlyUsername: 'alice',
+    };
+    const { tenderlyKey, tenderlyProject, tenderlyUsername } = tenderlySettings;
+
     setPasswordSpy.mockResolvedValue(undefined);
 
-    await setTenderlyKey(tenderlyKey);
+    await setTenderlySettings(tenderlySettings);
 
     expect(setPasswordSpy).toHaveBeenCalledWith(
       'aragon-cli',
       'tenderly-key',
       tenderlyKey,
     );
+
+    expect(setPasswordSpy).toHaveBeenCalledWith(
+      'aragon-cli',
+      'tenderly-project',
+      tenderlyProject,
+    );
+
+    expect(setPasswordSpy).toHaveBeenCalledWith(
+      'aragon-cli',
+      'tenderly-username',
+      tenderlyUsername,
+    );
   });
 
   it('should not store an invalid Tenderly key', async () => {
-    const tenderlyKey = 'invalidTenderlyKey';
+    const tenderlyKey: TenderlySettings = {
+      tenderlyKey: 'invalidTenderlyKey',
+      tenderlyProject: 'alice-project',
+      tenderlyUsername: 'alice',
+    };
 
-    await setTenderlyKey(tenderlyKey);
+    await setTenderlySettings(tenderlyKey);
 
     expect(setPasswordSpy).not.toHaveBeenCalled();
   });
@@ -85,14 +108,38 @@ describe('Key management tests', () => {
     expect(getPasswordSpy).toHaveBeenCalledWith('aragon-cli', 'private-key');
   });
 
-  it('should retrieve the Tenderly key', async () => {
-    const tenderlyKey = 'aBc123'.padEnd(32, '0');
-    getPasswordSpy.mockResolvedValue(tenderlyKey);
+  it('should retrieve the Tenderly settings', async () => {
+    const tenderlySettings: TenderlySettings = {
+      tenderlyKey: 'aBc123'.padEnd(32, '0'), // 32 alphanumeric characters
+      tenderlyProject: 'alice-project',
+      tenderlyUsername: 'alice',
+    };
 
-    const result = await getTenderlyKey();
+    getPasswordSpy.mockImplementation((service, account) => {
+      switch (account) {
+        case 'tenderly-key':
+          return Promise.resolve(tenderlySettings.tenderlyKey);
+        case 'tenderly-project':
+          return Promise.resolve(tenderlySettings.tenderlyProject);
+        case 'tenderly-username':
+          return Promise.resolve(tenderlySettings.tenderlyUsername);
+        default:
+          return Promise.resolve(null);
+      }
+    });
 
-    expect(result).toBe(tenderlyKey);
+    const result = await getTenderlySettings();
+
+    expect(result).toEqual(tenderlySettings);
     expect(getPasswordSpy).toHaveBeenCalledWith('aragon-cli', 'tenderly-key');
+    expect(getPasswordSpy).toHaveBeenCalledWith(
+      'aragon-cli',
+      'tenderly-project',
+    );
+    expect(getPasswordSpy).toHaveBeenCalledWith(
+      'aragon-cli',
+      'tenderly-username',
+    );
   });
 
   it('should log Zod error for invalid private key', async () => {
@@ -103,8 +150,12 @@ describe('Key management tests', () => {
   });
 
   it('should log Zod error for invalid Tenderly key', async () => {
-    const tenderlyKey = 'invalidTenderlyKey';
-    await setTenderlyKey(tenderlyKey);
+    const tenderlyKey: TenderlySettings = {
+      tenderlyKey: 'invalidTenderlyKey',
+      tenderlyProject: 'alice-project',
+      tenderlyUsername: 'alice',
+    };
+    await setTenderlySettings(tenderlyKey);
     expect(consoleErrorSpy).toHaveBeenCalled();
     expect(setPasswordSpy).not.toHaveBeenCalled();
   });
@@ -117,9 +168,13 @@ describe('Key management tests', () => {
   });
 
   it('should log error if setTenderlyKey fails for other reason', async () => {
-    const tenderlyKey = 'aBc123'.padEnd(32, '0');
+    const tenderlyKey: TenderlySettings = {
+      tenderlyKey: 'invalidTenderlyKey',
+      tenderlyProject: 'alice-project',
+      tenderlyUsername: 'alice',
+    };
     setPasswordSpy.mockRejectedValue(new Error('failed'));
-    await setTenderlyKey(tenderlyKey);
+    await setTenderlySettings(tenderlyKey);
     expect(consoleErrorSpy).toHaveBeenCalled();
   });
 
@@ -131,7 +186,7 @@ describe('Key management tests', () => {
 
   it('should handle null return from getPassword for Tenderly key', async () => {
     getPasswordSpy.mockResolvedValue(null);
-    const result = await getTenderlyKey();
+    const result = await getTenderlySettings();
     expect(result).toBeNull();
   });
 });
