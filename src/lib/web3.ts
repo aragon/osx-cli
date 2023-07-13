@@ -1,6 +1,6 @@
-import { Wallet, ethers } from 'ethers';
+import { ContractTransaction, Wallet, ethers } from 'ethers';
 import axios from 'axios';
-
+import { PluginRepoFactory__factory, PluginRepoRegistry__factory, activeContractsList } from '@aragon/osx-ethers';
 import { getWallet } from './wallet';
 import { getTenderlySettings } from './keys';
 import { exitWithMessage, networks, strings, warning } from './constants';
@@ -11,12 +11,15 @@ import {
   updateSpinnerText,
 } from './spinners';
 import {
+  Address,
   ContractArtifact,
   ContractDeploymentResult,
   ForkResult,
   Network,
   TenderlySettings,
 } from 'src/types';
+import { toHex } from './ipfs';
+import { Interface, LogDescription } from 'ethers/lib/utils';
 
 /**
  * Deploys a contract to a specified network and returns the contract address and transaction hash.
@@ -109,13 +112,104 @@ export const simulateDeployment = async (
       wallet?.connect(forkProvider),
     );
 
-    await contract.deploy({gasLimit: 8000000});
+    await contract.deploy({ gasLimit: 8000000 });
     spinnerSuccess('Simulation complete');
     console.log(`\n🧪 Simulation: ${warning(forkUrl)}`);
   } catch (error) {
     const e = error as Error;
     console.error(e.message);
     spinnerError('Failed to simulate deployment');
+    process.exit(1);
+  }
+};
+
+export const simulatePublish = async (
+  setupContract: Address,
+  network: Network,
+  subdomain: string,
+  maintainer: Address,
+) => {
+  const { forkUrl, forkProvider } = await tenderlyFork(network.id);
+
+  try {
+    updateSpinnerText('Simulating Publishing...');
+    let wallet = await getWallet();
+    wallet = wallet?.connect(forkProvider) as Wallet;
+
+    const iFace = new ethers.utils.Interface(PluginRepoFactory__factory.abi);
+
+    await wallet.sendTransaction({
+      from: wallet.address,
+      to: activeContractsList[network.name].PluginRepoFactory,
+      data: iFace.encodeFunctionData('createPluginRepoWithFirstVersion', [
+        subdomain,
+        setupContract,
+        maintainer,
+        '0x00',
+        '0x00',
+      ]),
+      gasLimit: 10_000_000,
+    });
+
+    spinnerSuccess('Simulation complete');
+    console.log(`\n🧪 Simulation: ${warning(forkUrl)}`);
+  } catch (error) {
+    const e = error as Error;
+    console.error(e.message);
+    spinnerError('Failed to simulate deployment');
+    process.exit(1);
+  }
+};
+
+export const publish = async (
+  setupContract: Address,
+  subdomain: string,
+  maintainer: Address,
+  buildCID: string,
+  releaseCID: string,
+  network: Network,
+) => {
+
+
+  try {
+    updateSpinnerText('Publishing...');
+    let wallet = await getWallet();
+    const provider = new ethers.providers.JsonRpcProvider(network.url);
+    wallet = wallet?.connect(provider) as Wallet;
+
+
+    const repoFactory = PluginRepoFactory__factory.connect(
+      activeContractsList[network.name].PluginRepoFactory,
+      wallet,
+    );
+
+    const tx = await repoFactory.createPluginRepoWithFirstVersion(
+      subdomain,
+      setupContract,
+      maintainer,
+      toHex(`ipfs://${releaseCID}`),
+      toHex(`ipfs://${buildCID}`),
+    );
+
+    const eventLog = await findEventTopicLog(
+      tx,
+      PluginRepoRegistry__factory.createInterface(),
+      "PluginRepoRegistered"
+    );
+
+    if (!eventLog) {
+      console.error("No event log found");
+    }
+    
+    const receipt = await tx.wait();
+
+    spinnerSuccess('Publishing complete');
+    return {txHash: receipt.transactionHash, address: eventLog.args?.pluginRepo ?? "not found"};
+
+  } catch (error) {
+    const e = error as Error;
+    console.error(e.message);
+    spinnerError('Failed to Publish Repo');
     process.exit(1);
   }
 };
@@ -158,3 +252,18 @@ export const findNetworkByName = (name: string): Network => {
 
   return network as Network;
 };
+
+
+export async function findEventTopicLog(
+  tx: ContractTransaction,
+  iface: Interface,
+  eventName: string
+): Promise<LogDescription> {
+  const receipt = await tx.wait();
+  const topic = iface.getEventTopic(eventName);
+  const log = receipt.logs.find(x => x.topics[0] == topic);
+  if (!log) {
+    throw new Error(`No logs found for this event ${eventName} topic.`);
+  }
+  return iface.parseLog(log);
+}

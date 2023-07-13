@@ -15,12 +15,14 @@ export const strings = {
   BUILD_FOLDER: success(
     `Build Folder not detected. \nPlease enter the name of the build folder:`,
   ),
+  CONFIRM_PUBLISH: warning('Do you want to publish your plugin?'),
   CONTRACT_BUILD_NOT_FOUND: (contract: string) =>
     error(`${contract}.sol build not found, did you compile?`),
+  BUILD_METADATA_PROMPT: `Select your ${chalk.blue('Build metadata')} file:`,
   DEPLOYED: (contract: string, address: string | undefined, network: string) =>
     `\n\n🎉 ${chalk.greenBright.bold(
       contract,
-    )}.sol: deployed to ${address} on ${chalk.green.bold(network)}`,
+    )}: deployed to ${address} on ${chalk.green.bold(network)}`,
   DEPLOYMENT_FAILED: error('Contract deployment failed'),
   ENABLED: chalk.green('enabled'),
   EXPLORER: (explorer: string, txHash: string | undefined) =>
@@ -40,6 +42,7 @@ export const strings = {
     'No private key found. Please use the "new" command to store a private key.',
   ),
   PROCEED_WITH_DEPLOYMENT: warning('Do you want to proceed with the deployment of your contract?'),
+  RELEASE_METADATA_PROMPT: `Select your ${chalk.blue('Release metadata')} file:`,
   SETUP_NAME: success(`Please enter the name of your Plugin's Setup Contract (i.e. TestSetup)`),
   SIMULATE_DEPLOYMENT: warning('Do you want to simulate the deployment?'),
   TENDERLY_KEY: success('Please enter a Tenderly key:'),
