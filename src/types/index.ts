@@ -1,7 +1,11 @@
 import { BytesLike } from 'ethers';
-import { ZodIssue, z } from 'zod'
+import { ZodIssue, z } from 'zod';
 import { activeContractsList } from '@aragon/osx-ethers';
-import { buildMetadataSchema, ethereumAddressSchema, releaseMetadataSchema } from '~/lib/schemas';
+import {
+  buildMetadataSchema,
+  ethereumAddressSchema,
+  releaseMetadataSchema,
+} from '~/lib/schemas';
 
 export interface ContractArtifact {
   abi: any;
@@ -38,8 +42,6 @@ export type ContractDeploymentResult = {
 
 export type Address = z.infer<typeof ethereumAddressSchema>;
 
-
-
 export type BuildMetadata = z.infer<typeof buildMetadataSchema>;
 export type ReleaseMetadata = z.infer<typeof releaseMetadataSchema>;
 
@@ -49,3 +51,12 @@ export type CustomZodError = ZodIssue & {
   expected?: string;
   received?: string;
 };
+
+export interface PublishOptions {
+  subdomain?: string;
+  build?: string;
+  release?: string;
+  network?: AllowedNetworks;
+  maintainer?: string;
+  simulate?: boolean;
+}
