@@ -8,7 +8,6 @@ import { publish } from './commands/publish/index.js';
 
 dotenv.config();
 
-
 const program = new Command();
 program.description('Aragon OSx CLI');
 program.version('0.0.0');
