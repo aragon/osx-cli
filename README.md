@@ -24,13 +24,13 @@ You can install the Aragon OSx CLI globally via npm:
 npm install -g @aragon/cli
 ```
 
-and then run commands with
+Then, you will be able to run commands using this format:
 
 ```bash
 aragon [command] [options]
 ```
 
-Or use it without installing by using npx:
+Alternatively - you can use the CLI without installing it locally in your device, by using npx:
 
 ```bash
 npx @aragon/cli [command] [options]
@@ -38,16 +38,16 @@ npx @aragon/cli [command] [options]
 
 ## Commands
 
-The Aragon OSx CLI contains several commands to help you develop plugins. All arguments are optional, each command will prompt for any arguments or omitted in the command line.
+The Aragon OSx CLI contains several commands to help you develop plugins. All arguments are optional, each command will prompt for any arguments that were omitted in the command line.
 
-### `aragon deploy`
+### `deploy`
 
-The deploy command deploys a Plugin Setup contract.
+The deploy command deploys your Plugin Setup contract to whichever chain you determine.
 
-Usage
+**Usage**
 
 ```bash
-aragon deploy [contract] [options]
+aragon deploy [contract-name] [options]
 ```
 
 Options
@@ -57,14 +57,14 @@ Options
 | -n, --network | Network to deploy to. Choices: mainnet, polygon, goerli, mumbai | mainnet |
 | -s, --simulate | Simulate deployment | |
 
-### `aragon publish`
+### `publish`
 
-The publish command publishes a plugin to a Plugin Repository
+"The publish command publishes your plugin to the Aragon OSx protocol. Under the hood, this is creating a PluginRepo instance for your plugin with its first version.
 
-Usage
+**Usage**
 
 ```bash
-aragon publish [contract] [options]
+aragon publish [contract-address] [options]
 ```
 
 Options
@@ -78,7 +78,7 @@ Options
 | -m, --maintainer | Maintainer address                                               | 0x...                 |
 | --simulate       | Simulate publishing                                              |                       |
 
-### `aragon settings set-pk`
+### `settings set-pk`
 
 Store a new private key for signing transactions.
 
@@ -86,15 +86,15 @@ Store a new private key for signing transactions.
 aragon settings set-pk [private-key]
 ```
 
-### `aragon settings set-tenderly`
+### `settings set-tenderly`
 
-Store a new Tenderly project/apikey configuration.
+Store a new Tenderly project and API key configuration.
 
 ```
-aragon settings set-tenderly
+settings set-tenderly
 ```
 
-### `aragon settings view`
+### `settings view`
 
 View current public key, private key hash, and Tenderly configuration.
 
