@@ -12,15 +12,17 @@ export const exitWithMessage = (message: string): void => {
 export const strings = {
   ABORTED: error('Aborted.'),
   BUILD_FOLDER: success(`Build Folder not detected. \nPlease enter the name of the build folder:`),
-  CONFIRM_PUBLISH: warning('Do you want to publish your plugin?'),
-  CONTRACT_BUILD_NOT_FOUND: (contract: string) => error(`${contract}.sol build not found, did you compile?`),
   BUILD_METADATA_PROMPT: `Select your ${chalk.blue('Build metadata')} file:`,
+  CONFIRM_PUBLISH: warning('Do you want to publish your plugin?'),
+  CONTRACT_ADDRESS: success('Please enter a contract address:'),
+  CONTRACT_BUILD_NOT_FOUND: (contract: string) => error(`${contract}.sol build not found, did you compile?`),
   DEPLOYED: (contract: string, address: string | undefined, network: string) =>
     `\n\n🎉 ${chalk.greenBright.bold(contract)}: deployed to ${address} on ${chalk.green.bold(network)}`,
   DEPLOYMENT_FAILED: error('Contract deployment failed'),
   ENABLED: chalk.green('enabled'),
   EXPLORER: (explorer: string, txHash: string | undefined) => success(`🔗 ${explorer}/tx/${txHash}`),
   FAILED_TO_RETRIEVE_KEYS: error('Failed to retrieve keys:'),
+  MAINTAINER_ADDRESS: success("Please enter a maintainer's address:"),
   NETWORK_SELECTION: success('Please select a network:'),
   NOT_NETWORK: (network: string | undefined) => error(`Network ${network} not found`),
   OVERRIDE_PK: warning(

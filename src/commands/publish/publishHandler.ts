@@ -30,12 +30,12 @@ export const publishHandler: (...args: any[]) => void | Promise<void> = async (
   validateRelease(options.release);
   validateNetwork(options.network);
 
-  const setupContract = contract ?? (await addressPrompt('Please enter a contract address:'));
+  const setupContract = contract ?? (await addressPrompt(strings.CONTRACT_ADDRESS));
   const subdomain = options.subdomain ?? (await subDomainPrompt());
   const build = options.build ?? (await buildMetadataPrompt());
   const release = options.release ?? (await releaseMetadataPrompt());
   const network = options.network ? findNetworkByName(options.network) : await networkSelectionPrompt();
-  const maintainer = options.maintainer ?? (await addressPrompt("Please enter a maintainer's address:"));
+  const maintainer = options.maintainer ?? (await addressPrompt(strings.MAINTAINER_ADDRESS));
 
   console.table({
     setupContract,
