@@ -30,9 +30,7 @@ export const ethereumAddressSchema = z.string().refine(
   },
 );
 
-// export const AllowedNetworksSchema = z.enum(Object.keys(activeContractsList) as const);
-
-const AllowedNetworksSchema = z.enum(Object.keys(activeContractsList));
+const AllowedNetworksSchema: z.ZodEnum<[string, ...string[]]> = z.enum(Object.keys(activeContractsList));
 
 export type AllowedNetworks = z.infer<typeof AllowedNetworksSchema>;
 
@@ -67,5 +65,6 @@ export const buildMetadataSchema = z.object({
 });
 
 export const subdomainSchema = z.string().regex(/^[a-z0-9-]+$/i, {
-  message: 'Subdomains can only contain alphanumeric characters and dashes.',
+  message:
+    'Subdomains can only contain alphanumeric characters and dashes. All letters should be lower cased.',
 });

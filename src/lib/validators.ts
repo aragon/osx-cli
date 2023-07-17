@@ -3,11 +3,11 @@ import { z } from 'zod';
 import { exitWithMessage, strings } from './constants';
 import { getPrivateKey } from './keys';
 import {
-  ethereumAddressSchema,
+  AllowedNetworks,
   buildMetadataSchema,
+  ethereumAddressSchema,
   releaseMetadataSchema,
   subdomainSchema,
-  AllowedNetworks,
 } from './schemas';
 
 /**
@@ -72,6 +72,11 @@ export const validateSubdomain = (subdomain: string | undefined): void => {
   if (!res.success) exitWithMessage(res.error.message);
 };
 
+/**
+ * Validates that the provided network is a valid allowed network.
+ *
+ * @param {AllowedNetworks | undefined} network - The network name to validate
+ */
 export const validateNetwork = (network: AllowedNetworks | undefined) => {
   if (typeof network === 'undefined') return;
 

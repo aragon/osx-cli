@@ -47,7 +47,6 @@ export const publishHandler: (...args: any[]) => void | Promise<void> = async (
   const simulate = options.simulate ?? (await confirmPrompt(strings.SIMULATE_DEPLOYMENT));
   if (simulate) await simulatePublish(setupContract, network, subdomain, maintainer);
 
-  // confirm publish
   const confirm = await confirmPrompt(strings.CONFIRM_PUBLISH);
   if (!confirm) exitWithMessage(strings.ABORTED);
 
