@@ -16,7 +16,93 @@
 
 Aragon OSx CLI is a command line tool supporting your plugin development process. It helps developers build, deploy, and publish plugins faster and easier.
 
-## Getting Started
+## Quick Start
+
+You can install the Aragon OSx CLI globally via npm:
+
+```bash
+npm install -g @aragon/cli
+```
+
+and then run commands with
+
+```bash
+aragon [command] [options]
+```
+
+Or use it without installing by using npx:
+
+```bash
+npx @aragon/cli [command] [options]
+```
+
+## Commands
+
+The Aragon OSx CLI contains several commands to help you develop plugins. All arguments are optional, each command will prompt for any arguments or omitted in the command line.
+
+### `aragon deploy`
+
+The deploy command deploys a Plugin Setup contract.
+
+Usage
+
+```bash
+aragon deploy [contract] [options]
+```
+
+Options
+| Option | Description | Example |
+|-|-|-|  
+| -b, --build | Full path to project build | /Users/main/plugin-repo/artifacts |
+| -n, --network | Network to deploy to. Choices: mainnet, polygon, goerli, mumbai | mainnet |
+| -s, --simulate | Simulate deployment | |
+
+### `aragon publish`
+
+The publish command publishes a plugin to a Plugin Repository
+
+Usage
+
+```bash
+aragon publish [contract] [options]
+```
+
+Options
+
+| Option           | Description                                                      | Example               |
+| ---------------- | ---------------------------------------------------------------- | --------------------- |
+| -n, --network    | Network to publish to. Choices: mainnet, polygon, goerli, mumbai | mainnet               |
+| -s, --subdomain  | Subdomain for plugin                                             | my-plugin             |
+| -b, --build      | Path to build metadata                                           | /path/to/build.json   |
+| -r, --release    | Path to release metadata                                         | /path/to/release.json |
+| -m, --maintainer | Maintainer address                                               | 0x...                 |
+| --simulate       | Simulate publishing                                              |                       |
+
+### `aragon settings set-pk`
+
+Store a new private key for signing transactions.
+
+```
+aragon settings set-pk [private-key]
+```
+
+### `aragon settings set-tenderly`
+
+Store a new Tenderly project/apikey configuration.
+
+```
+aragon settings set-tenderly
+```
+
+### `aragon settings view`
+
+View current public key, private key hash, and Tenderly configuration.
+
+```
+aragon settings view
+```
+
+## Developing the CLI
 
 This project is intended to be used with the latest Active LTS release of [Node.js](https://nodejs.org/en).
 
