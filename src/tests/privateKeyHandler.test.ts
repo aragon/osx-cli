@@ -50,9 +50,7 @@ describe('privateKeyHandler', () => {
 
   it('should store the provided private key if no existing key is found and one is provided', async () => {
     vi.spyOn(keys, 'getPrivateKey').mockResolvedValue(null);
-    vi.spyOn(prompts, 'privateKeyPrompt').mockResolvedValue(
-      'should-not-use-this',
-    );
+    vi.spyOn(prompts, 'privateKeyPrompt').mockResolvedValue('should-not-use-this');
     const viewHandlerSpy = vi.spyOn(viewHandlerModule, 'viewHandler');
     await privateKeyHandler('provided-private-key');
     expect(keys.setPrivateKey).toHaveBeenCalledWith('provided-private-key');

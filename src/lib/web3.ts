@@ -1,15 +1,14 @@
 import { ContractTransaction, Wallet, ethers } from 'ethers';
 import axios from 'axios';
-import { PluginRepoFactory__factory, PluginRepoRegistry__factory, activeContractsList } from '@aragon/osx-ethers';
+import {
+  PluginRepoFactory__factory,
+  PluginRepoRegistry__factory,
+  activeContractsList,
+} from '@aragon/osx-ethers';
 import { getWallet } from './wallet';
 import { getTenderlySettings } from './keys';
 import { exitWithMessage, networks, strings, warning } from './constants';
-import {
-  spinnerError,
-  spinnerSuccess,
-  stopSpinner,
-  updateSpinnerText,
-} from './spinners';
+import { spinnerError, spinnerSuccess, stopSpinner, updateSpinnerText } from './spinners';
 import {
   Address,
   ContractArtifact,
@@ -70,8 +69,7 @@ export const tenderlyFork = async (networkId = '1'): Promise<ForkResult> => {
     (await getTenderlySettings()) as TenderlySettings;
 
   // If any of the tenderly settings are missing, exit
-  if (!tenderlyKey || !tenderlyUsername || !tenderlyProject)
-    exitWithMessage('Tenderly settings not found');
+  if (!tenderlyKey || !tenderlyUsername || !tenderlyProject) exitWithMessage('Tenderly settings not found');
 
   const fork = await axios.post(
     `https://api.tenderly.co/api/v1/account/${tenderlyUsername}/project/${tenderlyProject}/fork`,
@@ -169,14 +167,11 @@ export const publish = async (
   releaseCID: string,
   network: Network,
 ) => {
-
-
   try {
     updateSpinnerText('Publishing...');
     let wallet = await getWallet();
     const provider = new ethers.providers.JsonRpcProvider(network.url);
     wallet = wallet?.connect(provider) as Wallet;
-
 
     const repoFactory = PluginRepoFactory__factory.connect(
       activeContractsList[network.name].PluginRepoFactory,
@@ -194,18 +189,17 @@ export const publish = async (
     const eventLog = await findEventTopicLog(
       tx,
       PluginRepoRegistry__factory.createInterface(),
-      "PluginRepoRegistered"
+      'PluginRepoRegistered',
     );
 
     if (!eventLog) {
-      console.error("No event log found");
+      console.error('No event log found');
     }
-    
+
     const receipt = await tx.wait();
 
     spinnerSuccess('Publishing complete');
-    return {txHash: receipt.transactionHash, address: eventLog.args?.pluginRepo ?? "not found"};
-
+    return { txHash: receipt.transactionHash, address: eventLog.args?.pluginRepo ?? 'not found' };
   } catch (error) {
     const e = error as Error;
     console.error(e.message);
@@ -253,15 +247,14 @@ export const findNetworkByName = (name: string): Network => {
   return network as Network;
 };
 
-
 export async function findEventTopicLog(
   tx: ContractTransaction,
   iface: Interface,
-  eventName: string
+  eventName: string,
 ): Promise<LogDescription> {
   const receipt = await tx.wait();
   const topic = iface.getEventTopic(eventName);
-  const log = receipt.logs.find(x => x.topics[0] == topic);
+  const log = receipt.logs.find((x) => x.topics[0] == topic);
   if (!log) {
     throw new Error(`No logs found for this event ${eventName} topic.`);
   }

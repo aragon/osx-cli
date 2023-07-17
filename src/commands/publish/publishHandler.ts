@@ -30,17 +30,12 @@ export const publishHandler: (...args: any[]) => void | Promise<void> = async (
   validateRelease(options.release);
   validateNetwork(options.network);
 
-  const setupContract =
-    contract ?? (await addressPrompt('Please enter a contract address:'));
+  const setupContract = contract ?? (await addressPrompt('Please enter a contract address:'));
   const subdomain = options.subdomain ?? (await subDomainPrompt());
   const build = options.build ?? (await buildMetadataPrompt());
   const release = options.release ?? (await releaseMetadataPrompt());
-  const network = options.network
-    ? findNetworkByName(options.network)
-    : await networkSelectionPrompt();
-  const maintainer =
-    options.maintainer ??
-    (await addressPrompt("Please enter a maintainer's address:"));
+  const network = options.network ? findNetworkByName(options.network) : await networkSelectionPrompt();
+  const maintainer = options.maintainer ?? (await addressPrompt("Please enter a maintainer's address:"));
 
   console.table({
     setupContract,
@@ -49,10 +44,8 @@ export const publishHandler: (...args: any[]) => void | Promise<void> = async (
     maintainer,
   });
 
-  const simulate =
-    options.simulate ?? (await confirmPrompt(strings.SIMULATE_DEPLOYMENT));
-  if (simulate)
-    await simulatePublish(setupContract, network, subdomain, maintainer);
+  const simulate = options.simulate ?? (await confirmPrompt(strings.SIMULATE_DEPLOYMENT));
+  if (simulate) await simulatePublish(setupContract, network, subdomain, maintainer);
 
   // confirm publish
   const confirm = await confirmPrompt(strings.CONFIRM_PUBLISH);
@@ -71,9 +64,7 @@ export const publishHandler: (...args: any[]) => void | Promise<void> = async (
       network,
     );
 
-    console.log(
-      strings.DEPLOYED(`${subdomain}.plugin.dao.eth`, address, network.name),
-    );
+    console.log(strings.DEPLOYED(`${subdomain}.plugin.dao.eth`, address, network.name));
     console.log(strings.EXPLORER(network.explorer, txHash));
   } catch (error) {
     const e = error as Error;

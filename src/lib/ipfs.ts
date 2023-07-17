@@ -17,10 +17,7 @@ export function toHex(input: string): BytesLike {
   return ethers.utils.hexlify(ethers.utils.toUtf8Bytes(input));
 }
 
-export async function uploadMetadata(
-  build: any,
-  type: string,
-): Promise<string> {
+export async function uploadMetadata(build: any, type: string): Promise<string> {
   updateSpinnerText(`Uploading ${type} Metadata...`);
   const cid = await uploadToIPFS(JSON.stringify(build, null, 2));
   spinnerSuccess(`${type} Metadata: https://ipfs.io/ipfs/${cid}`);

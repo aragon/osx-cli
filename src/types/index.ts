@@ -1,11 +1,7 @@
 import { BytesLike } from 'ethers';
 import { ZodIssue, z } from 'zod';
 import { activeContractsList } from '@aragon/osx-ethers';
-import {
-  buildMetadataSchema,
-  ethereumAddressSchema,
-  releaseMetadataSchema,
-} from '~/lib/schemas';
+import { buildMetadataSchema, ethereumAddressSchema, releaseMetadataSchema } from '~/lib/schemas';
 
 export interface ContractArtifact {
   abi: any;

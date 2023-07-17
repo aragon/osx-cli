@@ -38,9 +38,7 @@ export const validateAddress = (contract: Address | undefined): void => {
  * @param {BuildMetadata | undefined} build - The BuildMetadata object to be validated.
  * @returns {void} If build is undefined, immediately returns. If validation fails, calls exitWithMessage function with the error message.
  */
-export const validateBuild = (
-  build: BuildMetadata | string | undefined,
-): void => {
+export const validateBuild = (build: BuildMetadata | string | undefined): void => {
   if (typeof build === 'undefined') return;
   if (typeof build === 'string') console.log('TO DO!'); // TODO:
   const res = buildMetadataSchema.safeParse(build);
@@ -53,9 +51,7 @@ export const validateBuild = (
  * @param {ReleaseMetadata | undefined} release - The ReleaseMetadata object to be validated.
  * @returns {void} If release is undefined, immediately returns. If validation fails, calls exitWithMessage function with the error message.
  */
-export const validateRelease = (
-  release: ReleaseMetadata | string | undefined,
-): void => {
+export const validateRelease = (release: ReleaseMetadata | string | undefined): void => {
   if (typeof release === 'undefined') return;
   if (typeof release === 'string') console.log('TODO: NOT IMPLEMENTED'); // TODO:
   const res = releaseMetadataSchema.safeParse(release);

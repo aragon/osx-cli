@@ -36,9 +36,7 @@ export const setPrivateKey = async (privateKey: string): Promise<void> => {
  * @returns {Promise<void>} A Promise that resolves when the operation completes.
  * @throws Will throw an error if the Tenderly settings do not conform to the schema or if the storage operation fails.
  */
-export const setTenderlySettings = async (
-  tenderlySettings: TenderlySettings,
-): Promise<void> => {
+export const setTenderlySettings = async (tenderlySettings: TenderlySettings): Promise<void> => {
   const { tenderlyKey, tenderlyProject, tenderlyUsername } = tenderlySettings;
   try {
     tenderlyKeySchema.parse(tenderlyKey);
@@ -69,25 +67,24 @@ export const getPrivateKey = async (): Promise<string | null> => {
  * @returns {Promise<TenderlySettings | null>} A promise that resolves to an object containing tenderly settings (key, project, and username) or null if any of them is missing.
  * @throws Will throw an error if there was an issue retrieving the keys.
  */
-export const getTenderlySettings =
-  async (): Promise<TenderlySettings | null> => {
-    try {
-      const tenderlyKey = await getKey(accountTenderlyKey);
-      const tenderlyProject = await getKey(accountTenderlyProject);
-      const tenderlyUsername = await getKey(accountTenderlyUsername);
+export const getTenderlySettings = async (): Promise<TenderlySettings | null> => {
+  try {
+    const tenderlyKey = await getKey(accountTenderlyKey);
+    const tenderlyProject = await getKey(accountTenderlyProject);
+    const tenderlyUsername = await getKey(accountTenderlyUsername);
 
-      if (!tenderlyKey || !tenderlyProject || !tenderlyUsername) return null;
+    if (!tenderlyKey || !tenderlyProject || !tenderlyUsername) return null;
 
-      return {
-        tenderlyKey,
-        tenderlyProject,
-        tenderlyUsername,
-      };
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  };
+    return {
+      tenderlyKey,
+      tenderlyProject,
+      tenderlyUsername,
+    };
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
 
 const getKey = async (key: string) => {
   return keytar.getPassword(service, key);

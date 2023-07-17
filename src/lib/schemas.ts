@@ -5,19 +5,13 @@ import { activeContractsList } from '@aragon/osx-ethers';
 export const privateKeySchema = z
   .string()
   .length(64, 'Private key must be exactly 64 characters long.')
-  .regex(
-    /^[a-fA-F0-9]*$/,
-    'Private key must only contain hexadecimal characters.',
-  );
+  .regex(/^[a-fA-F0-9]*$/, 'Private key must only contain hexadecimal characters.');
 
 // Define the schema for the Tenderly key
 export const tenderlyKeySchema = z
   .string()
   .length(32, 'Tenderly key must be exactly 32 characters long.')
-  .regex(
-    /^[a-zA-Z0-9-]*$/,
-    'Tenderly key must only contain numbers and letters.',
-  );
+  .regex(/^[a-zA-Z0-9-]*$/, 'Tenderly key must only contain numbers and letters.');
 
 export const contractNameSchema = z
   .string()
@@ -25,8 +19,6 @@ export const contractNameSchema = z
   .regex(/^[a-zA-Z0-9]*$/, {
     message: 'Contract name can only contain numbers and letters.',
   });
-
-
 
 export const ethereumAddressSchema = z.string().refine(
   (value) => {
@@ -40,12 +32,9 @@ export const ethereumAddressSchema = z.string().refine(
 
 // export const AllowedNetworksSchema = z.enum(Object.keys(activeContractsList) as const);
 
-
 const AllowedNetworksSchema = z.enum(Object.keys(activeContractsList));
 
-
 export type AllowedNetworks = z.infer<typeof AllowedNetworksSchema>;
-
 
 export const releaseMetadataSchema = z.object({
   name: z.string(),
@@ -76,7 +65,6 @@ export const buildMetadataSchema = z.object({
   change: z.string(),
   pluginSetup: pluginSetupSchema,
 });
-
 
 export const subdomainSchema = z.string().regex(/^[a-z0-9-]+$/i, {
   message: 'Subdomains can only contain alphanumeric characters and dashes.',

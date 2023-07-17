@@ -1,20 +1,7 @@
 import keytar from 'keytar';
 import { TenderlySettings } from 'src/types';
-import {
-  beforeEach,
-  beforeAll,
-  describe,
-  expect,
-  it,
-  vi,
-  SpyInstance,
-} from 'vitest';
-import {
-  setPrivateKey,
-  setTenderlySettings,
-  getPrivateKey,
-  getTenderlySettings,
-} from '~/lib/keys';
+import { beforeEach, beforeAll, describe, expect, it, vi, SpyInstance } from 'vitest';
+import { setPrivateKey, setTenderlySettings, getPrivateKey, getTenderlySettings } from '~/lib/keys';
 
 vi.mock('keytar');
 
@@ -40,11 +27,7 @@ describe('Key management tests', () => {
 
     await setPrivateKey(privateKey);
 
-    expect(setPasswordSpy).toHaveBeenCalledWith(
-      'aragon-cli',
-      'private-key',
-      privateKey,
-    );
+    expect(setPasswordSpy).toHaveBeenCalledWith('aragon-cli', 'private-key', privateKey);
   });
 
   it('should not store an invalid private key', async () => {
@@ -67,23 +50,11 @@ describe('Key management tests', () => {
 
     await setTenderlySettings(tenderlySettings);
 
-    expect(setPasswordSpy).toHaveBeenCalledWith(
-      'aragon-cli',
-      'tenderly-key',
-      tenderlyKey,
-    );
+    expect(setPasswordSpy).toHaveBeenCalledWith('aragon-cli', 'tenderly-key', tenderlyKey);
 
-    expect(setPasswordSpy).toHaveBeenCalledWith(
-      'aragon-cli',
-      'tenderly-project',
-      tenderlyProject,
-    );
+    expect(setPasswordSpy).toHaveBeenCalledWith('aragon-cli', 'tenderly-project', tenderlyProject);
 
-    expect(setPasswordSpy).toHaveBeenCalledWith(
-      'aragon-cli',
-      'tenderly-username',
-      tenderlyUsername,
-    );
+    expect(setPasswordSpy).toHaveBeenCalledWith('aragon-cli', 'tenderly-username', tenderlyUsername);
   });
 
   it('should not store an invalid Tenderly key', async () => {
@@ -132,14 +103,8 @@ describe('Key management tests', () => {
 
     expect(result).toEqual(tenderlySettings);
     expect(getPasswordSpy).toHaveBeenCalledWith('aragon-cli', 'tenderly-key');
-    expect(getPasswordSpy).toHaveBeenCalledWith(
-      'aragon-cli',
-      'tenderly-project',
-    );
-    expect(getPasswordSpy).toHaveBeenCalledWith(
-      'aragon-cli',
-      'tenderly-username',
-    );
+    expect(getPasswordSpy).toHaveBeenCalledWith('aragon-cli', 'tenderly-project');
+    expect(getPasswordSpy).toHaveBeenCalledWith('aragon-cli', 'tenderly-username');
   });
 
   it('should log Zod error for invalid private key', async () => {

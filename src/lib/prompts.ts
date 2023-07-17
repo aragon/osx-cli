@@ -16,7 +16,6 @@ import { exitWithMessage, networks, strings, success } from './constants';
 import inquirerFuzzyPath from 'inquirer-fuzzy-path';
 import chalk from 'chalk';
 
-
 export const confirmPrompt = async (message: string): Promise<boolean> => {
   const { data } = await inquirer.prompt({
     type: 'confirm',
@@ -49,37 +48,36 @@ export const privateKeyPrompt = async (): Promise<string> => {
 };
 
 export const tenderlyPrompt = async (): Promise<TenderlySettings> => {
-  const { tenderlyUsername, tenderlyProject, tenderlyKey } =
-    await inquirer.prompt([
-      {
-        type: 'input',
-        name: 'tenderlyUsername',
-        message: strings.TENDERLY_USERNAME,
-        validate: (input: string) => !!input || 'Username cannot be empty',
-      },
-      {
-        type: 'input',
-        name: 'tenderlyProject',
-        message: strings.TENDERLY_PROJECT,
-        validate: (input: string) => !!input || 'Project name cannot be empty',
-      },
-      {
-        type: 'password',
-        name: 'tenderlyKey',
-        message: strings.TENDERLY_KEY,
-        validate: (input: string) => {
-          try {
-            tenderlyKeySchema.parse(input);
-            return true;
-          } catch (error) {
-            if (error instanceof ZodError) {
-              return error.errors[0].message;
-            }
-            return error;
+  const { tenderlyUsername, tenderlyProject, tenderlyKey } = await inquirer.prompt([
+    {
+      type: 'input',
+      name: 'tenderlyUsername',
+      message: strings.TENDERLY_USERNAME,
+      validate: (input: string) => !!input || 'Username cannot be empty',
+    },
+    {
+      type: 'input',
+      name: 'tenderlyProject',
+      message: strings.TENDERLY_PROJECT,
+      validate: (input: string) => !!input || 'Project name cannot be empty',
+    },
+    {
+      type: 'password',
+      name: 'tenderlyKey',
+      message: strings.TENDERLY_KEY,
+      validate: (input: string) => {
+        try {
+          tenderlyKeySchema.parse(input);
+          return true;
+        } catch (error) {
+          if (error instanceof ZodError) {
+            return error.errors[0].message;
           }
-        },
+          return error;
+        }
       },
-    ]);
+    },
+  ]);
 
   return { tenderlyUsername, tenderlyProject, tenderlyKey };
 };
@@ -203,7 +201,9 @@ const logZodError = (error: z.ZodError) => {
   let errorMsg = `\n${chalk.bold.yellow('Warning: Invalid JSON structure:')}\n\n`;
   error.errors.forEach((err: CustomZodError) => {
     const { expected, received } = err;
-    errorMsg += `Expected ${chalk.bold.blue(err.path.join('.'))}: ${chalk.italic.yellow(expected)}, received ${chalk.yellow(received)}.\n`;
+    errorMsg += `Expected ${chalk.bold.blue(err.path.join('.'))}: ${chalk.italic.yellow(
+      expected,
+    )}, received ${chalk.yellow(received)}.\n`;
   });
   console.error(errorMsg);
 };
