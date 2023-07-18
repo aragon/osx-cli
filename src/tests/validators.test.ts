@@ -32,7 +32,6 @@ describe('validateAddress', () => {
     vi.spyOn(constants, 'exitWithMessage').mockImplementation(mockExitWithMessage);
 
     validateAddress('invalid');
-
     expect(mockExitWithMessage).toBeCalledWith(expect.stringContaining('Invalid Ethereum address'));
     expect(console.log).not.toBeCalled(); // no console.log
   });
@@ -52,7 +51,6 @@ describe('validatePrivateKey', () => {
     vi.spyOn(keys, 'getPrivateKey').mockResolvedValue(null);
 
     await validatePrivateKey();
-
     expect(mockExitWithMessage).toBeCalledWith(strings.PRIVATE_KEY_NOT_FOUND);
   });
 });

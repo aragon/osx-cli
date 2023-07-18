@@ -18,7 +18,7 @@ import {
   TenderlySettings,
 } from 'src/types';
 import { toHex } from './ipfs';
-import { Interface, LogDescription } from 'ethers/lib/utils';
+import { Interface, LogDescription, UnsignedTransaction } from 'ethers/lib/utils';
 
 /**
  * Deploys a contract to a specified network and returns the contract address and transaction hash.
@@ -34,6 +34,7 @@ export const deployContract = async (
 ): Promise<ContractDeploymentResult> => {
   const wallet = await getWallet();
   const provider = new ethers.providers.JsonRpcProvider(rpc);
+
   let address, txHash;
   const pluginSetup = new ethers.ContractFactory(
     contractBuild.abi,
@@ -43,7 +44,27 @@ export const deployContract = async (
 
   try {
     updateSpinnerText('Deploying contract...');
-    const instance = await pluginSetup.deploy();
+    // const maxPriorityFeePerGas = await provider.estimateGas(pluginSetup.getDeployTransaction());
+    // const maxFeePerGas = await provider.getGasPrice();
+
+    // console.log('\nmaxFeePerGas', ethers.utils.parseUnits(maxFeePerGas.toString(), 'gwei').toString());
+    // console.log(
+    //   'maxPriorityFeePerGas',
+    //   ethers.utils.parseUnits(maxPriorityFeePerGas.toString(), 'gwei').toString(),
+    // );
+
+    // const txSettings: UnsignedTransaction = {
+    //   maxFeePerGas: provider.estimateGas//ethers.utils.parseUnits(  .toString(), 'gwei'),
+    // }
+    const { gasPrice, maxFeePerGas, maxPriorityFeePerGas } = await provider.getFeeData();
+    console.log('gasPrice', gasPrice?.toString());
+    console.log('maxFeePerGas', maxFeePerGas?.toString());
+    console.log('maxPriorityFeePerGas', maxPriorityFeePerGas?.toString());
+
+    const instance = await pluginSetup.deploy({
+      maxFeePerGas: maxFeePerGas?.mul(2), // 120 Gwei
+      maxPriorityFeePerGas: maxPriorityFeePerGas?.mul(2), // 45.9 Gwei
+    });
     await instance.deployed();
     address = instance.address;
     txHash = instance.deployTransaction.hash;
@@ -130,7 +151,7 @@ export const simulatePublish = async (
   const { forkUrl, forkProvider } = await tenderlyFork(network.id);
 
   try {
-    updateSpinnerText('Simulating Publishing...');
+    updateSpinnerText(strings.SIMULATING);
     let wallet = await getWallet();
     wallet = wallet?.connect(forkProvider) as Wallet;
 
@@ -168,7 +189,7 @@ export const publish = async (
   network: Network,
 ) => {
   try {
-    updateSpinnerText('Publishing...');
+    updateSpinnerText(strings.PUBLISHING);
     let wallet = await getWallet();
     const provider = new ethers.providers.JsonRpcProvider(network.url);
     wallet = wallet?.connect(provider) as Wallet;

@@ -8,7 +8,7 @@ publish
   .argument('[contract]', 'Plugin Setup contract address')
   .addOption(new Option('-b, --build-metadata [build]', 'Path to the build metadata file'))
   .addOption(new Option('-r, --release-metadata [release]', 'Path to the release metadata file'))
-  .addOption(new Option('-m, --maintainer [maintainer]', 'address of the maintainer'))
+  .addOption(new Option('-m, --maintainer [maintainer]', 'Address of the maintainer'))
   .addOption(
     new Option('-n, --network [network]', 'Network to deploy to').choices([
       'mainnet',

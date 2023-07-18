@@ -16,6 +16,7 @@ describe('toHex', () => {
     const input = 'Law is Code!';
     const expected = '0x4c617720697320436f646521';
     const hex = toHex(input);
+
     expect(hex).toEqual(expected);
   });
 });

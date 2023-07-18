@@ -50,16 +50,17 @@ The deploy command deploys your Plugin Setup contract to whichever chain you det
 aragon deploy [contract-name] [options]
 ```
 
-Options
-| Option | Description | Example |
-|-|-|-|  
-| -b, --build | Full path to project build | /Users/main/plugin-repo/artifacts |
-| -n, --network | Network to deploy to. Choices: mainnet, polygon, goerli, mumbai | mainnet |
-| -s, --simulate | Simulate deployment | |
+**Options**
+
+| Option         | Description                                                     | Example                           |
+| -------------- | --------------------------------------------------------------- | --------------------------------- |
+| -b, --build    | Full path to project build                                      | /Users/main/plugin-repo/artifacts |
+| -n, --network  | Network to deploy to. Choices: mainnet, polygon, goerli, mumbai | mainnet                           |
+| -s, --simulate | Simulate deployment                                             |                                   |
 
 ### `publish`
 
-"The publish command publishes your plugin to the Aragon OSx protocol. Under the hood, this is creating a PluginRepo instance for your plugin with its first version.
+The publish command publishes your plugin to the Aragon OSx protocol. Under the hood, this is creating a `PluginRepo` instance for your plugin with its first version. If you'd like to learn more about what publishing a plugin into Aragon OSx means, check out our guide [here](https://devs.aragon.org/docs/osx/how-to-guides/plugin-development/publication/).
 
 **Usage**
 
@@ -67,7 +68,7 @@ Options
 aragon publish [contract-address] [options]
 ```
 
-Options
+**Options**
 
 | Option           | Description                                                      | Example               |
 | ---------------- | ---------------------------------------------------------------- | --------------------- |
@@ -88,7 +89,7 @@ aragon settings set-pk [private-key]
 
 ### `settings set-tenderly`
 
-Store a new Tenderly project and API key configuration.
+Store a new Tenderly project and API key configuration. Checkout [this link](https://docs.tenderly.co/tenderly-sdk/basic-concepts-and-faqs) if your not sure how to find your settings
 
 ```
 settings set-tenderly
