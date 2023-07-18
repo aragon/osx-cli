@@ -40,7 +40,7 @@ export const validateAddress = (contract: Address | undefined): void => {
  */
 export const validateBuild = (build: BuildMetadata | string | undefined): void => {
   if (typeof build === 'undefined') return;
-  if (typeof build === 'string') console.log('TO DO!'); // TODO:
+  if (typeof build === 'string') console.log(strings.INVALID_BUILD_METADATA);
   const res = buildMetadataSchema.safeParse(build);
   if (!res.success) exitWithMessage(res.error.message);
 };
@@ -53,7 +53,7 @@ export const validateBuild = (build: BuildMetadata | string | undefined): void =
  */
 export const validateRelease = (release: ReleaseMetadata | string | undefined): void => {
   if (typeof release === 'undefined') return;
-  if (typeof release === 'string') console.log('TODO: NOT IMPLEMENTED'); // TODO:
+  if (typeof release === 'string') console.log(strings.INVALID_RELEASE_METADATA);
   const res = releaseMetadataSchema.safeParse(release);
   if (!res.success) exitWithMessage(res.error.message);
 };
