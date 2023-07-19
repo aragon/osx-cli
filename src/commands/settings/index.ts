@@ -13,12 +13,5 @@ settings
   .argument('[private-key]', 'Private key for signing transactions')
   .action(privateKeyHandler);
 
-settings
-  .command('set-tenderly')
-  .description('store a new tenderly configuration')
-  .action(tenderlyKeyHandler);
-
-settings
-  .command('view')
-  .description('view public key and other settings')
-  .action(viewHandler);
+settings.command('set-tenderly').description('store a new tenderly configuration').action(tenderlyKeyHandler);
+settings.command('view').description('view public key and other settings').action(viewHandler);

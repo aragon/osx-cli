@@ -2,9 +2,7 @@ import { getPrivateKey, getTenderlySettings } from '~/lib/keys.js';
 import { displayWallet } from '~/lib/wallet.js';
 import { strings } from '~/lib/constants.js';
 
-export const viewHandler: (
-  ...args: unknown[]
-) => void | Promise<void> = async () => {
+export const viewHandler: (...args: unknown[]) => void | Promise<void> = async () => {
   try {
     // Retrieve the private key and Tenderly API key
     const privateKey = await getPrivateKey();

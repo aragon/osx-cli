@@ -41,12 +41,10 @@ describe('deployHandler', () => {
   });
 
   it('should successfully deploy the contract to mumbai network', async () => {
-    vi.spyOn(constants, 'exitWithMessage').mockImplementation(
-      (message: string) => {
-        console.info(message);
-        return;
-      },
-    );
+    vi.spyOn(constants, 'exitWithMessage').mockImplementation((message: string) => {
+      console.info(message);
+      return;
+    });
 
     vi.spyOn(web3, 'findNetworkByName').mockReturnValue(mockNetwork);
     vi.spyOn(keys, 'getPrivateKey').mockResolvedValue(privateKey);
@@ -57,23 +55,17 @@ describe('deployHandler', () => {
 
     await deployHandler('contract', { network: 'network', simulate: true });
 
-    expect(console.log).toHaveBeenCalledWith(
-      expect.stringMatching(/🧪 Simulation:/),
-    );
-    expect(console.log).toHaveBeenCalledWith(
-      expect.stringMatching(/deployed to/),
-    );
+    expect(console.log).toHaveBeenCalledWith(expect.stringMatching(/🧪 Simulation:/));
+    expect(console.log).toHaveBeenCalledWith(expect.stringMatching(/deployed to/));
   });
 
   it('should handle deployment failure correctly', async () => {
     const errorMessage = constants.strings.DEPLOYMENT_FAILED;
 
-    vi.spyOn(constants, 'exitWithMessage').mockImplementation(
-      (message: string) => {
-        console.error(message);
-        return;
-      },
-    );
+    vi.spyOn(constants, 'exitWithMessage').mockImplementation((message: string) => {
+      console.error(message);
+      return;
+    });
 
     vi.spyOn(web3, 'findNetworkByName').mockReturnValue(mockNetwork);
     vi.spyOn(keys, 'getPrivateKey').mockResolvedValue(privateKey);

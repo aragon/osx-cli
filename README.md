@@ -16,7 +16,94 @@
 
 Aragon OSx CLI is a command line tool supporting your plugin development process. It helps developers build, deploy, and publish plugins faster and easier.
 
-## Getting Started
+## Quick Start
+
+You can install the Aragon OSx CLI globally via npm:
+
+```bash
+npm install -g @aragon/cli
+```
+
+Then, you will be able to run commands using this format:
+
+```bash
+aragon [command] [options]
+```
+
+Alternatively - you can use the CLI without installing it locally in your device, by using npx:
+
+```bash
+npx @aragon/cli [command] [options]
+```
+
+## Commands
+
+The Aragon OSx CLI contains several commands to help you develop plugins. All arguments are optional, each command will prompt for any arguments that were omitted in the command line.
+
+### `deploy`
+
+The deploy command deploys your Plugin Setup contract to whichever chain you determine.
+
+**Usage**
+
+```bash
+aragon deploy [contract-name] [options]
+```
+
+**Options**
+
+| Option         | Description                                                     | Example                           |
+| -------------- | --------------------------------------------------------------- | --------------------------------- |
+| -b, --build    | Full path to project build                                      | /Users/main/plugin-repo/artifacts |
+| -n, --network  | Network to deploy to. Choices: mainnet, polygon, goerli, mumbai | mainnet                           |
+| -s, --simulate | Simulate deployment                                             |                                   |
+
+### `publish`
+
+The publish command publishes your plugin to the Aragon OSx protocol. Under the hood, this is creating a `PluginRepo` instance for your plugin with its first version. If you'd like to learn more about what publishing a plugin into Aragon OSx means, check out our guide [here](https://devs.aragon.org/docs/osx/how-to-guides/plugin-development/publication/).
+
+**Usage**
+
+```bash
+aragon publish [contract-address] [options]
+```
+
+**Options**
+
+| Option           | Description                                                      | Example               |
+| ---------------- | ---------------------------------------------------------------- | --------------------- |
+| -n, --network    | Network to publish to. Choices: mainnet, polygon, goerli, mumbai | mainnet               |
+| -s, --subdomain  | Subdomain for plugin                                             | my-plugin             |
+| -b, --build      | Path to build metadata                                           | /path/to/build.json   |
+| -r, --release    | Path to release metadata                                         | /path/to/release.json |
+| -m, --maintainer | Maintainer address                                               | 0x...                 |
+| --simulate       | Simulate publishing                                              |                       |
+
+### `settings set-pk`
+
+Store a new private key for signing transactions.
+
+```
+aragon settings set-pk [private-key]
+```
+
+### `settings set-tenderly`
+
+Store a new Tenderly project and API key configuration. Checkout [this link](https://docs.tenderly.co/tenderly-sdk/basic-concepts-and-faqs) if your not sure how to find your settings
+
+```
+settings set-tenderly
+```
+
+### `settings view`
+
+View current public key, private key hash, and Tenderly configuration.
+
+```
+aragon settings view
+```
+
+## Developing the CLI
 
 This project is intended to be used with the latest Active LTS release of [Node.js](https://nodejs.org/en).
 

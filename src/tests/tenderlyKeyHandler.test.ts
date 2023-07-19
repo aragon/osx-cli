@@ -36,9 +36,7 @@ describe('tenderlyKeyHandler', () => {
       tenderlyUsername: 'new-username',
     };
 
-    vi.spyOn(keys, 'getTenderlySettings').mockResolvedValue(
-      mockTenderlySettings,
-    );
+    vi.spyOn(keys, 'getTenderlySettings').mockResolvedValue(mockTenderlySettings);
     vi.spyOn(prompts, 'confirmPrompt').mockResolvedValue(true);
     vi.spyOn(prompts, 'tenderlyPrompt').mockResolvedValue(newSettings);
 
@@ -47,9 +45,7 @@ describe('tenderlyKeyHandler', () => {
   });
 
   it('should exit the process if an existing key is found and user declines', async () => {
-    vi.spyOn(keys, 'getTenderlySettings').mockResolvedValue(
-      mockTenderlySettings,
-    );
+    vi.spyOn(keys, 'getTenderlySettings').mockResolvedValue(mockTenderlySettings);
     vi.spyOn(prompts, 'confirmPrompt').mockResolvedValue(false);
     vi.spyOn(process, 'exit').mockImplementation(mockFunction);
 

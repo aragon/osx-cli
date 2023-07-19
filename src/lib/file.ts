@@ -9,9 +9,7 @@ import { exitWithMessage } from './constants';
  * @param {string} [projectDirectory] - The path to the project directory. If not provided, the current working directory will be used.
  * @returns {string | null} - Returns the path to the contracts build directory or null if not found.
  */
-export const findContractsBuildDirectory = (
-  projectDirectory?: string,
-): string | undefined => {
+export const findContractsBuildDirectory = (projectDirectory?: string): string | undefined => {
   projectDirectory = projectDirectory ?? process.cwd();
 
   // Hardhat build directory
@@ -61,10 +59,7 @@ export const findContractBuild = (
         if (file === `${contractName}.sol`) {
           const contractFiles = fs.readdirSync(filePath);
           for (const contractFile of contractFiles) {
-            if (
-              contractFile.endsWith('.json') &&
-              !contractFile.endsWith('.dbg.json')
-            ) {
+            if (contractFile.endsWith('.json') && !contractFile.endsWith('.dbg.json')) {
               const contractFilePath = path.join(filePath, contractFile);
               const fileContent = fs.readFileSync(contractFilePath, 'utf8');
 

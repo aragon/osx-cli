@@ -13,9 +13,7 @@ describe('findContractsBuildDirectory function', () => {
 
   it('should return hardhat artifacts directory if it exists', () => {
     const artifactsPath = path.join(projectDirectory, 'artifacts');
-    vi.spyOn(fs, 'existsSync').mockImplementation(
-      (dir) => dir === artifactsPath,
-    );
+    vi.spyOn(fs, 'existsSync').mockImplementation((dir) => dir === artifactsPath);
     const result = findContractsBuildDirectory(projectDirectory);
     expect(result).toEqual(artifactsPath);
   });

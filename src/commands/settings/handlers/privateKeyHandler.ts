@@ -4,9 +4,7 @@ import { strings } from '~/lib/constants.js';
 import { viewHandler } from './viewHandler.js';
 import { confirmPrompt, privateKeyPrompt } from '~/lib/prompts.js';
 
-export const privateKeyHandler: (
-  ...args: any[]
-) => void | Promise<void> = async (privateKey: string) => {
+export const privateKeyHandler: (...args: any[]) => void | Promise<void> = async (privateKey: string) => {
   const existingPrivateKey = await getPrivateKey();
 
   // 2.1 Is there an existing private key?
