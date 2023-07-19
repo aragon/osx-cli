@@ -18,7 +18,7 @@ import {
   TenderlySettings,
 } from 'src/types';
 import { toHex } from './ipfs';
-import { Interface, LogDescription, UnsignedTransaction } from 'ethers/lib/utils';
+import { Interface, LogDescription } from 'ethers/lib/utils';
 
 /**
  * Deploys a contract to a specified network and returns the contract address and transaction hash.
@@ -44,28 +44,9 @@ export const deployContract = async (
 
   try {
     updateSpinnerText('Deploying contract...');
-    // const maxPriorityFeePerGas = await provider.estimateGas(pluginSetup.getDeployTransaction());
-    // const maxFeePerGas = await provider.getGasPrice();
-
-    // console.log('\nmaxFeePerGas', ethers.utils.parseUnits(maxFeePerGas.toString(), 'gwei').toString());
-    // console.log(
-    //   'maxPriorityFeePerGas',
-    //   ethers.utils.parseUnits(maxPriorityFeePerGas.toString(), 'gwei').toString(),
-    // );
-
-    // const txSettings: UnsignedTransaction = {
-    //   maxFeePerGas: provider.estimateGas//ethers.utils.parseUnits(  .toString(), 'gwei'),
-    // }
-    const { gasPrice, maxFeePerGas, maxPriorityFeePerGas } = await provider.getFeeData();
-    console.log('gasPrice', gasPrice?.toString());
-    console.log('maxFeePerGas', maxFeePerGas?.toString());
-    console.log('maxPriorityFeePerGas', maxPriorityFeePerGas?.toString());
-
-    const instance = await pluginSetup.deploy({
-      maxFeePerGas: maxFeePerGas?.mul(2), // 120 Gwei
-      maxPriorityFeePerGas: maxPriorityFeePerGas?.mul(2), // 45.9 Gwei
-    });
+    const instance = await pluginSetup.deploy();
     await instance.deployed();
+
     address = instance.address;
     txHash = instance.deployTransaction.hash;
     stopSpinner();

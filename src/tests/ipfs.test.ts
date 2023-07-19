@@ -1,5 +1,7 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { uploadToIPFS, toHex } from '../lib/ipfs';
+import * as ipfs from '../lib/ipfs';
+import { strings } from '~/lib/constants';
 
 describe('uploadToIPFS', () => {
   it('should upload text to IPFS', async () => {
@@ -8,6 +10,19 @@ describe('uploadToIPFS', () => {
 
     const cid = await uploadToIPFS(mockText);
     expect(cid).toEqual(mockCID);
+  });
+
+  it('should throw an error if there is an issue with uploading', async () => {
+    const mockText = 'Code is Law!';
+
+    vi.spyOn(ipfs, 'uploadToIPFS').mockImplementation(() => {
+      return new Promise((_, reject) => {
+        reject(new Error(strings.IPFS_UPLOAD_ERROR));
+      });
+    });
+
+    // Expect the function to reject with an error
+    await expect(uploadToIPFS(mockText)).rejects.toThrow(strings.IPFS_UPLOAD_ERROR);
   });
 });
 

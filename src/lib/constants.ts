@@ -22,6 +22,7 @@ export const strings = {
   ENABLED: chalk.green('enabled'),
   EXPLORER: (explorer: string, txHash: string | undefined) => success(`🔗 ${explorer}/tx/${txHash}`),
   FAILED_TO_RETRIEVE_KEYS: error('Failed to retrieve keys:'),
+  IPFS_UPLOAD_ERROR: error('Failed to upload to IPFS:'),
   INVALID_BUILD_METADATA: error('Invalid build metadata'),
   INVALID_RELEASE_METADATA: error('Invalid release metadata'),
   INVALID_SUBDOMAIN: error('Invalid subdomain'),
