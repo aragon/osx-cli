@@ -18,9 +18,7 @@ export const displayWallet = async (): Promise<void> => {
   for (const network of networks) {
     try {
       const provider = new ethers.providers.JsonRpcProvider(network.url);
-      const balance = ethers.utils.formatEther(
-        await provider.getBalance(address),
-      );
+      const balance = ethers.utils.formatEther(await provider.getBalance(address));
       console.log('📡 --- ' + network.name + ' ---- 📡 ');
       console.log('balance:', balance);
       console.log('nonce: ', await provider.getTransactionCount(address));

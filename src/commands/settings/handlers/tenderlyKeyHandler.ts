@@ -5,11 +5,10 @@ import { viewHandler } from './viewHandler.js';
 import { TenderlySettings } from 'src/types/index.js';
 import { confirmPrompt, tenderlyPrompt } from '~/lib/prompts.js';
 
-export const tenderlyKeyHandler: (
-  ...args: any[]
-) => void | Promise<void> = async (tenderlyKeys: TenderlySettings) => {
-  const existingTenderlySettings: TenderlySettings | null =
-    await getTenderlySettings();
+export const tenderlyKeyHandler: (...args: any[]) => void | Promise<void> = async (
+  tenderlyKeys: TenderlySettings,
+) => {
+  const existingTenderlySettings: TenderlySettings | null = await getTenderlySettings();
 
   if (existingTenderlySettings) {
     (await confirmPrompt(strings.OVERRIDE_TENDERLY))
