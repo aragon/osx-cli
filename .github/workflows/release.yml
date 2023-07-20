@@ -39,9 +39,9 @@ jobs:
           RELEASE_RUN_TYPE=${{ github.event.inputs.type-of-release-run }}
           echo "RELEASE_RUN_TYPE: $RELEASE_RUN_TYPE"
           if [ "$RELEASE_RUN_TYPE" == "regular-release" ]; then
-            yarn multi-semantic-release
+            yarn semantic-release
           else
-            yarn multi-semantic-release --dry-run
+            yarn semantic-release --dry-run
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.ARABOT_PAT_TRIGGER_WORKFLOW }}
