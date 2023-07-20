@@ -36,7 +36,7 @@ jobs:
         run: volta install yarn
   
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Run Semantic-Release (${{ github.event.inputs.type-of-release-run }} mode)
         run: |

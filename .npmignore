@@ -1,0 +1,12 @@
+.github/
+.vscode/
+src/
+.editorconfig
+.eslintignore
+.eslintrc.json
+.prettierrc
+.yarnrc.yml
+release.config
+tsconfig.json
+vite.config.js
+vitest.config.js
