@@ -26,13 +26,16 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up NodeJS
-        uses: actions/setup-node@v3
+      - name: Use Volta
+        uses: volta-cli/action@v4
         with:
           node-version: 18.x
-
+  
+      - name: Setup Yarn using Volta
+        run: volta install yarn
+  
       - name: Install dependencies
-        run: yarn
+        run: yarn install --frozen-lockfile
 
       - name: Run Semantic-Release (${{ github.event.inputs.type-of-release-run }} mode)
         run: |
