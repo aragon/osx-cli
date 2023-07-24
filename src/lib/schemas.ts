@@ -68,3 +68,20 @@ export const subdomainSchema = z.string().regex(/^[a-z0-9-]+$/i, {
   message:
     'Subdomains can only contain alphanumeric characters and dashes. All letters should be lower cased.',
 });
+
+export const ipfsUriSchema = z
+  .string()
+  .refine((uri) => uri.startsWith('ipfs://'), {
+    message: 'URI must start with ipfs://',
+  })
+  .refine(
+    (uri) => {
+      const parts = uri.split('ipfs://')[1];
+      return parts && parts.length > 0;
+    },
+    {
+      message: 'URI must include a CID after ipfs://',
+    },
+  );
+
+export type IpfsUri = z.infer<typeof ipfsUriSchema>;

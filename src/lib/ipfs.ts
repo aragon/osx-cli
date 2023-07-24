@@ -3,6 +3,7 @@ import { Web3Storage, File } from 'web3.storage';
 import { Buffer } from 'buffer';
 import { updateSpinnerText, spinnerSuccess } from './spinners';
 import { WEB_3_STORAGE, exitWithMessage, strings } from './constants';
+import { IpfsUri, ipfsUriSchema } from './schemas';
 
 /**
  * This function is used to upload a string of text to IPFS through Web3Storage.
@@ -22,6 +23,45 @@ export async function uploadToIPFS(text: string): Promise<string> {
     console.error(error);
     exitWithMessage(strings.IPFS_UPLOAD_ERROR);
     throw error;
+  }
+}
+
+/**
+ * This function is used to download a file from IPFS through Web3Storage.
+ * @async
+ * @param {IpfsUri} uri - The CID of the file to download from IPFS.
+ * @returns {Promise<any>} A promise that resolves to a JSON object or null.
+ * @throws {Error} If there's any error in the download process, it throws an error.
+ */
+export async function downloadFromIPFS(uri: IpfsUri): Promise<any> {
+  const validationResult = ipfsUriSchema.safeParse(uri);
+  if (!validationResult.success) {
+    console.error(validationResult.error.issues.map((issue) => issue.message).join('\n'));
+    return null;
+  }
+
+  try {
+    updateSpinnerText(strings.DOWNLOADING_METADATA);
+    const client = new Web3Storage({ token: WEB_3_STORAGE });
+    const res = await client.get(uri.split('ipfs://')[1]);
+
+    const files = await res.files();
+
+    if (!files.length) {
+      console.log(strings.NO_FILES_FOR_CID);
+      return null;
+    }
+
+    const jsonContent = await files[0].text();
+    spinnerSuccess(strings.METADATA_DOWNLOADED);
+    return JSON.parse(jsonContent);
+  } catch (error) {
+    if (error instanceof SyntaxError) {
+      console.error(strings.IPFS_NOT_VALID_JSON);
+    } else {
+      console.error(error);
+    }
+    return null;
   }
 }
 
