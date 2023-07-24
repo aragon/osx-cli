@@ -1,7 +1,7 @@
 import { beforeEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import * as keys from '../lib/keys';
 import * as file from '../lib/file';
-import * as prompts from '../lib/prompts.js';
+import * as prompts from '../lib/prompts';
 import * as web3 from '../lib/web3';
 import * as constants from '../lib/constants';
 
@@ -18,6 +18,7 @@ describe('deployHandler', () => {
     id: '80001',
     url: 'https://rpc.ankr.com/polygon_mumbai',
     explorer: 'https://mumbai.polygonscan.com',
+    subgraph: 'https://subgraph.satsuma-prod.com/qHR2wGfc5RLi6/aragon/osx-mumbai/version/v1.1.1/api',
   };
 
   const privateKey = process.env.PRIVATE_KEY as string;
