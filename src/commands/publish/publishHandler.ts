@@ -1,6 +1,7 @@
 import { Address, PublishOptions } from 'src/types';
 import { exitWithMessage, strings } from '~/lib/constants';
 import { uploadMetadata } from '~/lib/ipfs';
+import { getTenderlySettings } from '~/lib/keys';
 import {
   addressPrompt,
   buildMetadataPrompt,
@@ -18,6 +19,7 @@ import {
   validateNetwork,
 } from '~/lib/validators';
 import { findNetworkByName, publish, simulatePublish } from '~/lib/web3';
+import { tenderlyKeyHandler } from '../settings/handlers/tenderlyKeyHandler';
 
 export const publishHandler: (...args: any[]) => void | Promise<void> = async (
   contract?: Address,
@@ -45,7 +47,10 @@ export const publishHandler: (...args: any[]) => void | Promise<void> = async (
   });
 
   const simulate = options.simulate ?? (await confirmPrompt(strings.SIMULATE_DEPLOYMENT));
-  if (simulate) await simulatePublish(setupContract, network, subdomain, maintainer);
+  if (simulate) {
+    (await getTenderlySettings()) ?? (await tenderlyKeyHandler());
+    await simulatePublish(setupContract, network, subdomain, maintainer);
+  }
 
   const confirm = await confirmPrompt(strings.CONFIRM_PUBLISH);
   if (!confirm) exitWithMessage(strings.ABORTED);
