@@ -5,9 +5,8 @@
   "type": "module",
   "author": "Aragon Association",
   "license": "AGPL-3.0",
-  "private": false,
   "engines": {
-    "node": ">= 18.12 <19"
+    "node": ">= 16 <19"
   },
   "bin": {
     "aragon": "dist/main.js"
