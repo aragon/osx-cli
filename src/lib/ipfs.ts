@@ -2,7 +2,7 @@ import { BytesLike, ethers } from 'ethers';
 import { Web3Storage, File } from 'web3.storage';
 import { Buffer } from 'buffer';
 import { updateSpinnerText, spinnerSuccess } from './spinners';
-import { exitWithMessage, strings } from './constants';
+import { WEB_3_STORAGE, exitWithMessage, strings } from './constants';
 
 /**
  * This function is used to upload a string of text to IPFS through Web3Storage.
@@ -13,9 +13,7 @@ import { exitWithMessage, strings } from './constants';
  */
 export async function uploadToIPFS(text: string): Promise<string> {
   try {
-    const client = new Web3Storage({
-      token: (import.meta as any).env?.VITE_WEB_3_STORAGE_KEY,
-    });
+    const client = new Web3Storage({ token: WEB_3_STORAGE });
     const textBuffer = Buffer.from(text);
     const file = new File([textBuffer], '');
 

@@ -36,7 +36,9 @@ export const strings = {
     'Seems like you already have a Tenderly key stored. Are you sure you want to override it with a new one?',
   ),
   PRIVATE_KEY: success('Please enter a private key:'),
-  PRIVATE_KEY_NOT_FOUND: error('No private key found. Please use the "new" command to store a private key.'),
+  PRIVATE_KEY_NOT_FOUND: error(
+    'No private key found. Please use the "settings set-pk" command to store a private key.',
+  ),
   PROCEED_WITH_DEPLOYMENT: warning('Do you want to proceed with the deployment of your contract?'),
   PUBLISHING: warning('Publishing...'),
   RELEASE_METADATA_PROMPT: `Select your ${chalk.blue('Release metadata')} file:`,
@@ -44,7 +46,9 @@ export const strings = {
   SIMULATE_DEPLOYMENT: warning('Do you want to simulate the deployment?'),
   SIMULATING: warning('Simulating...'),
   TENDERLY_KEY: success('Please enter a Tenderly key:'),
-  TENDERLY_NOT_FOUND: error('No Tenderly key found. You can use the "new" command to store a Tenderly key.'),
+  TENDERLY_NOT_FOUND: error(
+    'No Tenderly key found. You can use the "settings set-tenderly" command to store a Tenderly key.',
+  ),
   TENDERLY_PROJECT: success('Please enter your Tenderly project name:'),
   TENDERLY_USERNAME: success('Please enter your Tenderly username:'),
 };
@@ -75,3 +79,6 @@ export const networks: Array<Network> = [
     explorer: 'https://mumbai.polygonscan.com',
   },
 ];
+
+export const WEB_3_STORAGE =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDU5MjFCRTY0ZDk1MkU5Y2FlNzQ1RURENEExY2FFRkEzOTJCNDdhNGYiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NjczNzczNDIxODUsIm5hbWUiOiJhcmFnb24ifQ.OMXTNr32vPvnccsW_3PrbQUaELUD7hQesJm0HiBapoE';
