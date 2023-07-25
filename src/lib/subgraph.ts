@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { PluginRepo } from 'src/types';
+import { exitWithMessage, strings } from './constants';
 
 /**
  * Queries the subgraph at the provided URL and retrieves plugin repositories.
@@ -48,3 +49,7 @@ export async function queryPluginRepos(url: string): Promise<PluginRepo[]> {
     throw error;
   }
 }
+
+export const findRepo = (repoName: string, pluginRepos: Array<PluginRepo>): PluginRepo =>
+  pluginRepos.find((repo) => repo.subdomain === repoName) ??
+  (exitWithMessage(strings.CANNOT_FIND_REPO(repoName)) as never);

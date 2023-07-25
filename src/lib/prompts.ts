@@ -17,7 +17,7 @@ import { exitWithMessage, networks, strings, success } from './constants';
 import inquirerFuzzyPath from 'inquirer-fuzzy-path';
 import chalk from 'chalk';
 import inquirerAutocompletePrompt from 'inquirer-autocomplete-prompt';
-import { queryPluginRepos } from '~/lib/subgraph';
+import { findRepo } from '~/lib/subgraph';
 
 inquirer.registerPrompt('fuzzypath', inquirerFuzzyPath);
 inquirer.registerPrompt('autocomplete', inquirerAutocompletePrompt);
@@ -239,12 +239,10 @@ export const subDomainPrompt = async (): Promise<string> => {
  * It will display the subdomains of the plugins for selection,
  * and return the full plugin details when a plugin is selected.
  *
- * @param {string} url - The URL of the subgraph to query.
+ * @param {Array<PluginRepo>} pluginRepos - an array of plugin repositories to select from.
  * @returns {Promise<PluginRepo>} - A promise that resolves to the selected plugin repository.
  */
-export const pluginSelectionPrompt = async (url: string): Promise<PluginRepo> => {
-  const pluginRepos = await queryPluginRepos(url);
-
+export const pluginSelectionPrompt = async (pluginRepos: Array<PluginRepo>): Promise<PluginRepo> => {
   const { subdomain } = await inquirer.prompt({
     type: 'autocomplete',
     name: 'subdomain',
@@ -258,5 +256,5 @@ export const pluginSelectionPrompt = async (url: string): Promise<PluginRepo> =>
     suggestOnly: false,
   });
 
-  return pluginRepos.find((repo) => repo.subdomain === subdomain) as PluginRepo;
+  return findRepo(subdomain, pluginRepos);
 };

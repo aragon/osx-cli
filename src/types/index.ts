@@ -58,6 +58,11 @@ export interface PublishOptions {
   simulate?: boolean;
 }
 
+export interface InfoOptions {
+  subdomain?: string;
+  network?: AllowedNetworks;
+}
+
 /**
  * Interface representing a plugin setup.
  */

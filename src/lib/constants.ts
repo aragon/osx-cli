@@ -1,5 +1,6 @@
 import chalk from 'chalk';
 import { Network } from 'src/types';
+import Table from 'cli-table3';
 
 export const warning = (message: string): string => chalk.yellow(message);
 export const error = (message: string): string => chalk.red(message);
@@ -9,10 +10,25 @@ export const exitWithMessage = (message: string): void => {
   process.exit(0);
 };
 
+/**
+ * Logs an array of key-value pairs in tabular format using the 'Table' class and outputs it to the console.
+ *
+ * @param {Array<Record<string, string>>} keyValues - An array of key-value pairs represented as objects.
+ * Each object in the array should have string properties for keys and values.
+ * Example: [{ key1: value1 }, { key2: value2 }, ...]
+ * @returns {void} - This function does not return any value; it logs the table directly to the console.
+ */
+export const logTable = (keyValues: Array<Record<string, string>>): void => {
+  const table = new Table();
+  keyValues.forEach((kv) => table.push(kv));
+  console.log(table.toString());
+};
+
 export const strings = {
   ABORTED: error('Aborted.'),
   BUILD_FOLDER: success(`Build Folder not detected. \nPlease enter the name of the build folder:`),
   BUILD_METADATA_PROMPT: `Select your ${chalk.blue('Build metadata')} file:`,
+  CANNOT_FIND_REPO: (repoName: string) => error(`Cannot find repo ${repoName}`),
   CONFIRM_PUBLISH: warning('Do you want to publish your plugin?'),
   CONTRACT_ADDRESS: success('Please enter a contract address:'),
   CONTRACT_BUILD_NOT_FOUND: (contract: string) => error(`${contract}.sol build not found, did you compile?`),
