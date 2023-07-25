@@ -1,4 +1,4 @@
-import { exitWithMessage, strings } from '~/lib/constants';
+import { exitWithMessage, logTable, strings } from '~/lib/constants';
 import { ContractArtifact, Network } from '../../types';
 import { findContractBuild, findContractsBuildDirectory } from '~/lib/file';
 import { buildFolderPrompt, confirmPrompt, contractNamePrompt, networkSelectionPrompt } from '~/lib/prompts';
@@ -36,7 +36,7 @@ export const deployHandler: (...args: any[]) => void | Promise<void> = async (
     }
 
     // Display info
-    console.table({ contract, buildPath, chain: chosenNetwork.name });
+    logTable([{ contract }, { chain: chosenNetwork.name }]);
 
     // Simulate deployment
     simulate = simulate ?? (await confirmPrompt(strings.SIMULATE_DEPLOYMENT));

@@ -1,5 +1,5 @@
 import { Address, PublishOptions } from 'src/types';
-import { exitWithMessage, strings } from '~/lib/constants';
+import { exitWithMessage, logTable, strings } from '~/lib/constants';
 import { uploadMetadata } from '~/lib/ipfs';
 import { getTenderlySettings } from '~/lib/keys';
 import {
@@ -39,12 +39,12 @@ export const publishHandler: (...args: any[]) => void | Promise<void> = async (
   const network = options.network ? findNetworkByName(options.network) : await networkSelectionPrompt();
   const maintainer = options.maintainer ?? (await addressPrompt(strings.MAINTAINER_ADDRESS));
 
-  console.table({
-    setupContract,
-    subdomain: `${subdomain}.plugin.dao.eth`,
-    chain: network.name,
-    maintainer,
-  });
+  logTable([
+    { setupContract },
+    { subdomain: `${subdomain}.plugin.dao.eth` },
+    { chain: network.name },
+    { maintainer },
+  ]);
 
   const simulate = options.simulate ?? (await confirmPrompt(strings.SIMULATE_DEPLOYMENT));
   if (simulate) {
