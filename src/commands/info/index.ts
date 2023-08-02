@@ -4,10 +4,10 @@ import { infoHandler } from './infoHandler';
 export const info = new Command('info');
 
 info
-  .description('information about a Plugin Repo')
+  .description(`information about a Plugin's PluginRepo instance`)
   .argument('[repoName]', 'Plugin Repo Name')
   .addOption(
-    new Option('-n, --network [network]', 'Network repo is deployed on').choices([
+    new Option('-n, --network [network]', 'Network where the Plugin is published in').choices([
       'mainnet',
       'polygon',
       'goerli',
