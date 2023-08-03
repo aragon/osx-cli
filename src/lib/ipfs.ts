@@ -14,7 +14,7 @@ import { IpfsUri, ipfsUriSchema } from './schemas';
  * @throws {Error} If there's any error in the upload process, it throws an error.
  */
 export async function uploadToIPFS(text: string): Promise<string> {
-  const WEB_3_STORAGE = process.env.VITE_WEB_3_STORAGE;
+  const WEB_3_STORAGE = (import.meta as any).env?.VITE_WEB_3_STORAGE_KEY;
   if (!WEB_3_STORAGE) exitWithMessage(strings.WEB_3_STORAGE_NOT_FOUND);
 
   try {
