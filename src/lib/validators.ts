@@ -1,6 +1,7 @@
 import { Address, BuildMetadata, ReleaseMetadata } from 'src/types';
 import { z } from 'zod';
-import { exitWithMessage, strings } from './constants';
+
+import { exitWithMessage, strings } from './strings';
 import { getPrivateKey } from './keys';
 import {
   AllowedNetworks,

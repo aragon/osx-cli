@@ -1,7 +1,6 @@
 import { describe, expect, it, vi, beforeAll } from 'vitest';
 
-import * as constants from '~/lib/constants';
-import { strings } from '~/lib/constants';
+import * as strings from '~/lib/strings';
 import * as keys from '~/lib/keys';
 
 import {
@@ -29,7 +28,7 @@ describe('validateAddress', () => {
     vi.spyOn(console, 'log');
 
     // mock exitWithMessage
-    vi.spyOn(constants, 'exitWithMessage').mockImplementation(mockExitWithMessage);
+    vi.spyOn(strings, 'exitWithMessage').mockImplementation(mockExitWithMessage);
 
     validateAddress('invalid');
     expect(mockExitWithMessage).toBeCalledWith(expect.stringContaining('Invalid Ethereum address'));
@@ -45,13 +44,13 @@ describe('validateAddress', () => {
 describe('validatePrivateKey', () => {
   it('exits if private key does not exist', async () => {
     const mockExitWithMessage = vi.fn();
-    vi.spyOn(constants, 'exitWithMessage').mockImplementation(mockExitWithMessage);
+    vi.spyOn(strings, 'exitWithMessage').mockImplementation(mockExitWithMessage);
 
     // mock getPrivateKey to return undefined
     vi.spyOn(keys, 'getPrivateKey').mockResolvedValue(null);
 
     await validatePrivateKey();
-    expect(mockExitWithMessage).toBeCalledWith(strings.PRIVATE_KEY_NOT_FOUND);
+    expect(mockExitWithMessage).toBeCalledWith(strings.strings.PRIVATE_KEY_NOT_FOUND);
   });
 });
 
@@ -64,7 +63,7 @@ describe('validateBuild', () => {
   it('logs invalid if build is a string', () => {
     vi.spyOn(console, 'log');
     validateBuild('string');
-    expect(console.log).toBeCalledWith(strings.INVALID_BUILD_METADATA);
+    expect(console.log).toBeCalledWith(strings.strings.INVALID_BUILD_METADATA);
   });
 });
 
@@ -77,7 +76,7 @@ describe('validateRelease', () => {
   it(`logs invalid if release is a string`, () => {
     vi.spyOn(console, 'log');
     validateRelease('string');
-    expect(console.log).toBeCalledWith(strings.INVALID_RELEASE_METADATA);
+    expect(console.log).toBeCalledWith(strings.strings.INVALID_RELEASE_METADATA);
   });
 });
 

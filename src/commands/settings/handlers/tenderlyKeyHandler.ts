@@ -1,5 +1,5 @@
 import { getTenderlySettings, setTenderlySettings } from '~/lib/keys.js';
-import { strings } from '~/lib/constants.js';
+import { strings } from '~/lib/strings';
 
 import { TenderlySettings } from 'src/types/index.js';
 import { confirmPrompt, tenderlyPrompt } from '~/lib/prompts.js';

@@ -1,5 +1,6 @@
 import { Address, PublishOptions } from 'src/types';
-import { exitWithMessage, logTable, strings } from '~/lib/constants';
+import { logTable } from '~/lib/constants';
+import { exitWithMessage, strings } from '~/lib/strings';
 import { uploadMetadata } from '~/lib/ipfs';
 import { getTenderlySettings } from '~/lib/keys';
 import {

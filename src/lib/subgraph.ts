@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { PluginRepo } from 'src/types';
-import { exitWithMessage, strings } from './constants';
+
+import { exitWithMessage, strings } from './strings';
 
 /**
  * Queries the subgraph at the provided URL and retrieves plugin repositories.

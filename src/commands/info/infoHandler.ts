@@ -2,7 +2,8 @@ import { InfoOptions } from 'src/types';
 import { downloadFromIPFS } from '~/lib/ipfs';
 import { networkSelectionPrompt, pluginSelectionPrompt } from '~/lib/prompts';
 import { findNetworkByName } from '~/lib/web3';
-import { logTable, strings } from '~/lib/constants';
+import { logTable } from '~/lib/constants';
+import { strings } from '~/lib/strings';
 import { findRepo, queryPluginRepos } from '~/lib/subgraph';
 import { validateNetwork, validateSubdomain } from '~/lib/validators';
 

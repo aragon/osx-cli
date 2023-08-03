@@ -13,7 +13,8 @@ import {
   subdomainSchema,
   tenderlyKeySchema,
 } from './schemas.js';
-import { exitWithMessage, networks, strings, success } from './constants';
+import { networks } from './constants';
+import { exitWithMessage, strings, success } from './strings.js';
 import inquirerFuzzyPath from 'inquirer-fuzzy-path';
 import chalk from 'chalk';
 import inquirerAutocompletePrompt from 'inquirer-autocomplete-prompt';

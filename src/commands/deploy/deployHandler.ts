@@ -1,4 +1,5 @@
-import { exitWithMessage, logTable, strings } from '~/lib/constants';
+import { logTable } from '~/lib/constants';
+import { exitWithMessage, strings } from '~/lib/strings';
 import { ContractArtifact, Network } from '../../types';
 import { findContractBuild, findContractsBuildDirectory } from '~/lib/file';
 import { buildFolderPrompt, confirmPrompt, contractNamePrompt, networkSelectionPrompt } from '~/lib/prompts';

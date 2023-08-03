@@ -2,7 +2,8 @@ import { BytesLike, ethers } from 'ethers';
 import { Web3Storage, File } from 'web3.storage';
 import { Buffer } from 'buffer';
 import { updateSpinnerText, spinnerSuccess } from './spinners';
-import { WEB_3_STORAGE, exitWithMessage, strings } from './constants';
+import { WEB_3_STORAGE } from './constants';
+import { exitWithMessage, strings } from './strings';
 import { IpfsUri, ipfsUriSchema } from './schemas';
 
 /**

@@ -1,6 +1,6 @@
 import { getPrivateKey, getTenderlySettings } from '~/lib/keys.js';
 import { displayWallet } from '~/lib/wallet.js';
-import { strings } from '~/lib/constants.js';
+import { strings } from '~/lib/strings';
 
 export const viewHandler: (...args: unknown[]) => void | Promise<void> = async () => {
   try {

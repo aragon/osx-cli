@@ -7,7 +7,8 @@ import {
 } from '@aragon/osx-ethers';
 import { getWallet } from './wallet';
 import { getTenderlySettings } from './keys';
-import { exitWithMessage, networks, strings, warning } from './constants';
+import { exitWithMessage, networks, warning } from './constants';
+import { strings } from './strings';
 import { spinnerError, spinnerSuccess, stopSpinner, updateSpinnerText } from './spinners';
 import {
   Address,
