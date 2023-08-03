@@ -55,6 +55,7 @@ const errors = {
   TENDERLY_NOT_FOUND: error(
     'No Tenderly key found. You can use the "settings set-tenderly" command to store a Tenderly key.',
   ),
+  WEB_3_STORAGE_NOT_FOUND: error('No Web3 Storage key found'),
 };
 
 const logs = {

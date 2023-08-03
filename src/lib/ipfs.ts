@@ -2,7 +2,7 @@ import { BytesLike, ethers } from 'ethers';
 import { Web3Storage, File } from 'web3.storage';
 import { Buffer } from 'buffer';
 import { updateSpinnerText, spinnerSuccess } from './spinners';
-import { WEB_3_STORAGE } from './constants';
+// import { WEB_3_STORAGE } from './constants';
 import { exitWithMessage, strings } from './strings';
 import { IpfsUri, ipfsUriSchema } from './schemas';
 
@@ -14,6 +14,9 @@ import { IpfsUri, ipfsUriSchema } from './schemas';
  * @throws {Error} If there's any error in the upload process, it throws an error.
  */
 export async function uploadToIPFS(text: string): Promise<string> {
+  const WEB_3_STORAGE = process.env.VITE_WEB_3_STORAGE;
+  if (!WEB_3_STORAGE) exitWithMessage(strings.WEB_3_STORAGE_NOT_FOUND);
+
   try {
     const client = new Web3Storage({ token: WEB_3_STORAGE });
     const textBuffer = Buffer.from(text);
