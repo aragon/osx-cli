@@ -47,6 +47,8 @@ export const publishHandler: (...args: any[]) => void | Promise<void> = async (
     { maintainer },
   ]);
 
+  console.log(strings.SUBDOMAIN_WARNING);
+
   const simulate = options.simulate ?? (await confirmPrompt(strings.SIMULATE_DEPLOYMENT));
   if (simulate) {
     (await getTenderlySettings()) ?? (await tenderlyKeyHandler());

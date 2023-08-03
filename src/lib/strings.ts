@@ -66,6 +66,9 @@ const logs = {
   EXPLORER: (explorer: string, txHash: string | undefined) => success(`🔗 ${explorer}/tx/${txHash}`),
   PUBLISHING: warning('Publishing...'),
   SIMULATING: warning('Simulating...'),
+  SUBDOMAIN_WARNING: warning(
+    "Keep in mind that your plugin's subdomain will only be resolved in mainnet, as is the only network currently supported by ENS",
+  ),
 };
 
 export const strings = {
