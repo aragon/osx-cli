@@ -5,6 +5,8 @@ import { updateSpinnerText, spinnerSuccess } from './spinners';
 import { exitWithMessage, strings } from './strings';
 import { IpfsUri, ipfsUriSchema } from './schemas';
 
+const WEB_3_STORAGE = (import.meta as any).env?.VITE_WEB_3_STORAGE_KEY;
+
 /**
  * This function is used to upload a string of text to IPFS through Web3Storage.
  * @async
@@ -13,7 +15,6 @@ import { IpfsUri, ipfsUriSchema } from './schemas';
  * @throws {Error} If there's any error in the upload process, it throws an error.
  */
 export async function uploadToIPFS(text: string): Promise<string> {
-  const WEB_3_STORAGE = (import.meta as any).env?.VITE_WEB_3_STORAGE_KEY;
   if (!WEB_3_STORAGE) exitWithMessage(strings.WEB_3_STORAGE_NOT_FOUND);
 
   try {
