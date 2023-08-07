@@ -103,6 +103,24 @@ View current public key, private key hash, and Tenderly configuration.
 aragon settings view
 ```
 
+### `info`
+
+The `info` command provides information about a Plugin's `PluginRepo` instance. This information can be used to determine the properties and status of a plugin within its repo.
+
+**Usage**
+
+```bash
+aragon info [repoName] [options]
+```
+
+**Options**
+
+| Option        | Description                                                                         | Example |
+| ------------- | ----------------------------------------------------------------------------------- | ------- |
+| -n, --network | Network where the Plugin is published in. Choices: mainnet, polygon, goerli, mumbai | mainnet |
+
+In this example, `info` command will fetch the information about the `my-plugin` repository from the `mainnet` network.
+
 ## Developing the CLI
 
 This project is intended to be used with the latest Active LTS release of [Node.js](https://nodejs.org/en).
