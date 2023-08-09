@@ -20,11 +20,11 @@ export const infoHandler: (...args: any[]) => void | Promise<void> = async (
 
   const releaseMetadata = await downloadFromIPFS(plugin?.releases[-1]?.metadata);
 
-  const latestRelease = plugin.releases.reduce((maxRelease, currentRelease) => {
+  const latestRelease = plugin?.releases?.reduce((maxRelease, currentRelease) => {
     return currentRelease.release > maxRelease.release ? currentRelease : maxRelease;
   });
 
-  const latestBuild = latestRelease.builds.reduce((maxBuild, currentBuild) => {
+  const latestBuild = latestRelease?.builds?.reduce((maxBuild, currentBuild) => {
     return currentBuild.build > maxBuild.build ? currentBuild : maxBuild;
   });
 
@@ -32,7 +32,7 @@ export const infoHandler: (...args: any[]) => void | Promise<void> = async (
     { NAME: releaseMetadata?.name || strings.NO_NAME_PROVIDED },
     { SUBDOMAIN: plugin?.subdomain },
     { DESCRIPTION: releaseMetadata?.description || strings.NO_DESCRIPTION_PROVIDED },
-    { VERSION: `Release ${latestRelease.release} : Build ${latestBuild.build}` },
+    { VERSION: `Release ${latestRelease?.release} : Build ${latestBuild?.build}` },
     { ADDRESS: plugin?.id },
   ]);
 };
