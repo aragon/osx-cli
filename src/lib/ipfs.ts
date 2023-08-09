@@ -40,7 +40,6 @@ export async function uploadToIPFS(text: string): Promise<string> {
 export async function downloadFromIPFS(uri: IpfsUri): Promise<any> {
   const validationResult = ipfsUriSchema.safeParse(uri);
   if (!validationResult.success) {
-    console.error(validationResult.error.issues.map((issue) => issue.message).join('\n'));
     return null;
   }
 
@@ -87,6 +86,8 @@ export function toHex(input: string): BytesLike {
  * @throws {Error} If there's any error in the upload process, it throws an error.
  */
 export async function uploadMetadata(build: any, type: string): Promise<string> {
+  build = build ?? 'NO Metadata Set';
+
   updateSpinnerText(`Uploading ${type} Metadata...`);
   const cid = await uploadToIPFS(JSON.stringify(build, null, 2));
   spinnerSuccess(`${type} Metadata: https://ipfs.io/ipfs/${cid}`);
