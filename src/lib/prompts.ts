@@ -1,8 +1,9 @@
 import fs from 'fs';
+import fuzzy from 'fuzzy';
 import path from 'path';
 import inquirer from 'inquirer';
 import { ZodError, ZodSchema, z } from 'zod';
-import { Network, TenderlySettings, Address, CustomZodError } from 'src/types';
+import { Network, TenderlySettings, Address, CustomZodError, PluginRepo } from 'src/types';
 import {
   buildMetadataSchema,
   contractNameSchema,
@@ -12,9 +13,15 @@ import {
   subdomainSchema,
   tenderlyKeySchema,
 } from './schemas.js';
-import { exitWithMessage, networks, strings, success } from './constants';
+import { networks } from './constants';
+import { exitWithMessage, strings, success } from './strings.js';
 import inquirerFuzzyPath from 'inquirer-fuzzy-path';
 import chalk from 'chalk';
+import inquirerAutocompletePrompt from 'inquirer-autocomplete-prompt';
+import { findRepo } from '~/lib/subgraph';
+
+inquirer.registerPrompt('fuzzypath', inquirerFuzzyPath);
+inquirer.registerPrompt('autocomplete', inquirerAutocompletePrompt);
 
 export const confirmPrompt = async (message: string): Promise<boolean> => {
   const { data } = await inquirer.prompt({
@@ -156,7 +163,6 @@ export const addressPrompt = async (message: string): Promise<Address> => {
   return data as Address;
 };
 
-inquirer.registerPrompt('fuzzypath', inquirerFuzzyPath);
 export const filePrompt = async (excludedPaths: string[] = [], promptMessage: string): Promise<string> => {
   excludedPaths = ['node_modules', ...excludedPaths];
   const { filePath } = await inquirer.prompt({
@@ -212,7 +218,7 @@ export const subDomainPrompt = async (): Promise<string> => {
   const { subdomain } = await inquirer.prompt({
     type: 'input',
     name: 'subdomain',
-    message: 'Please enter the subdomain:',
+    message: strings.SUBDOMAIN_PROMPT,
     validate: (input: string) => {
       try {
         subdomainSchema.parse(input);
@@ -227,4 +233,29 @@ export const subDomainPrompt = async (): Promise<string> => {
   });
 
   return subdomain;
+};
+
+/**
+ * Plugin selection prompt using inquirer.
+ * It will display the subdomains of the plugins for selection,
+ * and return the full plugin details when a plugin is selected.
+ *
+ * @param {Array<PluginRepo>} pluginRepos - an array of plugin repositories to select from.
+ * @returns {Promise<PluginRepo>} - A promise that resolves to the selected plugin repository.
+ */
+export const pluginSelectionPrompt = async (pluginRepos: Array<PluginRepo>): Promise<PluginRepo> => {
+  const { subdomain } = await inquirer.prompt({
+    type: 'autocomplete',
+    name: 'subdomain',
+    message: strings.SUBDOMAIN_PROMPT,
+    source: (_: any, input = '') => {
+      return fuzzy
+        .filter(input, pluginRepos, { extract: (repo) => repo.subdomain })
+        .map((el) => el.original.subdomain);
+    },
+    pageSize: 10,
+    suggestOnly: false,
+  });
+
+  return findRepo(subdomain, pluginRepos);
 };

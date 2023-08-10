@@ -1,6 +1,8 @@
 import { Address, PublishOptions } from 'src/types';
-import { exitWithMessage, strings } from '~/lib/constants';
+import { logTable } from '~/lib/constants';
+import { exitWithMessage, strings } from '~/lib/strings';
 import { uploadMetadata } from '~/lib/ipfs';
+import { getTenderlySettings } from '~/lib/keys';
 import {
   addressPrompt,
   buildMetadataPrompt,
@@ -18,6 +20,7 @@ import {
   validateNetwork,
 } from '~/lib/validators';
 import { findNetworkByName, publish, simulatePublish } from '~/lib/web3';
+import { tenderlyKeyHandler } from '../settings/handlers/tenderlyKeyHandler';
 
 export const publishHandler: (...args: any[]) => void | Promise<void> = async (
   contract?: Address,
@@ -37,15 +40,20 @@ export const publishHandler: (...args: any[]) => void | Promise<void> = async (
   const network = options.network ? findNetworkByName(options.network) : await networkSelectionPrompt();
   const maintainer = options.maintainer ?? (await addressPrompt(strings.MAINTAINER_ADDRESS));
 
-  console.table({
-    setupContract,
-    subdomain: `${subdomain}.plugin.dao.eth`,
-    chain: network.name,
-    maintainer,
-  });
+  logTable([
+    { setupContract },
+    { subdomain: `${subdomain}.plugin.dao.eth` },
+    { chain: network.name },
+    { maintainer },
+  ]);
+
+  console.log(strings.SUBDOMAIN_WARNING);
 
   const simulate = options.simulate ?? (await confirmPrompt(strings.SIMULATE_DEPLOYMENT));
-  if (simulate) await simulatePublish(setupContract, network, subdomain, maintainer);
+  if (simulate) {
+    (await getTenderlySettings()) ?? (await tenderlyKeyHandler());
+    await simulatePublish(setupContract, network, subdomain, maintainer);
+  }
 
   const confirm = await confirmPrompt(strings.CONFIRM_PUBLISH);
   if (!confirm) exitWithMessage(strings.ABORTED);

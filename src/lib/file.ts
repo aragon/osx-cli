@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import { ContractArtifact } from 'src/types';
-import { exitWithMessage } from './constants';
+import { exitWithMessage } from './strings';
 
 /**
  * Finds the contracts build directory in the project directory.

@@ -1,9 +1,11 @@
-import { exitWithMessage, strings } from '~/lib/constants';
+import { logTable } from '~/lib/constants';
+import { exitWithMessage, strings } from '~/lib/strings';
 import { ContractArtifact, Network } from '../../types';
 import { findContractBuild, findContractsBuildDirectory } from '~/lib/file';
 import { buildFolderPrompt, confirmPrompt, contractNamePrompt, networkSelectionPrompt } from '~/lib/prompts';
-import { getPrivateKey } from '~/lib/keys';
+import { getPrivateKey, getTenderlySettings } from '~/lib/keys';
 import { deployContract, findNetworkByName, simulateDeployment } from '~/lib/web3';
+import { tenderlyKeyHandler } from '../settings/handlers/tenderlyKeyHandler';
 
 export const deployHandler: (...args: any[]) => void | Promise<void> = async (
   contract?: string,
@@ -35,11 +37,14 @@ export const deployHandler: (...args: any[]) => void | Promise<void> = async (
     }
 
     // Display info
-    console.table({ contract, buildPath, chain: chosenNetwork.name });
+    logTable([{ contract }, { chain: chosenNetwork.name }]);
 
     // Simulate deployment
     simulate = simulate ?? (await confirmPrompt(strings.SIMULATE_DEPLOYMENT));
-    if (simulate) await simulateDeployment(contractBuild, chosenNetwork.id);
+    if (simulate) {
+      (await getTenderlySettings()) ?? (await tenderlyKeyHandler());
+      await simulateDeployment(contractBuild, chosenNetwork.id);
+    }
 
     // Deploy
     if (!(await confirmPrompt(strings.PROCEED_WITH_DEPLOYMENT))) exitWithMessage(strings.ABORTED);

@@ -1,5 +1,5 @@
 import { getPrivateKey, setPrivateKey } from '~/lib/keys.js';
-import { strings } from '~/lib/constants.js';
+import { strings } from '~/lib/strings.js';
 
 import { viewHandler } from './viewHandler.js';
 import { confirmPrompt, privateKeyPrompt } from '~/lib/prompts.js';

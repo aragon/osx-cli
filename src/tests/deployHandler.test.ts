@@ -1,9 +1,9 @@
 import { beforeEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import * as keys from '../lib/keys';
 import * as file from '../lib/file';
-import * as prompts from '../lib/prompts.js';
+import * as prompts from '../lib/prompts';
 import * as web3 from '../lib/web3';
-import * as constants from '../lib/constants';
+import * as strings from '~/lib/strings';
 
 import { Network } from 'src/types/index';
 import TestSetup from '../tests/mocks/TestSetup.json';
@@ -18,6 +18,7 @@ describe('deployHandler', () => {
     id: '80001',
     url: 'https://rpc.ankr.com/polygon_mumbai',
     explorer: 'https://mumbai.polygonscan.com',
+    subgraph: 'https://subgraph.satsuma-prod.com/qHR2wGfc5RLi6/aragon/osx-mumbai/version/v1.1.1/api',
   };
 
   const privateKey = process.env.PRIVATE_KEY as string;
@@ -41,7 +42,7 @@ describe('deployHandler', () => {
   });
 
   it('should successfully deploy the contract to mumbai network', async () => {
-    vi.spyOn(constants, 'exitWithMessage').mockImplementation((message: string) => {
+    vi.spyOn(strings, 'exitWithMessage').mockImplementation((message: string) => {
       console.info(message);
       return;
     });
@@ -60,9 +61,9 @@ describe('deployHandler', () => {
   });
 
   it('should handle deployment failure correctly', async () => {
-    const errorMessage = constants.strings.DEPLOYMENT_FAILED;
+    const errorMessage = strings.strings.DEPLOYMENT_FAILED;
 
-    vi.spyOn(constants, 'exitWithMessage').mockImplementation((message: string) => {
+    vi.spyOn(strings, 'exitWithMessage').mockImplementation((message: string) => {
       console.error(message);
       return;
     });
@@ -76,6 +77,6 @@ describe('deployHandler', () => {
     vi.spyOn(web3, 'deployContract').mockRejectedValue(new Error(errorMessage));
 
     await deployHandler('contract', { network: 'network', simulate: true });
-    expect(constants.exitWithMessage).toHaveBeenCalledWith(errorMessage);
+    expect(strings.exitWithMessage).toHaveBeenCalledWith(errorMessage);
   });
 });

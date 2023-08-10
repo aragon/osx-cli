@@ -16,6 +16,7 @@ export type Network = {
   id: string;
   url: string;
   explorer: string;
+  subgraph: string;
 };
 
 export interface TenderlySettings {
@@ -55,4 +56,43 @@ export interface PublishOptions {
   network?: AllowedNetworks;
   maintainer?: string;
   simulate?: boolean;
+}
+
+export interface InfoOptions {
+  subdomain?: string;
+  network?: AllowedNetworks;
+}
+
+/**
+ * Interface representing a plugin setup.
+ */
+export interface PluginSetup {
+  id: string;
+}
+
+/**
+ * Interface representing a build.
+ */
+export interface Build {
+  build: number;
+  metadata: string;
+  pluginSetup: PluginSetup;
+}
+
+/**
+ * Interface representing a release.
+ */
+export interface Release {
+  release: number;
+  metadata: string;
+  builds: Build[];
+}
+
+/**
+ * Interface representing a plugin repository.
+ */
+export interface PluginRepo {
+  id: string;
+  subdomain: string;
+  releases: Release[];
 }

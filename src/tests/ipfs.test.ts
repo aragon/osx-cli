@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { uploadToIPFS, toHex } from '../lib/ipfs';
 import * as ipfs from '../lib/ipfs';
-import { strings } from '~/lib/constants';
+import { strings } from '~/lib/strings';
 
 describe('uploadToIPFS', () => {
   it('should upload text to IPFS', async () => {
