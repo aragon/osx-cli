@@ -28,20 +28,14 @@ export const findContractsBuildDirectory = (projectDirectory?: string): string |
 /**
  * Recursively searches the project directory for the build artifact of the given Solidity contract and returns its contents as a JSON object.
  *
- * @param {string} projectDirectory - The root directory of the project.
+ * @param {string} buildDirectory - The directory where the build artifacts are located.
  * @param {string} contractName - The name of the Solidity contract (without .sol extension).
  * @returns {ContractArtifact | null} - The contract artifact or null if not found.
  */
-export const findContractBuild = (
-  contractName: string,
-  projectDirectory?: string,
-): ContractArtifact | null => {
-  projectDirectory = projectDirectory ?? process.cwd();
-  const artifactsDirectory = path.join(projectDirectory, 'artifacts');
-
-  if (!fs.existsSync(artifactsDirectory)) {
+export const findContractBuild = (contractName: string, buildDirectory: string): ContractArtifact | null => {
+  if (!fs.existsSync(buildDirectory)) {
     exitWithMessage(
-      `Directory not found: ${artifactsDirectory} \nensure you are in the project root directory and you have compiled your contracts`,
+      `Directory not found: ${buildDirectory} \nensure you are in the project root directory and you have compiled your contracts`,
     );
   }
 
@@ -76,5 +70,5 @@ export const findContractBuild = (
     return null;
   };
 
-  return searchDirectories(artifactsDirectory);
+  return searchDirectories(buildDirectory);
 };
