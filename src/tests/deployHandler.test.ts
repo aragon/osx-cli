@@ -18,7 +18,7 @@ describe('deployHandler', () => {
     id: '80001',
     url: 'https://rpc.ankr.com/polygon_mumbai',
     explorer: 'https://mumbai.polygonscan.com',
-    subgraph: 'https://subgraph.satsuma-prod.com/qHR2wGfc5RLi6/aragon/osx-mumbai/version/v1.1.1/api',
+    subgraph: 'https://subgraph.satsuma-prod.com/qHR2wGfc5RLi6/aragon/osx-mumbai/version/v1.3.0/api',
   };
 
   const privateKey = process.env.PRIVATE_KEY as string;
