@@ -21,11 +21,11 @@ export const deployHandler: (...args: any[]) => void | Promise<void> = async (
 
     // Find build path
     buildPath = buildPath ?? findContractsBuildDirectory(process.cwd());
-    if (!buildPath) await buildFolderPrompt();
+    if (!buildPath) buildPath = (await buildFolderPrompt()) as string;
 
     // Find contract
     contract = contract ?? (await contractNamePrompt());
-    const contractBuild = findContractBuild(contract) as ContractArtifact;
+    const contractBuild = findContractBuild(contract, buildPath) as ContractArtifact;
 
     if (!contractBuild) exitWithMessage(strings.CONTRACT_BUILD_NOT_FOUND(contract));
 
