@@ -24,16 +24,14 @@ jobs:
           echo "GIT_HASH_SHORT=$githashshort" >> $GITHUB_OUTPUT
           echo "DATE_IN_SECS=$dateinsecs" >> $GITHUB_OUTPUT
 
-      - name: Use Volta
-        uses: volta-cli/action@v4
+      - name: Setup Node.js with nvm
+        uses: actions/setup-node@v3
         with:
           node-version: 18.x
+          cache: 'yarn'
 
       - name: Install dependencies (needed for key storage)
         run: sudo apt-get install libsecret-1-0
-
-      - name: Setup Yarn using Volta
-        run: volta install yarn
 
       - name: Install dependencies using Yarn
         run: yarn install
