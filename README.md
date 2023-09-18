@@ -21,7 +21,7 @@ Aragon OSx CLI is a command line tool supporting your plugin development process
 You can install the Aragon OSx CLI globally via npm:
 
 ```bash
-npm install -g @aragon/cli
+npm install -g @aragon/osx-cli
 ```
 
 Then, you will be able to run commands using this format:
@@ -33,7 +33,7 @@ aragon [command] [options]
 Alternatively - you can use the CLI without installing it locally in your device, by using npx:
 
 ```bash
-npx @aragon/cli [command] [options]
+npx @aragon/osx-cli [command] [options]
 ```
 
 ## Commands
