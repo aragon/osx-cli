@@ -27,14 +27,12 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.ARABOT_PAT_TRIGGER_WORKFLOW }}
 
-      - name: Use Volta
-        uses: volta-cli/action@v4
+      - name: Setup Node.js with nvm
+        uses: actions/setup-node@v3
         with:
           node-version: 18.x
-  
-      - name: Setup Yarn using Volta
-        run: volta install yarn
-  
+          cache: 'yarn'
+
       - name: Install dependencies
         run: yarn install --immutable
 
