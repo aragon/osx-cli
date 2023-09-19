@@ -1,5 +1,12 @@
 # Aragon OSx CLI Changelog
 
+## [1.1.1](https://github.com/aragon/osx-cli/compare/v1.1.0...v1.1.1) (2023-09-19)
+
+
+### Bug Fixes
+
+* fix tenderly key handler ([6ba6776](https://github.com/aragon/osx-cli/commit/6ba677681123cad64fe39e47bdbcea45e2bafe32))
+
 # [1.1.0](https://github.com/aragon/osx-cli/compare/v1.0.0...v1.1.0) (2023-09-18)
 
 
