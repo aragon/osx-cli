@@ -14,7 +14,7 @@ export const tenderlyKeyHandler: (...args: any[]) => void | Promise<void> = asyn
       ? (tenderlyKeys = await tenderlyPrompt())
       : process.exit();
   } else {
-    const hasKeys = Object.keys(tenderlyKeys).length > 0;
+    const hasKeys = Boolean(tenderlyKeys?.tenderlyKey)
     tenderlyKeys = hasKeys ? tenderlyKeys : await tenderlyPrompt();
   }
 
