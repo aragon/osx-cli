@@ -11,10 +11,10 @@ import { mockTenderlySettings } from './mocks';
 vi.mock('~/lib/keys');
 
 describe('tenderlyKeyHandler', () => {
-  const mockFunction = (() => {}) as any as () => never;
+  const mockFunction = (() => { }) as any as () => never;
 
   beforeAll(() => {
-    console.log = vi.fn();
+    // console.log = vi.fn();
   });
 
   beforeEach(() => {
