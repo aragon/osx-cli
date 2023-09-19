@@ -11,7 +11,7 @@ import { mockTenderlySettings } from './mocks';
 vi.mock('~/lib/keys');
 
 describe('tenderlyKeyHandler', () => {
-  const mockFunction = (() => {}) as any as () => never;
+  const mockFunction = (() => { }) as any as () => never;
 
   beforeAll(() => {
     console.log = vi.fn();
@@ -22,7 +22,7 @@ describe('tenderlyKeyHandler', () => {
   });
 
   it('should prompt and store a new key if no existing key is found and none provided', async () => {
-    vi.spyOn(keys, 'getTenderlySettings').mockResolvedValue(null);
+    vi.spyOn(keys, 'getTenderlySettings').mockResolvedValue({} as TenderlySettings);
     vi.spyOn(prompts, 'tenderlyPrompt').mockResolvedValue(mockTenderlySettings);
 
     await tenderlyKeyHandler();
