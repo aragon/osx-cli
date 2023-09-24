@@ -1,5 +1,6 @@
 import { Command, Option } from 'commander';
 import { publishHandler } from './publishHandler';
+import { allowedNetworks } from 'src/types';
 
 export const publish = new Command('publish');
 
@@ -10,12 +11,7 @@ publish
   .addOption(new Option('-r, --release-metadata [release]', 'Path to the release metadata file'))
   .addOption(new Option('-m, --maintainer [maintainer]', 'Address of the maintainer'))
   .addOption(
-    new Option('-n, --network [network]', 'Network to deploy to').choices([
-      'mainnet',
-      'polygon',
-      'goerli',
-      'mumbai',
-    ]),
+    new Option('-n, --network [network]', 'Network to deploy to').choices(allowedNetworks),
   )
   .option('-s, --simulate', 'Simulate deployment')
   .action(publishHandler);

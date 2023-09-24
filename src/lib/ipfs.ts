@@ -4,6 +4,8 @@ import { Buffer } from 'buffer';
 import { updateSpinnerText, spinnerSuccess } from './spinners';
 import { exitWithMessage, strings } from './strings';
 import { IpfsUri, ipfsUriSchema } from './schemas';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const WEB_3_STORAGE = process.env.WEB_3_STORAGE_KEY;
 

@@ -11,6 +11,9 @@ export interface ContractArtifact {
 
 export type AllowedNetworks = keyof typeof activeContractsList;
 
+export const allowedNetworks: string[] = Object.keys(activeContractsList);
+
+
 export type Network = {
   name: AllowedNetworks;
   id: string;
