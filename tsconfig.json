@@ -26,5 +26,5 @@
       "~/commands/*": ["src/commands/*"] // Maps "~/commands/*" to "src/commands/*"
     }
   },
-  "include": ["src", "./vitest.config.ts", "./release.config.cjs"]
+  "include": ["src", "./vitest.config.ts", "./release.config.cjs", "./bundle.mjs"]
 }

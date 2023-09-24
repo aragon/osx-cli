@@ -5,7 +5,7 @@ import { updateSpinnerText, spinnerSuccess } from './spinners';
 import { exitWithMessage, strings } from './strings';
 import { IpfsUri, ipfsUriSchema } from './schemas';
 
-const WEB_3_STORAGE = (import.meta as any).env?.VITE_WEB_3_STORAGE_KEY;
+const WEB_3_STORAGE = process.env.WEB_3_STORAGE_KEY;
 
 /**
  * This function is used to upload a string of text to IPFS through Web3Storage.
