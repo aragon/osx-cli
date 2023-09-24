@@ -44,4 +44,18 @@ export const networks: Array<Network> = [
     explorer: 'https://mumbai.polygonscan.com',
     subgraph: 'https://subgraph.satsuma-prod.com/qHR2wGfc5RLi6/aragon/osx-mumbai/version/v1.3.0/api',
   },
+  {
+    name: 'baseMainnet',
+    id: '8453',
+    url: 'https://rpc.ankr.com/base',
+    explorer: 'https://basescan.org',
+    subgraph: 'https://subgraph.satsuma-prod.com/qHR2wGfc5RLi6/aragon/osx-baseMainnet/api',
+  },
+  {
+    name: 'baseGoerli',
+    id: '84531',
+    url: 'https://rpc.ankr.com/base_goerli',
+    explorer: '	https://goerli.basescan.org',
+    subgraph: 'https://subgraph.satsuma-prod.com/qHR2wGfc5RLi6/aragon/osx-baseGoerli/api'
+  }
 ];

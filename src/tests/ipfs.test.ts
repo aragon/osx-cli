@@ -1,9 +1,13 @@
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi, beforeAll } from 'vitest';
 import { uploadToIPFS, toHex } from '../lib/ipfs';
 import * as ipfs from '../lib/ipfs';
 import { strings } from '~/lib/strings';
 
 describe('uploadToIPFS', () => {
+  beforeAll(() => {
+    process.exit = vi.fn();
+  });
+
   it('should upload text to IPFS', async () => {
     const mockText = 'Code is Law!';
     const mockCID = 'bafkreiavjuq7hmb5vtamnalryqqctvvuyziq5rfsanow3qfypibcgf37pu';

@@ -2,7 +2,6 @@
   "name": "@aragon/osx-cli",
   "version": "1.0.0",
   "description": "Create, Deploy and Manage Aragon OSx plugins with ease",
-  "type": "module",
   "author": "Aragon Association",
   "license": "AGPL-3.0",
   "engines": {
@@ -15,8 +14,7 @@
     "dev": "node dist/main.js",
     "clean": "rimraf coverage dist tmp",
     "prebuild": "yarn run lint",
-    "build": "yarn prebuild && vite build && ./postbuild.sh",
-    "build:watch": "vite build -w",
+    "build": "yarn prebuild && node bundle.mjs",
     "build:release": "yarn clean && yarn lint && yarn prettier && yarn build",
     "lint": "eslint . --ext .ts --ext .mts",
     "test": "vitest --watch false",
