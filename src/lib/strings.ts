@@ -50,15 +50,24 @@ const errors = {
   NO_DESCRIPTION_PROVIDED: error('No description provided'),
   NOT_NETWORK: (network: string | undefined) => error(`Network ${network} not found`),
   PRIVATE_KEY_NOT_FOUND: error(
-    'No private key found. Please use the "settings set-pk" command to store a private key.',
+    chalk.red.bold(
+      `Private key not found. Please set it using the ${chalk.bold(
+        'aragon settings set-private-key',
+      )} command.\n`,
+    ),
   ),
   TENDERLY_NOT_FOUND: error(
-    'No Tenderly key found. You can use the "settings set-tenderly" command to store a Tenderly key.',
+    chalk.yellow(
+      `Tenderly settings not found. create an account at https://tenderly.co/ then run the ${chalk.bold(
+        'aragon settings set-tenderly-settings',
+      )} command.\n`,
+    ),
   ),
   WEB_3_STORAGE_NOT_FOUND: error('No Web3 Storage key found'),
 };
 
 const logs = {
+  BANNER: `⚡️Build, Deploy, Publish, and Interact with Aragon Plugins - Blazingly Fast ⚡️ `,
   DEPLOYED: (contract: string, address: string | undefined, network: string) =>
     `\n\n🎉 ${chalk.greenBright.bold(contract)}: deployed to ${address} on ${chalk.green.bold(network)}`,
   DOWNLOADING_METADATA: warning('Downloading metadata...'),

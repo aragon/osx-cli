@@ -4,6 +4,7 @@ import { privateKeySchema, tenderlyKeySchema } from './schemas';
 import { TenderlySettings } from 'src/types';
 import fs from 'fs';
 import { configFilePath } from './file';
+import { strings } from './strings';
 
 /**
  * Reads the configuration from the config file.
@@ -103,10 +104,15 @@ export const getTenderlySettings = async (): Promise<TenderlySettings | null> =>
   }
 };
 
-// const getKey = async (key: string) => {
-//   return keytar.getPassword(service, key);
-// };
+export const checkKeys = async (): Promise<void> => {
+  const privateKey = await getPrivateKey();
+  const tenderlySettings = await getTenderlySettings();
 
-// const setKey = async (key: string, value: string) => {
-//   return keytar.setPassword(service, key, value);
-// };
+  if (!privateKey) {
+    console.log(strings.PRIVATE_KEY_NOT_FOUND);
+  }
+  if (!tenderlySettings) {
+    console.log(strings.TENDERLY_NOT_FOUND);
+  }
+  console.log('\n');
+};
