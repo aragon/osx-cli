@@ -9,6 +9,7 @@ import {
 } from '~/lib/keys';
 import fs from 'fs';
 import { configFilePath } from '~/lib/file';
+import path from 'path';
 
 describe('Key management tests', () => {
   let consoleErrorSpy: SpyInstance;
@@ -20,6 +21,8 @@ describe('Key management tests', () => {
 
   beforeEach(() => {
     consoleErrorSpy = vi.spyOn(console, 'error');
+    // Ensure the config directory exists and reset the config file before each test
+    fs.mkdirSync(path.dirname(configFilePath), { recursive: true });
     // Reset the config file before each test
     fs.writeFileSync(configFilePath, JSON.stringify({}));
   });
