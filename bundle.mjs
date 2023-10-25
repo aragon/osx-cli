@@ -8,4 +8,5 @@ await esbuild.build({
   sourcemap: 'external',
   outfile: 'dist/main.js',
   loader: { '.node': 'file' },
+  external: ['figlet'], // Exclude figlet from the bundle
 });

@@ -6,6 +6,8 @@ import { settings } from './commands/settings/index.js';
 import { deploy } from './commands/deploy/index.js';
 import { publish } from './commands/publish/index.js';
 import { info } from './commands/info/index.js';
+import { Banner } from './lib/banner.js';
+import { checkKeys } from './lib/keys.js';
 
 dotenv.config();
 
@@ -18,6 +20,8 @@ program.addCommand(publish);
 program.addCommand(info);
 
 async function main(): Promise<void> {
+  Banner();
+  await checkKeys();
   await program.parseAsync();
 }
 console.log();
