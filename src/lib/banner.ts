@@ -14,6 +14,6 @@ const poimandresTheme = {
 
 export const gradient = G(Object.values(poimandresTheme));
 export const Banner = () => {
-  console.log(gradient.multiline(figlet.textSync('OSX CLI', { font: '3D-ASCII' })));
+  console.log(gradient.multiline(figlet.textSync('OSX CLI', { font: 'ANSI Shadow' })));
   console.log(gradient(strings.BANNER), '\n\n');
 };
