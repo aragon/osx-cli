@@ -42,6 +42,7 @@ jobs:
       - name: Run tests
         run: yarn test
         env:
+          NODE_ENV: TEST
           TENDERLY_KEY: ${{ secrets.TENDERLY_KEY }}
           TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
           TENDERLY_USERNAME: ${{ secrets.TENDERLY_USERNAME }}
