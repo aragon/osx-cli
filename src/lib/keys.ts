@@ -1,14 +1,34 @@
-import keytar from 'keytar';
 import chalk from 'chalk';
 import { z } from 'zod';
 import { privateKeySchema, tenderlyKeySchema } from './schemas';
 import { TenderlySettings } from 'src/types';
+import fs from 'fs';
+import { configFilePath } from './file';
 
-const service = 'aragon-cli';
-const accountPrivateKey = 'private-key';
-const accountTenderlyKey = 'tenderly-key';
-const accountTenderlyProject = 'tenderly-project';
-const accountTenderlyUsername = 'tenderly-username';
+/**
+ * Reads the configuration from the config file.
+ *
+ * @returns {object} The configuration object. If the file doesn't exist or can't be read for any reason, it returns an empty object.
+ * @throws Will throw an error if the file can't be read due to reasons other than non-existence.
+ */
+export const readConfig = (): any => {
+  try {
+    const data = fs.readFileSync(configFilePath, 'utf8');
+    return JSON.parse(data);
+  } catch (error) {
+    return {};
+  }
+};
+
+/**
+ * Writes the given configuration data to the config file.
+ *
+ * @param {object} data - The configuration data to write.
+ * @throws Will throw an error if the file can't be written.
+ */
+export const writeConfig = (data: any): void => {
+  fs.writeFileSync(configFilePath, JSON.stringify(data, null, 2));
+};
 
 /**
  * Stores the private key in a secure location after validating it.
@@ -20,7 +40,9 @@ const accountTenderlyUsername = 'tenderly-username';
 export const setPrivateKey = async (privateKey: string): Promise<void> => {
   try {
     privateKeySchema.parse(privateKey);
-    await setKey(accountPrivateKey, privateKey);
+    const config = readConfig();
+    config.privateKey = privateKey;
+    writeConfig(config);
     console.log(chalk.green('Private Key stored successfully.'));
   } catch (error) {
     error instanceof z.ZodError
@@ -40,10 +62,11 @@ export const setTenderlySettings = async (tenderlySettings: TenderlySettings): P
   const { tenderlyKey, tenderlyProject, tenderlyUsername } = tenderlySettings;
   try {
     tenderlyKeySchema.parse(tenderlyKey);
-
-    await setKey(accountTenderlyKey, tenderlyKey);
-    await setKey(accountTenderlyProject, tenderlyProject);
-    await setKey(accountTenderlyUsername, tenderlyUsername);
+    const config = readConfig();
+    config.tenderlyKey = tenderlyKey;
+    config.tenderlyProject = tenderlyProject;
+    config.tenderlyUsername = tenderlyUsername;
+    writeConfig(config);
     console.log(chalk.green('Tenderly settings stored successfully.'));
   } catch (error) {
     error instanceof z.ZodError
@@ -58,7 +81,8 @@ export const setTenderlySettings = async (tenderlySettings: TenderlySettings): P
  * @returns {Promise<string | null>} A promise that resolves to the private key string or null if not found.
  */
 export const getPrivateKey = async (): Promise<string | null> => {
-  return getKey(accountPrivateKey);
+  const config = readConfig();
+  return config.privateKey || null;
 };
 
 /**
@@ -69,27 +93,20 @@ export const getPrivateKey = async (): Promise<string | null> => {
  */
 export const getTenderlySettings = async (): Promise<TenderlySettings | null> => {
   try {
-    const tenderlyKey = await getKey(accountTenderlyKey);
-    const tenderlyProject = await getKey(accountTenderlyProject);
-    const tenderlyUsername = await getKey(accountTenderlyUsername);
-
+    const config = readConfig();
+    const { tenderlyKey, tenderlyProject, tenderlyUsername } = config;
     if (!tenderlyKey || !tenderlyProject || !tenderlyUsername) return null;
-
-    return {
-      tenderlyKey,
-      tenderlyProject,
-      tenderlyUsername,
-    };
+    return { tenderlyKey, tenderlyProject, tenderlyUsername };
   } catch (error) {
     console.error(error);
     throw error;
   }
 };
 
-const getKey = async (key: string) => {
-  return keytar.getPassword(service, key);
-};
+// const getKey = async (key: string) => {
+//   return keytar.getPassword(service, key);
+// };
 
-const setKey = async (key: string, value: string) => {
-  return keytar.setPassword(service, key, value);
-};
+// const setKey = async (key: string, value: string) => {
+//   return keytar.setPassword(service, key, value);
+// };

@@ -1,13 +1,16 @@
-import keytar from 'keytar';
 import { TenderlySettings } from 'src/types';
 import { beforeEach, beforeAll, describe, expect, it, vi, SpyInstance } from 'vitest';
-import { setPrivateKey, setTenderlySettings, getPrivateKey, getTenderlySettings } from '~/lib/keys';
-
-vi.mock('keytar');
+import {
+  setPrivateKey,
+  setTenderlySettings,
+  getPrivateKey,
+  getTenderlySettings,
+  readConfig,
+} from '~/lib/keys';
+import fs from 'fs';
+import { configFilePath } from '~/lib/file';
 
 describe('Key management tests', () => {
-  let setPasswordSpy: SpyInstance;
-  let getPasswordSpy: SpyInstance;
   let consoleErrorSpy: SpyInstance;
 
   beforeAll(() => {
@@ -16,18 +19,18 @@ describe('Key management tests', () => {
   });
 
   beforeEach(() => {
-    setPasswordSpy = vi.spyOn(keytar, 'setPassword');
-    getPasswordSpy = vi.spyOn(keytar, 'getPassword');
     consoleErrorSpy = vi.spyOn(console, 'error');
+    // Reset the config file before each test
+    fs.writeFileSync(configFilePath, JSON.stringify({}));
   });
 
   it('should store the private key successfully', async () => {
     const privateKey = 'a'.repeat(64); // 64 hexadecimal characters
-    setPasswordSpy.mockResolvedValue(undefined);
 
     await setPrivateKey(privateKey);
 
-    expect(setPasswordSpy).toHaveBeenCalledWith('aragon-cli', 'private-key', privateKey);
+    const config = readConfig();
+    expect(config.privateKey).toBe(privateKey);
   });
 
   it('should not store an invalid private key', async () => {
@@ -35,7 +38,9 @@ describe('Key management tests', () => {
 
     await setPrivateKey(privateKey);
 
-    expect(setPasswordSpy).not.toHaveBeenCalled();
+    const config = readConfig();
+    expect(config.privateKey).toBeUndefined();
+    expect(consoleErrorSpy).toHaveBeenCalled();
   });
 
   it('should store the Tenderly settings successfully', async () => {
@@ -44,39 +49,36 @@ describe('Key management tests', () => {
       tenderlyProject: 'alice-project',
       tenderlyUsername: 'alice',
     };
-    const { tenderlyKey, tenderlyProject, tenderlyUsername } = tenderlySettings;
-
-    setPasswordSpy.mockResolvedValue(undefined);
 
     await setTenderlySettings(tenderlySettings);
 
-    expect(setPasswordSpy).toHaveBeenCalledWith('aragon-cli', 'tenderly-key', tenderlyKey);
-
-    expect(setPasswordSpy).toHaveBeenCalledWith('aragon-cli', 'tenderly-project', tenderlyProject);
-
-    expect(setPasswordSpy).toHaveBeenCalledWith('aragon-cli', 'tenderly-username', tenderlyUsername);
+    const config = readConfig();
+    expect(config.tenderlyKey).toBe(tenderlySettings.tenderlyKey);
+    expect(config.tenderlyProject).toBe(tenderlySettings.tenderlyProject);
+    expect(config.tenderlyUsername).toBe(tenderlySettings.tenderlyUsername);
   });
 
   it('should not store an invalid Tenderly key', async () => {
-    const tenderlyKey: TenderlySettings = {
+    const tenderlySettings: TenderlySettings = {
       tenderlyKey: 'invalidTenderlyKey',
       tenderlyProject: 'alice-project',
       tenderlyUsername: 'alice',
     };
 
-    await setTenderlySettings(tenderlyKey);
+    await setTenderlySettings(tenderlySettings);
 
-    expect(setPasswordSpy).not.toHaveBeenCalled();
+    const config = readConfig();
+    expect(config.tenderlyKey).toBeUndefined();
+    expect(consoleErrorSpy).toHaveBeenCalled();
   });
 
   it('should retrieve the private key', async () => {
     const privateKey = 'a'.repeat(64);
-    getPasswordSpy.mockResolvedValue(privateKey);
+    fs.writeFileSync(configFilePath, JSON.stringify({ privateKey }));
 
     const result = await getPrivateKey();
 
     expect(result).toBe(privateKey);
-    expect(getPasswordSpy).toHaveBeenCalledWith('aragon-cli', 'private-key');
   });
 
   it('should retrieve the Tenderly settings', async () => {
@@ -85,72 +87,19 @@ describe('Key management tests', () => {
       tenderlyProject: 'alice-project',
       tenderlyUsername: 'alice',
     };
-
-    getPasswordSpy.mockImplementation((service, account) => {
-      switch (account) {
-        case 'tenderly-key':
-          return Promise.resolve(tenderlySettings.tenderlyKey);
-        case 'tenderly-project':
-          return Promise.resolve(tenderlySettings.tenderlyProject);
-        case 'tenderly-username':
-          return Promise.resolve(tenderlySettings.tenderlyUsername);
-        default:
-          return Promise.resolve(null);
-      }
-    });
+    fs.writeFileSync(configFilePath, JSON.stringify(tenderlySettings));
 
     const result = await getTenderlySettings();
 
     expect(result).toEqual(tenderlySettings);
-    expect(getPasswordSpy).toHaveBeenCalledWith('aragon-cli', 'tenderly-key');
-    expect(getPasswordSpy).toHaveBeenCalledWith('aragon-cli', 'tenderly-project');
-    expect(getPasswordSpy).toHaveBeenCalledWith('aragon-cli', 'tenderly-username');
   });
 
-  it('should log Zod error for invalid private key', async () => {
-    const privateKey = 'invalidPrivateKey';
-    await setPrivateKey(privateKey);
-    expect(consoleErrorSpy).toHaveBeenCalled();
-    expect(setPasswordSpy).not.toHaveBeenCalled();
-  });
-
-  it('should log Zod error for invalid Tenderly key', async () => {
-    const tenderlyKey: TenderlySettings = {
-      tenderlyKey: 'invalidTenderlyKey',
-      tenderlyProject: 'alice-project',
-      tenderlyUsername: 'alice',
-    };
-    await setTenderlySettings(tenderlyKey);
-    expect(consoleErrorSpy).toHaveBeenCalled();
-    expect(setPasswordSpy).not.toHaveBeenCalled();
-  });
-
-  it('should log error if setPrivateKey fails for other reason', async () => {
-    const privateKey = 'a'.repeat(64);
-    setPasswordSpy.mockRejectedValue(new Error('failed'));
-    await setPrivateKey(privateKey);
-    expect(consoleErrorSpy).toHaveBeenCalled();
-  });
-
-  it('should log error if setTenderlyKey fails for other reason', async () => {
-    const tenderlyKey: TenderlySettings = {
-      tenderlyKey: 'invalidTenderlyKey',
-      tenderlyProject: 'alice-project',
-      tenderlyUsername: 'alice',
-    };
-    setPasswordSpy.mockRejectedValue(new Error('failed'));
-    await setTenderlySettings(tenderlyKey);
-    expect(consoleErrorSpy).toHaveBeenCalled();
-  });
-
-  it('should handle null return from getPassword for private key', async () => {
-    getPasswordSpy.mockResolvedValue(null);
+  it('should handle null return from getPrivateKey', async () => {
     const result = await getPrivateKey();
     expect(result).toBeNull();
   });
 
-  it('should handle null return from getPassword for Tenderly key', async () => {
-    getPasswordSpy.mockResolvedValue(null);
+  it('should handle null return from getTenderlySettings', async () => {
     const result = await getTenderlySettings();
     expect(result).toBeNull();
   });

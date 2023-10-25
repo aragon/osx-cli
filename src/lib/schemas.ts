@@ -13,6 +13,14 @@ export const tenderlyKeySchema = z
   .length(32, 'Tenderly key must be exactly 32 characters long.')
   .regex(/^[a-zA-Z0-9-]*$/, 'Tenderly key must only contain numbers and letters.');
 
+// user config for the cli
+export const configSchema = z.object({
+  privateKey: privateKeySchema.optional(),
+  tenderlyKey: tenderlyKeySchema.optional(),
+  tenderlyProject: z.string().optional(),
+  tenderlyUsername: z.string().optional(),
+});
+
 export const contractNameSchema = z
   .string()
   .nonempty({ message: 'Contract name cannot be empty.' })
@@ -30,7 +38,9 @@ export const ethereumAddressSchema = z.string().refine(
   },
 );
 
-const AllowedNetworksSchema: z.ZodEnum<[string, ...string[]]> = z.enum(Object.keys(activeContractsList));
+const AllowedNetworksSchema: z.ZodEnum<[string, ...string[]]> = z.enum(
+  Object.keys(activeContractsList) as [string, ...string[]],
+);
 
 export type AllowedNetworks = z.infer<typeof AllowedNetworksSchema>;
 

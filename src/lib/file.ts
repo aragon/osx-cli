@@ -1,7 +1,12 @@
+import os from 'os';
 import path from 'path';
 import fs from 'fs';
 import { ContractArtifact } from 'src/types';
 import { exitWithMessage } from './strings';
+
+export const configDirPath =
+  process.env.NODE_ENV === 'TEST' ? path.join(os.tmpdir(), '.aragon') : path.join(os.homedir(), '.aragon');
+export const configFilePath = path.join(configDirPath, 'config.json');
 
 /**
  * Finds the contracts build directory in the project directory.
