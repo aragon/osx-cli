@@ -3,9 +3,9 @@ import { updateSpinnerText, spinnerSuccess, spinnerError } from './spinners';
 import { exitWithMessage, strings } from './strings';
 import { IpfsUri, ipfsUriSchema } from './schemas';
 import { client } from './sdk';
+import { resolveIpfsCid } from '@aragon/sdk-client-common';
 
 import dotenv from 'dotenv';
-import { resolveIpfsCid } from '@aragon/sdk-client-common';
 dotenv.config();
 
 /**
