@@ -1,5 +1,20 @@
 # Aragon OSx CLI Changelog
 
+# [1.2.0](https://github.com/aragon/osx-cli/compare/v1.1.1...v1.2.0) (2023-10-26)
+
+
+### Bug Fixes
+
+*  Ensure the config directory exist before test ([ce410cf](https://github.com/aragon/osx-cli/commit/ce410cf5e9db6ebb10f1c7f70296c3a4435180a5))
+* fix ipfs pinning ([2079968](https://github.com/aragon/osx-cli/commit/2079968fbee323fc26575ad8ec0432d181593663))
+
+
+### Features
+
+* add aragon sdk ([c03503c](https://github.com/aragon/osx-cli/commit/c03503c8c6a5737cdc72a46da503faa3a15963f9))
+* add banner ([e76676e](https://github.com/aragon/osx-cli/commit/e76676e71b377e433fa24c84be8005fb11093097))
+* add base networks ([4bb3d39](https://github.com/aragon/osx-cli/commit/4bb3d39ab471b96554e1dad46eca128c5c43ab9f))
+
 ## [1.1.1](https://github.com/aragon/osx-cli/compare/v1.1.0...v1.1.1) (2023-09-19)
 
 
