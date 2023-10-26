@@ -9,10 +9,11 @@ describe('uploadToIPFS', () => {
   });
 
   it('should upload text to IPFS', async () => {
-    const mockText = 'Code is Law!';
-    const mockCID = 'bafkreiavjuq7hmb5vtamnalryqqctvvuyziq5rfsanow3qfypibcgf37pu';
-
-    const cid = await uploadToIPFS(mockText);
+    const mockText = { msg: 'Code is Law!' };
+    const mockCID = 'QmcaffahPqaejjEQUFJQVGA6H86GPa6cgjddKJiAWRgtJT';
+    console.log('mockCID', mockCID);
+    const cid = await uploadToIPFS(JSON.stringify(mockText, null, 2));
+    console.log('cid', cid);
     expect(cid).toEqual(mockCID);
   });
 
