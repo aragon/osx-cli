@@ -15,14 +15,13 @@ import { getPrivateKey } from './keys';
 
 const getContectParams = async (network: AllowedNetworks): Promise<ContextParams> => {
   const PRIVATE_KEY = await getPrivateKey();
-  if (!PRIVATE_KEY) throw new Error('PRIVATE_KEY not provided');
 
   const RPC_URL: string = networks.find((n) => n.name === network)?.url || '';
   if (!RPC_URL) throw new Error(`RPC_URL not found for network: ${network}`);
 
   return {
     network,
-    signer: new Wallet(PRIVATE_KEY),
+    signer: PRIVATE_KEY ? new Wallet(PRIVATE_KEY) : Wallet.createRandom(),
     daoFactoryAddress: activeContractsList[network]?.['DAOFactory'] || '',
     web3Providers: [RPC_URL],
     ipfsNodes: [
