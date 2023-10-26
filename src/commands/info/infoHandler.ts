@@ -18,7 +18,8 @@ export const infoHandler: (...args: any[]) => void | Promise<void> = async (
   const pluginRepos = await queryPluginRepos(network.subgraph);
   const plugin = repoName ? findRepo(repoName, pluginRepos) : await pluginSelectionPrompt(pluginRepos);
 
-  const releaseMetadata = await downloadFromIPFS(plugin?.releases[-1]?.metadata);
+  // TODO: This is always failing with `Cannot decode data: No ipfs nodes available`
+  const releaseMetadata = await downloadFromIPFS(plugin?.releases.slice(-1)[0]?.metadata);
 
   const latestRelease = plugin?.releases?.reduce((maxRelease, currentRelease) => {
     return currentRelease.release > maxRelease.release ? currentRelease : maxRelease;
@@ -27,6 +28,8 @@ export const infoHandler: (...args: any[]) => void | Promise<void> = async (
   const latestBuild = latestRelease?.builds?.reduce((maxBuild, currentBuild) => {
     return currentBuild.build > maxBuild.build ? currentBuild : maxBuild;
   });
+
+  // console.log({ releaseMetadata });
 
   logTable([
     { NAME: releaseMetadata?.name || strings.NO_NAME_PROVIDED },

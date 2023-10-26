@@ -1,13 +1,12 @@
 import { BytesLike, ethers } from 'ethers';
-import { Web3Storage, File } from 'web3.storage';
-import { Buffer } from 'buffer';
-import { updateSpinnerText, spinnerSuccess } from './spinners';
+import { updateSpinnerText, spinnerSuccess, spinnerError } from './spinners';
 import { exitWithMessage, strings } from './strings';
 import { IpfsUri, ipfsUriSchema } from './schemas';
-import dotenv from 'dotenv';
-dotenv.config();
+import { client } from './sdk';
 
-const WEB_3_STORAGE = process.env.WEB_3_STORAGE_KEY;
+import dotenv from 'dotenv';
+import { resolveIpfsCid } from '@aragon/sdk-client-common';
+dotenv.config();
 
 /**
  * This function is used to upload a string of text to IPFS through Web3Storage.
@@ -17,14 +16,11 @@ const WEB_3_STORAGE = process.env.WEB_3_STORAGE_KEY;
  * @throws {Error} If there's any error in the upload process, it throws an error.
  */
 export async function uploadToIPFS(text: string): Promise<string> {
-  if (!WEB_3_STORAGE) exitWithMessage(strings.WEB_3_STORAGE_NOT_FOUND);
-
   try {
-    const client = new Web3Storage({ token: WEB_3_STORAGE });
-    const textBuffer = Buffer.from(text);
-    const file = new File([textBuffer], '');
-
-    return await client.put([file], { wrapWithDirectory: false });
+    const aragon = await client('mainnet');
+    const hash = await aragon.ipfs.add(text);
+    console.log(hash);
+    return hash;
   } catch (error) {
     console.error(error);
     exitWithMessage(strings.IPFS_UPLOAD_ERROR);
@@ -47,25 +43,19 @@ export async function downloadFromIPFS(uri: IpfsUri): Promise<any> {
 
   try {
     updateSpinnerText(strings.DOWNLOADING_METADATA);
-    const client = new Web3Storage({ token: WEB_3_STORAGE });
-    const res = await client.get(uri.split('ipfs://')[1]);
-
-    const files = await res.files();
-
-    if (!files.length) {
-      console.log(strings.NO_FILES_FOR_CID);
-      return null;
-    }
-
-    const jsonContent = await files[0].text();
+    const aragon = await client('mainnet');
+    const cid = resolveIpfsCid(uri);
+    const stringMetadata = await aragon.ipfs.fetchString(cid);
+    const resolvedMetadata = JSON.parse(stringMetadata);
     spinnerSuccess(strings.METADATA_DOWNLOADED);
-    return JSON.parse(jsonContent);
+    return JSON.parse(resolvedMetadata);
   } catch (error) {
     if (error instanceof SyntaxError) {
       console.error(strings.IPFS_NOT_VALID_JSON);
     } else {
-      console.error(error);
+      // console.error(error);
     }
+    spinnerError("Couldn't download metadata from IPFS");
     return null;
   }
 }
