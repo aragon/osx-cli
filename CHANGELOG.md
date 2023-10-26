@@ -1,5 +1,17 @@
 # Aragon OSx CLI Changelog
 
+# [1.3.0](https://github.com/aragon/osx-cli/compare/v1.2.0...v1.3.0) (2023-10-26)
+
+
+### Bug Fixes
+
+* add client-common ([02372d1](https://github.com/aragon/osx-cli/commit/02372d1cb86bba7e439bce7d6bc967e5f25c90a3))
+
+
+### Features
+
+* **bump release:** temporarily disable broken test ([5da7bec](https://github.com/aragon/osx-cli/commit/5da7bec39ff2155c8f464956e1ba1cf5a2d07247))
+
 # [1.2.0](https://github.com/aragon/osx-cli/compare/v1.1.1...v1.2.0) (2023-10-26)
 
 
