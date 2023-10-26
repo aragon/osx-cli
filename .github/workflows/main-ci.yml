@@ -47,7 +47,6 @@ jobs:
           TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
           TENDERLY_USERNAME: ${{ secrets.TENDERLY_USERNAME }}
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-          WEB_3_STORAGE_KEY: ${{ secrets.WEB_3_STORAGE_KEY }}
 
       - name: Build the project if the build script is present
         run: yarn build || echo "Build script not found, skipping..."
