@@ -59,7 +59,7 @@ const errors = {
   TENDERLY_NOT_FOUND: error(
     chalk.yellow(
       `Tenderly settings not found. create an account at https://tenderly.co/ then run the ${chalk.bold(
-        'aragon settings set-tenderly-settings',
+        'aragon settings set-tenderly',
       )} command.\n`,
     ),
   ),
