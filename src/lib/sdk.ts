@@ -30,13 +30,6 @@ const getContectParams = async (network: AllowedNetworks): Promise<ContextParams
         headers: { 'X-API-KEY': 'b477RhECf8s8sdM7XrkLBs2wHc4kCMwpbcFC55Kt' },
       },
     ],
-    // Optional. By default it will use Aragon's provided endpoints.
-    // They will switch depending on the network (production, development)
-    graphqlNodes: [
-      {
-        url: 'https://subgraph.satsuma-prod.com/qHR2wGfc5RLi6/aragon/osx-goerli/api',
-      },
-    ],
   };
 };
 
