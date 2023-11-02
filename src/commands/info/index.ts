@@ -8,6 +8,8 @@ info
   .description(`information about a Plugin's PluginRepo instance`)
   .argument('[repoName]', 'Plugin Repo Name')
   .addOption(
-    new Option('-n, --network [network]', 'Network where the Plugin is published in').choices(allowedNetworks),
+    new Option('-n, --network [network]', 'Network where the Plugin is published in').choices(
+      allowedNetworks,
+    ),
   )
   .action(infoHandler);
