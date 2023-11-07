@@ -56,6 +56,20 @@ export const networks: Array<Network> = [
     id: '84531',
     url: 'https://rpc.ankr.com/base_goerli',
     explorer: '	https://goerli.basescan.org',
-    subgraph: 'https://subgraph.satsuma-prod.com/qHR2wGfc5RLi6/aragon/osx-baseGoerli/api'
-  }
+    subgraph: 'https://subgraph.satsuma-prod.com/qHR2wGfc5RLi6/aragon/osx-baseGoerli/api',
+  },
+  {
+    name: 'arbitrum',
+    id: '42161',
+    url: 'https://arbitrum.llamarpc.com',
+    explorer: 'https://arbiscan.io',
+    subgraph: 'https://subgraph.satsuma-prod.com/qHR2wGfc5RLi6/aragon/osx-arbitrum/api',
+  },
+  {
+    name: 'arbitrumGoerli',
+    id: '421613',
+    url: 'https://arbitrum-goerli.public.blastapi.io',
+    explorer: 'https://goerli.arbiscan.io',
+    subgraph: 'https://subgraph.satsuma-prod.com/qHR2wGfc5RLi6/aragon/osx-arbitrumGoerli/api',
+  },
 ];
