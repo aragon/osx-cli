@@ -1,5 +1,17 @@
 # Aragon OSx CLI Changelog
 
+# [1.4.0](https://github.com/aragon/osx-cli/compare/v1.3.0...v1.4.0) (2023-11-09)
+
+
+### Bug Fixes
+
+* adds config file if it dosnt exist ([e8cc17c](https://github.com/aragon/osx-cli/commit/e8cc17cd1f0128f7c2e16bf23471a6f087090a6d))
+
+
+### Features
+
+* add arbitrum ([e331aae](https://github.com/aragon/osx-cli/commit/e331aaec4aa916df60bf80441c5c7cc5d0708deb))
+
 # [1.3.0](https://github.com/aragon/osx-cli/compare/v1.2.0...v1.3.0) (2023-10-26)
 
 ### Bug Fixes
