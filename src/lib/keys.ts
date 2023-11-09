@@ -2,7 +2,8 @@ import chalk from 'chalk';
 import { z } from 'zod';
 import { privateKeySchema, tenderlyKeySchema } from './schemas';
 import { TenderlySettings } from 'src/types';
-import fs from 'fs';
+import fs from 'fs-extra';
+import path from 'path';
 import { configFilePath } from './file';
 import { strings } from './strings';
 
@@ -28,6 +29,7 @@ export const readConfig = (): any => {
  * @throws Will throw an error if the file can't be written.
  */
 export const writeConfig = (data: any): void => {
+  fs.ensureDirSync(path.dirname(configFilePath));
   fs.writeFileSync(configFilePath, JSON.stringify(data, null, 2));
 };
 
