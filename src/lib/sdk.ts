@@ -26,8 +26,8 @@ const getContectParams = async (network: AllowedNetworks): Promise<ContextParams
     web3Providers: [RPC_URL],
     ipfsNodes: [
       {
-        url: 'https://test.ipfs.aragon.network/api/v0',
-        headers: { 'X-API-KEY': 'b477RhECf8s8sdM7XrkLBs2wHc4kCMwpbcFC55Kt' },
+        url: 'https://test.ipfs.mock/',
+        headers: { 'X-API-KEY': 'MOCK_TOKEN' },
       },
     ],
   };
