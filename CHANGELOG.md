@@ -1,5 +1,12 @@
 # Aragon OSx CLI Changelog
 
+## [1.4.1](https://github.com/aragon/osx-cli/compare/v1.4.0...v1.4.1) (2023-12-12)
+
+
+### Bug Fixes
+
+* update ipfs url ([9fd4811](https://github.com/aragon/osx-cli/commit/9fd481124884aca8836d92458ee983796c3f9f8c))
+
 # [1.4.0](https://github.com/aragon/osx-cli/compare/v1.3.0...v1.4.0) (2023-11-09)
 
 
